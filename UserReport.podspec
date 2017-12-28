@@ -28,7 +28,7 @@ Pod::Spec.new do |s|
                    UserReport is a set of flexible tools, that tell you who your users are, and what they want to achieve.
                    DESC
 
-  # s.homepage     = "https://www.userreport.com/"
+  s.homepage     = "https://github.com/audienceproject/userreport-ios-sdk"
   s.screenshots  = "https://www.userreport.com/wp-content/uploads/illustration_survey.png"
 
 
