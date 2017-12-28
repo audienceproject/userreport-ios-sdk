@@ -5,7 +5,7 @@
 ![Xcode 9.0](https://img.shields.io/badge/Xcode-9.0-blue.svg)
 ![iOS 9.0+](https://img.shields.io/badge/iOS-9.0%2B-blue.svg)
 ![Swift 4.0](https://img.shields.io/badge/Swift-4.0-orange.svg)
-[![License](https://img.shields.io/cocoapods/l/UserReport.svg)](https://raw.githubusercontent.com/userreport/UserReport-iOS/master/LICENSE)
+[![License](https://img.shields.io/cocoapods/l/UserReport.svg)](https://raw.githubusercontent.com/AudienceProject/userreport-ios-sdk/master/LICENSE)
 
 
 
@@ -39,7 +39,7 @@ to learn more.
 To install it manually drag the UserReport project into your app project in Xcode or add it as a git submodule.
 In your project folder enter:
 ```bash
-$ git submodule add git@github.com:UserReport/UserReport.git
+$ git submodule add git@github.com:AudienceProject/userreport-ios-sdk.git
 ```
 
 ## Usage
@@ -71,7 +71,7 @@ To manually measure the screen view, use the method `trackScreen()`.
 class ViewController: UIViewController {
 	override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+
         // Tracking screen view
         UserReport.shared?.trackScreen()
     }
@@ -143,7 +143,7 @@ UserReport SDK stores the data on the count of screens viewed and the time the a
 ```swift
 // Session information about the running time of the application and screen views
 let session = UserReport.shared?.session
-        
+
 // Get current settings for appear survey
 let currentSetting = session?.settings
 ```
@@ -156,4 +156,4 @@ UserReport.shared?.tryInvite()
 ```
 ## License
 
-UserReport iOS SDK is released under the MIT license. [See LICENSE](https://github.com/UserReport/UserReport-iOS/blob/master/LICENSE) for details.
+UserReport iOS SDK is released under the Apache License 2.0. [See LICENSE](https://github.com/AudienceProject/userreport-ios-sdk/blob/master/LICENSE) for details.
