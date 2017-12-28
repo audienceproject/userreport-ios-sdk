@@ -1,6 +1,4 @@
-<p align="center">
-	<img src="docs/UserReport.svg" height="128">
-</p>
+![architecture overview](docs/UserReport.svg)
 
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/UserReport.svg)](https://cocoapods.org/pods/UserReport)
 [![Platform](https://img.shields.io/cocoapods/p/UserReport.svg?style=flat)](http://cocoadocs.org/docsets/UserReport)
