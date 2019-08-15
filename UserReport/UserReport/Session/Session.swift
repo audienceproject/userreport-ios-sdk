@@ -77,8 +77,8 @@ public class Session: NSObject {
         self.startTimer()
         
         // Observe UIApplication enter background/foreground
-        NotificationCenter.default.addObserver(self, selector: #selector(self.startTimer), name: .UIApplicationWillEnterForeground, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.stopTimer), name: .UIApplicationDidEnterBackground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.startTimer), name: UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.stopTimer), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
     
     // MARK: Deinit
