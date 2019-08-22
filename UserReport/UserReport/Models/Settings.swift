@@ -10,19 +10,19 @@ import UIKit
 public class Settings: NSObject {
     
     /// Number of days through which the survey will be appear again
-    public var localQuarantineDays: Int = -1
+    @objc public var localQuarantineDays: Int = -1
     
     /// Number of seconds need to spent in the application for all time
-    public var inviteAfterNSecondsInApp: TimeInterval = -1
+    @objc public var inviteAfterNSecondsInApp: TimeInterval = -1
     
     /// Number of screens need to view at in all session
-    public var inviteAfterTotalScreensViewed: Int = -1
+    @objc public var inviteAfterTotalScreensViewed: Int = -1
     
     /// Number of screens need to view at in current session
-    public var sessionScreensView: Int = -1
+    @objc public var sessionScreensView: Int = -1
     
     /// Number of seconds need to spent in the application for current session
-    public var sessionNSecondsLength: TimeInterval = -1
+    @objc public var sessionNSecondsLength: TimeInterval = -1
     
     /// Settings that came from the server
     internal static var defaultInstance: Settings?
