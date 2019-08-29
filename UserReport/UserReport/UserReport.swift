@@ -5,7 +5,7 @@
 import Foundation
 
 /// Display style of the survey view on the screen
-public enum DisplayMode {
+@objc public enum DisplayMode: Int {
     
     /// Show survey in full screen mode, like the modal view controller
     case fullscreen
@@ -17,7 +17,7 @@ public enum DisplayMode {
 /// Singleton instance
 private var sharedInstance: UserReport?
 
-public class UserReport {
+@objc public class UserReport: NSObject {
     
     private enum SurveyStatus {
         
@@ -41,7 +41,7 @@ public class UserReport {
     // MARK: public
     
     ///  Get the shared UserReport instance
-    public class var shared: UserReport? {
+    @objc public class var shared: UserReport? {
         return sharedInstance
     }
     
@@ -49,7 +49,7 @@ public class UserReport {
     public static let sdkVersion = Bundle(for: UserReport.self).infoDictionary?["CFBundleShortVersionString"] as! String
     
     /// Survey view display style. Default `.alert`
-    public var displayMode: DisplayMode = .alert
+    @objc public var displayMode: DisplayMode = .alert
     
     /// Level of messages printing to the console. Default `.debug`
     public var logLevel: LogLevel {
@@ -62,7 +62,7 @@ public class UserReport {
      * The server will return data about the survey each time, otherwise they will set up the default settings.
      * Default `false`
      */
-    public var testMode: Bool = false {
+   @objc public var testMode: Bool = false {
         didSet {
             self.network.testMode = self.testMode
             self.logger.log("Test mode: \(self.testMode ? "On" : "Off")", level: .debug)
@@ -76,19 +76,19 @@ public class UserReport {
      *
      * - Note: Don't forget to return back to `false`
      */
-    public var mute: Bool = false
+    @objc public var mute: Bool = false
     
     /// Returns whether the survey is displayed on the screen
-    public var isSurveyShown: Bool {
+    @objc public var isSurveyShown: Bool {
         get { return self.surveyStatus == .surveyShown }
     }
     
     /// Session data about count of screens viewed and the time the application is used
-    public var session: Session!
+    @objc public var session: Session!
     
     // MARK: private
-    private var logger: Logger
-    private var info: Info
+    private var logger: Logger!
+    private var info: Info!
     private var network: Network = Network()
     private var surveyStatus: SurveyStatus = .none
     
@@ -103,14 +103,14 @@ public class UserReport {
      * - parameter mediaId: ID of media created in UserReport account. (You can find these value on media setting page)
      * - parameter user:    User information
      */
-    public class func configure(sakId: String, mediaId: String, user: User) {
+    @objc public class func configure(sakId: String, mediaId: String, user: User) {
         sharedInstance = UserReport(sakId: sakId, mediaId: mediaId, user: user)
     }
     
     /**
      * Tracking screen view
      */
-    public func trackScreen() {
+    @objc public func trackScreen() {
         
         // Track audience every screen view instead first scren view because we already tracked audience when initialize SDK
         if self.session.screenView != 0 {
@@ -128,7 +128,7 @@ public class UserReport {
      * Force show survey on screen.
      * Will send invitation request to backend. Depending on response will invite to take survey or not.
      */
-    public func tryInvite() {
+    @objc public func tryInvite() {
         self.tryInvite(force: true)
     }
     
@@ -137,7 +137,7 @@ public class UserReport {
      *
      * - parameter user: User with new data
      */
-    public func updateUser(_ user: User) {
+    @objc public func updateUser(_ user: User) {
         self.info.user = user
     }
     
@@ -146,7 +146,7 @@ public class UserReport {
      *
      * - parameter settings: New settings
      */
-    public func updateSettings(_ settings: Settings) {
+    @objc public func updateSettings(_ settings: Settings) {
         self.session.updateSettings(settings)
     }
     
@@ -165,6 +165,7 @@ public class UserReport {
      * - returns: The new `UserReport` instance.
      */
     private init(sakId: String, mediaId: String, user: User) {
+        super.init()
         
         // Create info
         let media = Media(sakId: sakId, mediaId: mediaId)
@@ -174,14 +175,14 @@ public class UserReport {
         self.logger = Logger(info: self.info, network: self.network)
         self.logger.log("Initialize SDK version: \(UserReport.sdkVersion) (sakID:\(sakId) mediaID:\(mediaId))", level: .info)
         
-        self.session = Session(rulesPassed: {
+        self.session = Session(rulesPassed: { [unowned self] in
             self.tryInvite(force: false)
         })
         
         // DI logger
         self.network.logger = self.logger
         
-        self.network.getConfig(media: media) { (result) in
+        self.network.getConfig(media: media) { [unowned self] (result) in
             switch (result) {
             case .success:
                 guard let mediaSettings = result.value else {

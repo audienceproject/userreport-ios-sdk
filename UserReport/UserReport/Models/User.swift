@@ -11,11 +11,11 @@ public class User: NSObject {
     // MARK: - Property
     
     internal var idfa: String
-    public var email: String?
-    public var emailMd5: String?
-    public var emailSha1: String?
-    public var emailSha256: String?
-    public var facebookId: String?
+    @objc public var email: String?
+    @objc public var emailMd5: String?
+    @objc public var emailSha1: String?
+    @objc public var emailSha256: String?
+    @objc public var facebookId: String?
     
     // MARK: - Init
     

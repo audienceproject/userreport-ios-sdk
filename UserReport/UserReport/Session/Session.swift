@@ -19,26 +19,26 @@ public class Session: NSObject {
     internal var rulesPassed: SessionRulesPassedHandler?
     
     /// Settings used for the current session
-    public private(set) var settings: Settings?
+    @objc public private(set) var settings: Settings?
     
     /// Number of screen viewed in current session
-    public private(set) var screenView: Int = 0
+    @objc public private(set) var screenView: Int = 0
     
     /// Number of screen viewed in all session
-    public private(set) var totalScreenView: Int = Store.totalScreenView {
+    @objc public private(set) var totalScreenView: Int = Store.totalScreenView {
         didSet { Store.totalScreenView = self.totalScreenView }
     }
     
     /// Number of seconds spent in the application for current session
-    public private(set) var sessionSeconds: TimeInterval = 0
+    @objc public private(set) var sessionSeconds: TimeInterval = 0
     
     /// Number of seconds spent in the application for all time
-    public private(set) var totalSecondsInApp: TimeInterval = Store.totalSecondsInApp {
+    @objc public private(set) var totalSecondsInApp: TimeInterval = Store.totalSecondsInApp {
         didSet { Store.totalSecondsInApp = self.totalSecondsInApp }
     }
     
     /// Number of days through which the survey will be appear again
-    public var localQuarantineDays: Int {
+    @objc public var localQuarantineDays: Int {
         get {
             let days = Swift.abs(Store.localQuarantineDate.timeIntervalSinceNow / (60 * 60 * 24))
             return Int(days)
@@ -77,8 +77,8 @@ public class Session: NSObject {
         self.startTimer()
         
         // Observe UIApplication enter background/foreground
-        NotificationCenter.default.addObserver(self, selector: #selector(self.startTimer), name: .UIApplicationWillEnterForeground, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.stopTimer), name: .UIApplicationDidEnterBackground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.startTimer), name: UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.stopTimer), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
     
     // MARK: Deinit
