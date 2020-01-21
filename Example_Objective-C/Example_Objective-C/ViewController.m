@@ -62,6 +62,9 @@
 // MARK: Update
 
 - (void)updateSessionInfo {
+    NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    
     // Session information about the running time of the application and screen views
     Session *session = [[UserReport shared] session];
     if (session) {
@@ -69,7 +72,7 @@
         self.sessionScreensLabel.text = [NSString stringWithFormat:@"%li screens", session.screenView];
         self.totalTimeLabel.text = [self stringFromTimeInterval:session.totalSecondsInApp];
         self.sessionTimeLabel.text = [self stringFromTimeInterval:session.sessionSeconds];
-        self.quarantineTimeLabel.text = [NSString stringWithFormat:@"%li days", session.localQuarantineDays];
+        self.quarantineTimeLabel.text = [dateFormatter stringFromDate:[NSDate date]];
     }
     
     // Get current settings for appear survey
@@ -79,7 +82,7 @@
         self.expectedSessionScreensLabel.text = [NSString stringWithFormat:@"%li screens", settings.sessionScreensView];
         self.expectedTotalTimeLabel.text = [self stringFromTimeInterval:settings.inviteAfterNSecondsInApp];
         self.expectedSessionTimeLabel.text = [self stringFromTimeInterval:settings.sessionNSecondsLength];
-        self.expectedQuarantineTimeLabel.text = [NSString stringWithFormat:@"%li days", settings.localQuarantineDays];
+        self.expectedQuarantineTimeLabel.text = [dateFormatter stringFromDate:session.localQuarantineDate];
     }
 }
 

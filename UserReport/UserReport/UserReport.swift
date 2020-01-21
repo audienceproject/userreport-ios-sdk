@@ -91,6 +91,8 @@ private var sharedInstance: UserReport?
     private var info: Info!
     private var network: Network = Network()
     private var surveyStatus: SurveyStatus = .none
+    private var userId: String!
+    private var invitationId: String!
     
     //==========================================================================================================
     // MARK: - Public methods -
@@ -263,13 +265,22 @@ private var sharedInstance: UserReport?
         }
 
         self.surveyStatus = .requestInvite
-        self.session.updateLocalQuarantineDate()
+        
+        /// Set local quarantine for reason some internal troubles
+        self.session.updateLocalQuarantineDate(self.getLocalQuarantineDate())
+        
         self.network.invitation(info: self.info) { (result) in
             switch (result) {
             case .success:
+                /// Get userId and invitationId from API response
+                self.userId = result.value?.userId
+                self.invitationId = result.value?.invitationId
+                
                 guard result.value?.invite == true else {
                     self.surveyStatus = .none
                     self.logger.log("`invitation` false")
+                    self.actualizeLocalQuarantine()
+                    
                     return
                 }
                 guard let invitationURL = result.value?.invitationUrl else {
@@ -290,6 +301,17 @@ private var sharedInstance: UserReport?
                 self.logger.log("Get invitation info Failed. Error: \(error.localizedDescription)", level: .error)
             }
         }
+    }
+    
+    /**
+     * Adds local quarantine days from settings to currebnt date.
+     */
+    private func getLocalQuarantineDate() -> Date {
+        let currentDate = Date()
+        var dateComponent = DateComponents()
+        dateComponent.day = self.session.settings?.localQuarantineDays
+        
+        return Calendar.current.date(byAdding: dateComponent, to: currentDate)!
     }
     
     /**
@@ -319,9 +341,57 @@ private var sharedInstance: UserReport?
                 // Track error
                 self.logger.log("Load 'invitationUrl' did fail with error: \(error!.localizedDescription)")
             }
+
+            /// Handle survey close native 'X' button
             surveyVC.handlerCloseButton = {
                 self.surveyStatus = .none
                 surveyVC.dismiss(animated: true, completion: nil)
+
+                /// Send 'close' quarantine reason to API
+                self.network.setQuarantine(reason: "Close", mediaId: self.info.media.mediaId, invitationId: self.invitationId, userId: self.userId)  { (result) in }
+                
+                self.scheduleActualizeLocalQuarantine()
+            }
+            
+            /// Handle survey close event by 'No' / 'Close' button
+            surveyVC.handlerSurveyClosedEvent = {
+                self.surveyStatus = .none
+                surveyVC.dismiss(animated: true, completion: nil)
+            
+                self.scheduleActualizeLocalQuarantine()
+            }
+        }
+    }
+    
+    /**
+     * Schedule is needed to avoid race of close event and getting quarantine API call
+     */
+    @objc private func scheduleActualizeLocalQuarantine() {
+        Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(self.actualizeLocalQuarantine), userInfo: nil, repeats: false)
+    }
+    
+    /**
+     * Set correct local quarantine accoding to user behevior
+     */
+    @objc private func actualizeLocalQuarantine() -> Void {
+        /// Get current local quarantine from API
+        self.network.getQuarantineInfo(userId: self.userId, mediaId: self.info.media.mediaId) { (result) in
+            
+            switch (result) {
+                case .success:
+                    if (result.value?.isInLocal)! {
+                        let localQuarantineDate = result.value?.inLocalTill
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.timeZone = TimeZone.init(identifier: "UTC")
+                        dateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss"
+                        let date = dateFormatter.date(from: localQuarantineDate!)
+                        
+                        self.session.updateLocalQuarantineDate(date!)
+                }
+                
+            case .failure(let error):
+                self.surveyStatus = .none
+                self.logger.log("Get quarantine info Failed. Error: \(error.localizedDescription)", level: .error)
             }
         }
     }

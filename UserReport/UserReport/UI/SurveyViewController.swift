@@ -36,6 +36,8 @@ internal class SurveyViewController: UIViewController, WKNavigationDelegate, WKS
     /// A closure executed when user tap on close button
     internal var handlerCloseButton: (() -> Void)?
     
+    internal var handlerSurveyClosedEvent: (() -> Void)?
+    
     // MARK: Init
     
     /**
@@ -89,7 +91,7 @@ internal class SurveyViewController: UIViewController, WKNavigationDelegate, WKS
         self.closeButton.layer.cornerRadius = self.closeButton.bounds.width / 2
         self.closeButton.layer.borderWidth = 1
         self.closeButton.layer.borderColor = UIColor.black.cgColor
-        self.closeButton.addTarget(self, action: #selector(hide(_:)), for: .touchUpInside)
+        self.closeButton.addTarget(self, action: #selector(invokeSurveyClosedButton(_:)), for: .touchUpInside)
     }
     
     /**
@@ -145,7 +147,7 @@ internal class SurveyViewController: UIViewController, WKNavigationDelegate, WKS
             case "invitation-rendered":
                 break
             case "survey-close":
-                self.hide(nil)
+                self.invokeSurveyClosedEvent(nil)
             default:
                 // Track error: unknow event
                 break
@@ -161,10 +163,15 @@ internal class SurveyViewController: UIViewController, WKNavigationDelegate, WKS
         self.webView.load(request)
     }
     
-    /// Close button action
-    @objc func hide(_ sender: UIButton?) {
+    /// 'Close' / 'No' button action
+    @objc func invokeSurveyClosedEvent(_ sender: UIButton?) {
+        self.logger?.log("Hide SurveyViewController", level: .debug)
+        self.handlerSurveyClosedEvent?()
+    }
+
+    /// Native cancel button action
+    @objc func invokeSurveyClosedButton(_ sender: UIButton?) {
         self.logger?.log("Hide SurveyViewController", level: .debug)
         self.handlerCloseButton?()
     }
-
 }

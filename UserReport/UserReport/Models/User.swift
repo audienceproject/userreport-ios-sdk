@@ -19,8 +19,14 @@ public class User: NSObject {
     
     // MARK: - Init
     
+    /// By default iOS 13.3 simulator always returns idfa as '00000000-0000-0000-000000000000'
+    /// https://forums.developer.apple.com/thread/124604
     public override init() {
+        #if targetEnvironment(simulator)
+        self.idfa = UUID().uuidString
+        #else
         self.idfa = ASIdentifierManager.shared().advertisingIdentifier.uuidString
+        #endif
     }
     
     // MARK: - JSON

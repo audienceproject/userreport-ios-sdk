@@ -136,7 +136,7 @@ UserReport SDK stores the data on the count of screens viewed and the time the a
 - `totalScreenView` - number of screen viewed in all session
 - `sessionSeconds` - number of seconds spent in the application for current session
 - `totalSecondsInApp` - number of seconds spent in the application for all time
-- `localQuarantineDays` - number of days through which the survey will be appear again
+- `localQuarantineDate` - date until the survey will not appear again
 - `settings` - current settings for appear the survey
 
 

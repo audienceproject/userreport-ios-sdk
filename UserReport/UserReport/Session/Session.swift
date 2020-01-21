@@ -36,12 +36,11 @@ public class Session: NSObject {
     @objc public private(set) var totalSecondsInApp: TimeInterval = Store.totalSecondsInApp {
         didSet { Store.totalSecondsInApp = self.totalSecondsInApp }
     }
-    
-    /// Number of days through which the survey will be appear again
-    @objc public var localQuarantineDays: Int {
+
+    /// Date when the survey will be appear again
+    @objc public var localQuarantineDate: Date {
         get {
-            let days = Swift.abs(Store.localQuarantineDate.timeIntervalSinceNow / (60 * 60 * 24))
-            return Int(days)
+            return Store.localQuarantineDate
         }
     }
     
@@ -103,8 +102,8 @@ public class Session: NSObject {
     /**
      * Update local quarantine date to current date
      */
-    internal func updateLocalQuarantineDate() {
-        Store.localQuarantineDate = Date()
+    internal func updateLocalQuarantineDate(_ localQuarantine: Date) {
+        Store.localQuarantineDate = localQuarantine
     }
     
     /**
@@ -163,7 +162,7 @@ public class Session: NSObject {
         guard self.totalScreenView >= settings.inviteAfterTotalScreensViewed else { return }
         guard self.sessionSeconds >= settings.sessionNSecondsLength else { return }
         guard self.totalSecondsInApp >= settings.inviteAfterNSecondsInApp else { return }
-        guard self.localQuarantineDays >= settings.localQuarantineDays else { return }
+        guard Date() >= Store.localQuarantineDate  else { return }
         
         self.rulesPassed?()
     }

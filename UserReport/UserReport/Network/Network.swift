@@ -63,6 +63,17 @@ internal class Network {
         self.sendRequest(httpMethod: HTTPMethod.POST, url: url, body: data, completion: completion)
     }
     
+    func getQuarantineInfo(userId: String, mediaId: String, completion: @escaping ((Result<QuarantineResponse>) -> Void)) {
+        let url = URL(string: "\(self.server.api)/quarantine/\(userId)/media/\(mediaId)/info")
+        self.sendRequest(httpMethod: HTTPMethod.GET, url: url, body: nil, completion: completion)
+    }
+    
+    func setQuarantine(reason: String, mediaId: String, invitationId: String, userId: String, completion: @escaping ((Result<Empty>) -> Void)) {
+        let url = URL(string: "\(self.server.api)/quarantine")
+        let data = ["reason": reason, "mediaId": mediaId, "invitationId": invitationId, "userId": userId]
+        self.sendRequest(httpMethod: HTTPMethod.POST, url: url, body: data, emptyReponse: true, completion: completion)
+    }
+    
     func getConfig(media: Media, completion: @escaping ((Result<MediaSettings>) -> Void)) {
         let url = URL(string: "\(self.server.sak)/\(media.sakId)/media/\(media.mediaId)/ios.json")
         self.sendRequest(httpMethod: HTTPMethod.GET, url: url, body: nil, completion: completion)
@@ -172,6 +183,12 @@ internal class Network {
                 let error = URError.responseDataNilOrZeroLength(url: url)
                 let result = Result<Value>.failure(error)
                 completion(result)
+                return
+            }
+            if let resp = response as? HTTPURLResponse, resp.statusCode > 299 {
+                let logLevel : LogLevel = self.testMode ? .debug : .error
+                self.logger?.log("Incorrect response status code: \(resp.statusCode.description)", level: logLevel)
+                self.logger?.log("Response: \(String(decoding: data, as: UTF8.self))", level: logLevel)
                 return
             }
             

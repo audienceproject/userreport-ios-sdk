@@ -32,35 +32,29 @@ extension MediaSettings: Serialization {
         }
         self.companyId = companyId
         
-        guard let kitTcode = dict["kitTcode"] as? String else {
-            throw URError.responseDataNotFoundKey("kitTcode")
+        if let kitTcode = dict["kitTcode"] as? String {
+            self.kitTcode = kitTcode
         }
-        self.kitTcode = kitTcode
+
+        if let localQuarantineDays = dict["localQuarantineDays"] as? Int {
+            self.settings.localQuarantineDays = localQuarantineDays
+        }
         
-        guard let localQuarantineDays = dict["localQuarantineDays"] as? Int else {
-            throw URError.responseDataNotFoundKey("localQuarantineDays")
+        if let inviteAfterNSecondsInApp = dict["inviteAfterNSecondsInApp"] as? TimeInterval {
+            self.settings.inviteAfterNSecondsInApp = inviteAfterNSecondsInApp
         }
-        self.settings.localQuarantineDays = localQuarantineDays
         
-        guard let inviteAfterNSecondsInApp = dict["inviteAfterNSecondsInApp"] as? TimeInterval else {
-            throw URError.responseDataNotFoundKey("inviteAfterNSecondsInApp")
+        if let inviteAfterTotalScreensViewed = dict["inviteAfterTotalScreensViewed"] as? Int {
+            self.settings.inviteAfterTotalScreensViewed = inviteAfterTotalScreensViewed
         }
-        self.settings.inviteAfterNSecondsInApp = inviteAfterNSecondsInApp
+
+        if let sessionScreensView = dict["sessionScreensView"] as? Int {
+            self.settings.sessionScreensView = sessionScreensView
+        }
         
-        guard let inviteAfterTotalScreensViewed = dict["inviteAfterTotalScreensViewed"] as? Int else {
-            throw URError.responseDataNotFoundKey("inviteAfterTotalScreensViewed")
+        if let sessionNSecondsLength = dict["sessionNSecondsLength"] as? TimeInterval {
+            self.settings.sessionNSecondsLength = sessionNSecondsLength
         }
-        self.settings.inviteAfterTotalScreensViewed = inviteAfterTotalScreensViewed
-        
-        guard let sessionScreensView = dict["sessionScreensView"] as? Int else {
-            throw URError.responseDataNotFoundKey("sessionScreensView")
-        }
-        self.settings.sessionScreensView = sessionScreensView
-        
-        guard let sessionNSecondsLength = dict["sessionNSecondsLength"] as? TimeInterval else {
-            throw URError.responseDataNotFoundKey("sessionNSecondsLength")
-        }
-        self.settings.sessionNSecondsLength = sessionNSecondsLength
     }
     
 }
