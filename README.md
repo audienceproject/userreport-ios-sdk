@@ -4,7 +4,7 @@
 [![Platform](https://img.shields.io/cocoapods/p/UserReport.svg?style=flat)](http://cocoadocs.org/docsets/UserReport)
 ![Xcode 9.0](https://img.shields.io/badge/Xcode-9.0-blue.svg)
 ![iOS 9.0+](https://img.shields.io/badge/iOS-9.0%2B-blue.svg)
-![Swift 4.0](https://img.shields.io/badge/Swift-4.0-orange.svg)
+![Swift 4.2](https://img.shields.io/badge/Swift-4.2-orange.svg)
 [![License](https://img.shields.io/cocoapods/l/UserReport.svg)](https://raw.githubusercontent.com/AudienceProject/userreport-ios-sdk/master/LICENSE)
 
 

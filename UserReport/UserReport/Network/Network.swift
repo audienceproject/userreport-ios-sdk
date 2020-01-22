@@ -82,14 +82,18 @@ internal class Network {
     func audiences(info: Info, completion: @escaping ((Result<Empty>) -> Void)) {
         //https://visitanalytics.userreport.com/hit.gif?t=[kitTcode]&rnd=%RANDOM%&d=IDFA&med=app_name
         let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
-        let kitTcode = info.mediaSettings?.kitTcode
-        let tCode = (kitTcode != nil) ? "t=\(kitTcode!)&" : ""
+        
+        guard let kitTcode = info.mediaSettings?.kitTcode else {
+            return
+        }
+        
+        let tCode = "t=\(kitTcode)&"
         let random = arc4random_uniform(UInt32.max)
         let idfa = info.user?.idfa ?? ""
         let url = URL(string: "\(self.server.audiences)/hit.gif?\(tCode)rnd=\(random)&d=\(idfa)&med=\(appName)")
         self.userAgent { (userAgent) in
             let headers = ["User-Agent": userAgent]
-            self.sendRequest(httpMethod: HTTPMethod.POST, url: url, headers: headers, body: nil, emptyReponse: true, completion: completion)
+            self.sendRequest(httpMethod: HTTPMethod.GET, url: url, headers: headers, body: nil, emptyReponse: true, completion: completion)
         }
     }
     
