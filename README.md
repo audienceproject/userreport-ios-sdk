@@ -59,8 +59,14 @@ user.emailSha256 = "SHA256_EMAIL_HASH"
 // Provide additional social network information
 user.facebookId = "FACEBOOK_ID"
 
+//It is also possible to override default rules when survey will appear, though, userSettings parameter is optional
+let settings = Settings()
+settings.sessionScreensView = 5
+settings.inviteAfterNSecondsInApp = 20
+
+UserReport.shared?.updateSettings(settings)
 // Configure
-UserReport.configure(sakId: "YOUR_SAK_ID", mediaId: "YOU_MEDIA_ID", user: user)
+UserReport.configure(sakId: "YOUR_SAK_ID", mediaId: "YOU_MEDIA_ID", user: user, userSetting: setting)
 
 ```
 ### Screen tracking
@@ -101,7 +107,7 @@ UserReport.shared?.displayMode = .fullscreen
 
 ### Change settings
 To update the default rules for appear the survey use follow:
-
+Though, it is recommended to pass `Settings` to configure method instead, use this method only when you want to change rules for already launched app
 ```swift
 let settings = Settings()
 settings.sessionScreensView = 5
