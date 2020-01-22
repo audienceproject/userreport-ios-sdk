@@ -15,7 +15,7 @@ internal struct QuarantineResponse {
     
     var inGlobalTill: String
     
-    var inLocalTill: String
+    var inLocalTill: String?
     
     var isInGlobal: Bool!
     
@@ -30,11 +30,6 @@ extension QuarantineResponse: Serialization {
                 throw URError.responseDataNotFoundKey("inGlobalTill")
             }
             self.inGlobalTill = inGlobalTill
-
-            guard let inLocalTill = dict["inLocalTill"] as? String else {
-               throw URError.responseDataNotFoundKey("inLocalTill")
-            }
-            self.inLocalTill = inLocalTill
             
             if let isInGlobal = dict["isInGlobal"] as? Bool {
                 self.isInGlobal = isInGlobal
@@ -42,6 +37,10 @@ extension QuarantineResponse: Serialization {
             
             if let isInLocal = dict["isInLocal"] as? Bool {
                 self.isInLocal = isInLocal
+                
+                if isInLocal {
+                    self.inLocalTill = dict["inLocalTill"] as? String
+                }
             }
     }
 }
