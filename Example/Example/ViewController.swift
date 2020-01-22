@@ -90,7 +90,7 @@ class ViewController: UserReportViewController {
         self.sessionScreensLabel.text = "\(session.screenView) screens"
         self.totalTimeLabel.text = session.totalSecondsInApp.stringTime()
         self.sessionTimeLabel.text = session.sessionSeconds.stringTime()
-        self.quarantineTimeLabel.text = "\(session.localQuarantineDays) days"
+        self.quarantineTimeLabel.text = Date().description
         
         // Get current settings for appear survey
         guard let settings = session.settings else { return }
@@ -98,7 +98,7 @@ class ViewController: UserReportViewController {
         self.expectedSessionScreensLabel.text = "\(settings.sessionScreensView) screens"
         self.expectedTotalTimeLabel.text = settings.inviteAfterNSecondsInApp.stringTime()
         self.expectedSessionTimeLabel.text = settings.sessionNSecondsLength.stringTime()
-        self.expectedQuarantineTimeLabel.text = "\(settings.localQuarantineDays) days"
+        self.expectedQuarantineTimeLabel.text = session.localQuarantineDate.description
     }
     
     // MARK: Actions

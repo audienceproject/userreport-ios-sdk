@@ -31,6 +31,8 @@
 		116BD1671F5814BF00D2386B /* UserReportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116BD1611F58136100D2386B /* UserReportTests.swift */; };
 		116BD16C1F5819D400D2386B /* Serialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116BD16B1F5819D400D2386B /* Serialization.swift */; };
 		11C71E9A1F6966040081D9B4 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C71E991F6966040081D9B4 /* Session.swift */; };
+		8A4CF05A23D5D2860081C2D8 /* QuarantineRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4CF05923D5D2860081C2D8 /* QuarantineRequest.swift */; };
+		8A4CF05C23D5D2960081C2D8 /* QuarantineResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4CF05B23D5D2960081C2D8 /* QuarantineResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +74,8 @@
 		116BD1651F5814A800D2386B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		116BD16B1F5819D400D2386B /* Serialization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Serialization.swift; sourceTree = "<group>"; };
 		11C71E991F6966040081D9B4 /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		8A4CF05923D5D2860081C2D8 /* QuarantineRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuarantineRequest.swift; sourceTree = "<group>"; };
+		8A4CF05B23D5D2960081C2D8 /* QuarantineResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuarantineResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +172,8 @@
 				116BD16B1F5819D400D2386B /* Serialization.swift */,
 				1141EF3F1F6173D70011D10F /* Settings.swift */,
 				110747471F4AF99B00150955 /* User.swift */,
+				8A4CF05923D5D2860081C2D8 /* QuarantineRequest.swift */,
+				8A4CF05B23D5D2960081C2D8 /* QuarantineResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -326,6 +332,7 @@
 				1107473B1F46FA6800150955 /* Result.swift in Sources */,
 				110747411F46FD1900150955 /* Logger.swift in Sources */,
 				110747541F4C766E00150955 /* Invitation.swift in Sources */,
+				8A4CF05A23D5D2860081C2D8 /* QuarantineRequest.swift in Sources */,
 				11666F331F6C0739007729A7 /* Store.swift in Sources */,
 				1107473C1F46FA6800150955 /* SurveyViewController.swift in Sources */,
 				116BD16C1F5819D400D2386B /* Serialization.swift in Sources */,
@@ -334,6 +341,7 @@
 				11C71E9A1F6966040081D9B4 /* Session.swift in Sources */,
 				110747431F471F0F00150955 /* UserReportViewController.swift in Sources */,
 				110747481F4AF99B00150955 /* User.swift in Sources */,
+				8A4CF05C23D5D2960081C2D8 /* QuarantineResponse.swift in Sources */,
 				1107473A1F46FA6800150955 /* Network.swift in Sources */,
 				110747281F44953000150955 /* UserReport.swift in Sources */,
 				110747561F4C76B200150955 /* URError.swift in Sources */,

@@ -15,6 +15,11 @@ internal struct Invitation {
     /// Url with survey which need to be loaded
     var invitationUrl: String?
     
+    /// ID of user
+    var userId: String?
+    
+    /// ID of invitation
+    var invitationId: String?
 }
 
 /**
@@ -34,6 +39,14 @@ extension Invitation: Serialization {
         
         if let invitationUrl = dict["invitationUrl"] as? String {
             self.invitationUrl = invitationUrl
+        }
+        
+        if let userId = dict["userId"] as? String {
+            self.userId = userId
+        }
+        
+        if let invitationId = dict["invitationId"] as? String {
+            self.invitationId = invitationId
         }
     }
     
