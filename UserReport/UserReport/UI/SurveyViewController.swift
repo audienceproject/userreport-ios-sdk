@@ -132,6 +132,21 @@ internal class SurveyViewController: UIViewController, WKNavigationDelegate, WKS
         self.loadDidFail?(error)
     }
     
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Swift.Void) {
+        if navigationAction.navigationType == WKNavigationType.linkActivated {
+            if let url = navigationAction.request.url {
+                let shared = UIApplication.shared
+                if shared.canOpenURL(url) {
+                    shared.open(url, options: [:], completionHandler: nil)
+                }
+            }
+            decisionHandler(.cancel)
+        }
+        else {
+            decisionHandler(.allow)
+        }
+    }
+    
     // MARK: - WKScriptMessageHandler
     
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
