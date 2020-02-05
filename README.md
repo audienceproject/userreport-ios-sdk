@@ -47,7 +47,7 @@ $ git submodule add git@github.com:AudienceProject/userreport-ios-sdk.git
 Configure UserReport iOS SDK via `SAK_ID`, `MEDIA_ID` (You can find these values on media setting page) and information about user.
 
 ```swift
-// Create user object
+// Create user object (optional)
 let user = User()
 user.email = "example@email.com"
 

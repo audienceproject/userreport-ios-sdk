@@ -106,7 +106,7 @@ private var sharedInstance: UserReport?
      * - parameter user:    User information
      * - parameter userSettings: Settings set by user
      */
-    @objc public class func configure(sakId: String, mediaId: String, user: User, userSettings: Settings? = nil) {
+    @objc public class func configure(sakId: String, mediaId: String, user: User = User(), userSettings: Settings? = nil) {
         sharedInstance = UserReport(sakId: sakId, mediaId: mediaId, user: user, userSettings: userSettings)
     }
     
