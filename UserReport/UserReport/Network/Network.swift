@@ -79,15 +79,11 @@ internal class Network {
         self.sendRequest(httpMethod: HTTPMethod.GET, url: url, body: nil, completion: completion)
     }
     
-    func audiences(info: Info, completion: @escaping ((Result<Empty>) -> Void)) {
+    func trackScreenView(info: Info, tCode: String, completion: @escaping ((Result<Empty>) -> Void)) {
         //https://visitanalytics.userreport.com/hit.gif?t=[kitTcode]&rnd=%RANDOM%&d=IDFA&med=app_name
         let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
         
-        guard let kitTcode = info.mediaSettings?.kitTcode else {
-            return
-        }
-        
-        let tCode = "t=\(kitTcode)&"
+        let tCode = "t=\(tCode)&"
         let random = arc4random_uniform(UInt32.max)
         let idfa = info.user?.idfa ?? ""
         let url = URL(string: "\(self.server.audiences)/hit.gif?\(tCode)rnd=\(random)&d=\(idfa)&med=\(appName)")

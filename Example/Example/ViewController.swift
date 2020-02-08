@@ -133,9 +133,13 @@ class ViewController: UserReportViewController {
     }
     
     @IBAction func trackScreen(_ sender: Any) {
-        UserReport.shared?.trackScreen()
+        UserReport.shared?.trackScreenView()
         self.updateSessionInfo()
     }
 
+    @IBAction func trackSessionScreen(_ sender: Any) {
+         UserReport.shared?.trackSectionScreenView("b556da9f-9443-44ab-aa48-63d579318b69")
+         self.updateSessionInfo()
+     }
 }
 

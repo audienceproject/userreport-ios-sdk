@@ -113,18 +113,25 @@ private var sharedInstance: UserReport?
     /**
      * Tracking screen view
      */
-    @objc public func trackScreen() {
+    @objc public func trackScreenView() {
         
-        // Track audience every screen view instead first scren view because we already tracked audience when initialize SDK
+        // Track audience every screen view instead first screen view because we already tracked audience when initialize SDK
         if self.session.screenView != 0 {
-            self.trackAudience()
+            self.sendTrackScreenView()
         }
         
         // Update session `screenView` and `totalScreenView` values
-        self.session.trackScreenView()
+        self.session.updateScreenViewed()
+    }
+    
+    /**
+     * Tracking section screen view
+     */
+    @objc public func trackSectionScreenView(_ sectionId: String) {
+        self.sendTrackSectionScreenView(sectionId)
         
-        // Add info to logger
-        self.logger.log("Viewed screen", level: .info)
+        // Update session `screenView` and `totalScreenView` values
+        self.session.updateScreenViewed()
     }
     
     /**
@@ -204,14 +211,12 @@ private var sharedInstance: UserReport?
                 if let usrSettings = userSettings {
                     self.session.updateSettings(usrSettings)
                 }
-
-                self.logger.log("Settings: \(result.value!)", level: .debug)
             case .failure(let error):
                 self.logger.log("Failed get config. Error: \(error.localizedDescription)", level: .error)
             }
             
             self.logVisit()
-            self.trackAudience()
+            self.trackScreenView()
         }
     }
     
@@ -232,13 +237,35 @@ private var sharedInstance: UserReport?
     /**
      * Tracking audience measurement for Kits
      */
-    private func trackAudience() {
-        self.network.audiences(info: self.info) { (result) in
+    private func sendTrackScreenView() {
+        guard let tCode = info.mediaSettings?.kitTcode else {
+            return
+        }
+        
+        self.network.trackScreenView(info: self.info,  tCode: tCode) { (result) in
             switch (result) {
             case .success:
+                self.logger.log("Viewed screen", level: .info)
                 break
             case .failure(let error):
-                self.logger.log("Can't track audience. Error: \(error.localizedDescription)", level: .error)
+                self.logger.log("Can't track screenview. Error: \(error.localizedDescription)", level: .error)
+            }
+        }
+    }
+    
+    private func sendTrackSectionScreenView(_ sectionId: String) {
+        guard let tCode = info.mediaSettings?.sections?[sectionId] else {
+            self.logger.log("Can't find section in media. Section Id: \(sectionId)", level: .error)
+            return
+        }
+        
+        self.network.trackScreenView(info: self.info,  tCode: tCode) { (result) in
+            switch (result) {
+            case .success:
+                self.logger.log("Viewed section screen", level: .info)
+                break
+            case .failure(let error):
+                self.logger.log("Can't track section screenview. Error: \(error.localizedDescription)", level: .error)
             }
         }
     }

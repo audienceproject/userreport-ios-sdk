@@ -18,8 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Initialize UserReport SDK
         let user = User()
         user.email = "example@email.com"
-        UserReport.configure(sakId: "ios-playground", mediaId: "df5be674-b6a8-4bb8-8f44-4c8229a01bc2", user: user, userSettings: settings)
-
+        UserReport.configure(sakId: "audienceproject", mediaId: "3402b774-b7a8-448c-997a-ef6cd59efc41", user: user, userSettings: settings)
         
         return true
     }

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="8ss-6d-3qK">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="8ss-6d-3qK">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -14,7 +12,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="8ss-6d-3qK" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="RNO-OA-Xgd">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -38,10 +36,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IRW-3D-fBh">
-                                <rect key="frame" x="20" y="64" width="335" height="703"/>
+                                <rect key="frame" x="20" y="44" width="335" height="723"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4AU-R4-f4z">
-                                        <rect key="frame" x="75" y="625.5" width="185" height="40"/>
+                                        <rect key="frame" x="75" y="675.5" width="185" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="8qe-EP-nDe"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="185" id="hBW-nz-kAX"/>
@@ -55,7 +53,7 @@
                                         </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="KGm-O9-fCG">
-                                        <rect key="frame" x="0.0" y="20" width="335" height="585.5"/>
+                                        <rect key="frame" x="0.0" y="20" width="335" height="635.5"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ETb-9h-PbN" customClass="ShadowView" customModule="Example" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="335" height="238"/>
@@ -147,10 +145,10 @@
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9zP-9M-eVM" customClass="ShadowView" customModule="Example" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="258" width="335" height="327.5"/>
+                                                <rect key="frame" x="0.0" y="258" width="335" height="377.5"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Lya-P5-EyQ">
-                                                        <rect key="frame" x="10" y="10" width="315" height="307.5"/>
+                                                        <rect key="frame" x="10" y="10" width="315" height="357.5"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a9O-S7-826">
                                                                 <rect key="frame" x="0.0" y="0.0" width="315" height="43.5"/>
@@ -422,20 +420,45 @@
                                                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="9wI-mj-Pt6" secondAttribute="trailing" id="ucl-9T-yJQ"/>
                                                                 </constraints>
                                                             </view>
-                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0yZ-dm-zJR">
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="soN-Vi-FIy">
                                                                 <rect key="frame" x="0.0" y="267.5" width="315" height="40"/>
                                                                 <subviews>
-                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S0k-Ee-2oP">
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T4f-pB-Leq">
                                                                         <rect key="frame" x="0.0" y="0.0" width="125" height="40"/>
                                                                         <constraints>
-                                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="125" id="I02-YT-Q5M"/>
-                                                                            <constraint firstAttribute="height" constant="40" id="aHm-4Y-NCi"/>
+                                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="125" id="NUO-br-Hj0"/>
+                                                                            <constraint firstAttribute="height" constant="40" id="psP-Mk-VEW"/>
                                                                         </constraints>
                                                                         <state key="normal" title="trackScreen()" backgroundImage="bg_button_normal">
                                                                             <color key="titleColor" red="0.56470588239999997" green="0.51764705879999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                         </state>
                                                                         <connections>
-                                                                            <action selector="trackScreen:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pTq-Cy-VGr"/>
+                                                                            <action selector="trackScreen:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JsD-YK-oHi"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                </subviews>
+                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <constraints>
+                                                                    <constraint firstItem="T4f-pB-Leq" firstAttribute="leading" secondItem="soN-Vi-FIy" secondAttribute="leading" id="8c3-pc-nlp"/>
+                                                                    <constraint firstItem="T4f-pB-Leq" firstAttribute="top" secondItem="soN-Vi-FIy" secondAttribute="top" id="cgM-Db-BI9"/>
+                                                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="T4f-pB-Leq" secondAttribute="trailing" id="hjv-6p-m9O"/>
+                                                                    <constraint firstAttribute="bottom" secondItem="T4f-pB-Leq" secondAttribute="bottom" id="w48-Vp-BPB"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0yZ-dm-zJR">
+                                                                <rect key="frame" x="0.0" y="317.5" width="315" height="40"/>
+                                                                <subviews>
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S0k-Ee-2oP">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="170" height="40"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="170" id="I02-YT-Q5M"/>
+                                                                            <constraint firstAttribute="height" constant="40" id="aHm-4Y-NCi"/>
+                                                                        </constraints>
+                                                                        <state key="normal" title="trackSectionScreen()" backgroundImage="bg_button_normal">
+                                                                            <color key="titleColor" red="0.56470588239999997" green="0.51764705879999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        </state>
+                                                                        <connections>
+                                                                            <action selector="trackSessionScreen:" destination="BYZ-38-t0r" eventType="touchUpInside" id="nUW-kY-pPg"/>
                                                                         </connections>
                                                                     </button>
                                                                 </subviews>

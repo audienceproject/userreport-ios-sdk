@@ -119,7 +119,7 @@
 }
 
 - (IBAction)trackScreen:(id)sender {
-    [[UserReport shared] trackScreen];
+    [[UserReport shared] trackScreenView];
     [self updateSessionInfo];
 }
 

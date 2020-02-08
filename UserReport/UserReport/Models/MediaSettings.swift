@@ -17,6 +17,8 @@ internal struct MediaSettings {
     
     /// Rules after which the survey will be displayed on the screen
     var settings: Settings = Settings()
+    
+    var sections: Dictionary<String, String>?
 }
 
 /**
@@ -54,6 +56,10 @@ extension MediaSettings: Serialization {
         
         if let sessionNSecondsLength = dict["sessionNSecondsLength"] as? TimeInterval {
             self.settings.sessionNSecondsLength = sessionNSecondsLength
+        }
+        
+        if let sections = dict["sections"] as? Dictionary<String, String> {
+            self.sections = sections
         }
     }
     

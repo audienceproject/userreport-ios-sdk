@@ -93,7 +93,7 @@ public class Session: NSObject {
     /**
      * Tracking screen view
      */
-    internal func trackScreenView() {
+    internal func updateScreenViewed() {
         self.screenView += 1
         self.totalScreenView += 1
         self.lastViewScreenDate = Date()
