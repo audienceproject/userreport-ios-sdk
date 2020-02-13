@@ -71,7 +71,8 @@ UserReport.configure(sakId: "YOUR_SAK_ID", mediaId: "YOU_MEDIA_ID", user: user, 
 ```
 ### Screen tracking
 #### Manual
-To manually measure the screen view, use the method `trackScreen()`.
+To manually measure the screen view, use the method `UserReport.shared?.trackScreenView()`.
+Or `UserReport.shared?.trackSectionScreenView(sectionId)` for measuring section screen view.
 
 ```swift
 class ViewController: UIViewController {
