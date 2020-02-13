@@ -17,7 +17,7 @@
     // Initialize UserReport SDK
     User *user = [[User alloc] init];
     [user setEmail:@"example@email.com"];
-    [UserReport  configureWithSakId:@"ios-playground" mediaId:@"df5be674-b6a8-4bb8-8f44-4c8229a01bc2" user:user userSettings:nil];
+    [UserReport  configureWithSakId:@"audienceproject" mediaId:@"3402b774-b7a8-448c-997a-ef6cd59efc41" user:user userSettings:nil];
     return YES;
 }
 

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="x5P-1q-8t9">
-    <device id="retina6_1" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="x5P-1q-8t9">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -38,7 +36,7 @@
                                 <rect key="frame" x="20" y="64" width="374" height="788"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PlF-Z5-ZUN">
-                                        <rect key="frame" x="94.5" y="625.5" width="185" height="40"/>
+                                        <rect key="frame" x="94.5" y="675.5" width="185" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="185" id="92H-bD-0Nh"/>
                                             <constraint firstAttribute="height" constant="40" id="tjk-kO-KUn"/>
@@ -52,7 +50,7 @@
                                         </connections>
                                     </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="OiT-rj-l93">
-                                        <rect key="frame" x="0.0" y="20" width="374" height="585.5"/>
+                                        <rect key="frame" x="0.0" y="20" width="374" height="635.5"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cRL-zO-4in" customClass="ShadowView">
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="238"/>
@@ -143,10 +141,10 @@
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WDH-DF-Ws7" customClass="ShadowView">
-                                                <rect key="frame" x="0.0" y="258" width="374" height="327.5"/>
+                                                <rect key="frame" x="0.0" y="258" width="374" height="377.5"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="LC3-dQ-XEM">
-                                                        <rect key="frame" x="10" y="10" width="354" height="307.5"/>
+                                                        <rect key="frame" x="10" y="10" width="354" height="357.5"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nyp-K0-2DF">
                                                                 <rect key="frame" x="0.0" y="0.0" width="354" height="43.5"/>
@@ -418,20 +416,45 @@
                                                                     <constraint firstItem="RGl-hY-4he" firstAttribute="top" secondItem="3Ye-Je-6hZ" secondAttribute="top" id="ypI-zq-i8W"/>
                                                                 </constraints>
                                                             </view>
-                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2dR-F2-zPd">
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tZO-2M-6WQ">
                                                                 <rect key="frame" x="0.0" y="267.5" width="354" height="40"/>
                                                                 <subviews>
-                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VDo-w2-rDC">
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="INq-Y7-V2x">
                                                                         <rect key="frame" x="0.0" y="0.0" width="125" height="40"/>
                                                                         <constraints>
-                                                                            <constraint firstAttribute="height" constant="40" id="8Cc-Kz-U7w"/>
-                                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="125" id="BGx-Tw-mIM"/>
+                                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="125" id="KPK-md-mad"/>
+                                                                            <constraint firstAttribute="height" constant="40" id="k51-n5-RGF"/>
                                                                         </constraints>
                                                                         <state key="normal" title="trackScreen()" backgroundImage="bg_button_normal">
                                                                             <color key="titleColor" red="0.56470588239999997" green="0.51764705879999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                         </state>
                                                                         <connections>
-                                                                            <action selector="trackScreen:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HLa-9u-REZ"/>
+                                                                            <action selector="trackScreen:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HZX-MH-Eni"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                </subviews>
+                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <constraints>
+                                                                    <constraint firstItem="INq-Y7-V2x" firstAttribute="leading" secondItem="tZO-2M-6WQ" secondAttribute="leading" id="2Ph-fa-CvJ"/>
+                                                                    <constraint firstItem="INq-Y7-V2x" firstAttribute="top" secondItem="tZO-2M-6WQ" secondAttribute="top" id="C2H-nx-1bG"/>
+                                                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="INq-Y7-V2x" secondAttribute="trailing" id="NSY-g7-5XC"/>
+                                                                    <constraint firstAttribute="bottom" secondItem="INq-Y7-V2x" secondAttribute="bottom" id="tvl-Av-dDa"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2dR-F2-zPd">
+                                                                <rect key="frame" x="0.0" y="317.5" width="354" height="40"/>
+                                                                <subviews>
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VDo-w2-rDC">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="175" height="40"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="40" id="8Cc-Kz-U7w"/>
+                                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="175" id="BGx-Tw-mIM"/>
+                                                                        </constraints>
+                                                                        <state key="normal" title="trackSectionScreen()" backgroundImage="bg_button_normal">
+                                                                            <color key="titleColor" red="0.56470588239999997" green="0.51764705879999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        </state>
+                                                                        <connections>
+                                                                            <action selector="trackSessionScreen:" destination="BYZ-38-t0r" eventType="touchUpInside" id="iKc-5a-3wV"/>
                                                                         </connections>
                                                                     </button>
                                                                 </subviews>
