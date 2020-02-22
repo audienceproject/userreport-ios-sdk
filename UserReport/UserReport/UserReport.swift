@@ -114,8 +114,11 @@ private var sharedInstance: UserReport?
     /**
      * Tracking screen view
      */
-    @objc public func trackScreenView() {
-        
+    @objc public class func trackScreenView() {
+        UserReport.shared?.trackScreenView()
+    }
+    
+    @objc private func trackScreenView() {
         // Track audience every screen view instead first screen view because we already tracked audience when initialize SDK
         if self.session.screenView != 0 {
             self.sendTrackScreenView()
@@ -128,7 +131,11 @@ private var sharedInstance: UserReport?
     /**
      * Tracking section screen view
      */
-    @objc public func trackSectionScreenView(_ sectionId: String) {
+    @objc public class func trackSectionScreenView(_ sectionId: String) {
+        UserReport.shared?.trackSectionScreenView(sectionId)
+    }
+    
+    @objc private func trackSectionScreenView(_ sectionId: String) {
         self.sendTrackSectionScreenView(sectionId)
         
         // Update session `screenView` and `totalScreenView` values
@@ -139,7 +146,11 @@ private var sharedInstance: UserReport?
      * Force show survey on screen.
      * Will send invitation request to backend. Depending on response will invite to take survey or not.
      */
-    @objc public func tryInvite() {
+    @objc public class func tryInvite() {
+        UserReport.shared?.tryInvite()
+    }
+    
+    @objc private func tryInvite() {
         self.tryInvite(force: true)
     }
     
@@ -225,7 +236,7 @@ private var sharedInstance: UserReport?
      * This method sends visit request to backend and user for sure will not be invited to take survey.
      */
     private func logVisit() {
-        self.network.visit(info: self.info) { (result) in
+        self.network.visit(info: self.info) { [unowned self] (result) in
             switch (result) {
             case .success:
                 self.logger.log("Log visit", level: .info)
@@ -243,7 +254,7 @@ private var sharedInstance: UserReport?
             return
         }
         
-        self.network.trackScreenView(info: self.info,  tCode: tCode) { (result) in
+        self.network.trackScreenView(info: self.info,  tCode: tCode) { [unowned self] (result) in
             switch (result) {
             case .success:
                 self.logger.log("Viewed screen", level: .info)
@@ -302,9 +313,9 @@ private var sharedInstance: UserReport?
         self.surveyStatus = .requestInvite
         
         /// Set local quarantine for reason some internal troubles
-        self.session.updateLocalQuarantineDate(self.getLocalQuarantineDate())
+        self.getLocalQuarantineDate().map(self.session.updateLocalQuarantineDate)
         
-        self.network.invitation(info: self.info) { (result) in
+        self.network.invitation(info: self.info) { [unowned self] (result) in
             switch (result) {
             case .success:
                 /// Get userId and invitationId from API response
@@ -341,12 +352,12 @@ private var sharedInstance: UserReport?
     /**
      * Adds local quarantine days from settings to currebnt date.
      */
-    private func getLocalQuarantineDate() -> Date {
+    private func getLocalQuarantineDate() -> Date? {
         let currentDate = Date()
         var dateComponent = DateComponents()
         dateComponent.day = self.session.settings?.localQuarantineDays
         
-        return Calendar.current.date(byAdding: dateComponent, to: currentDate)!
+        return Calendar.current.date(byAdding: dateComponent, to: currentDate)
     }
     
     /**
@@ -362,9 +373,9 @@ private var sharedInstance: UserReport?
             surveyVC.modalTransitionStyle = .crossDissolve
             surveyVC.modalPresentationStyle = .overCurrentContext
             surveyVC.load()
-            surveyVC.loadDidFinish = {
+            surveyVC.loadDidFinish = { [unowned surveyVC] in
                 self.surveyStatus = .surveyShown
-                UIApplication.shared.keyWindow?.rootViewController?.present(surveyVC, animated: true, completion: nil)
+                UIApplication.shared.keyWindow?.rootViewController?.present(surveyVC, animated: true)
             }
             surveyVC.loadDidFail = { (error) in
                 self.surveyStatus = .none
@@ -378,20 +389,23 @@ private var sharedInstance: UserReport?
             }
 
             /// Handle survey close native 'X' button
-            surveyVC.handlerCloseButton = {
+            surveyVC.handlerCloseButton = { [unowned surveyVC] in
                 self.surveyStatus = .none
-                surveyVC.dismiss(animated: true, completion: nil)
+                surveyVC.dismiss(animated: true)
 
                 /// Send 'close' quarantine reason to API
-                self.network.setQuarantine(reason: "Close", mediaId: self.info.media.mediaId, invitationId: self.invitationId, userId: self.userId)  { (result) in }
+                self.network.setQuarantine(reason: "Close",
+                                           mediaId: self.info.media.mediaId,
+                                           invitationId: self.invitationId,
+                                           userId: self.userId)  { (result) in }
                 
                 self.scheduleActualizeLocalQuarantine()
             }
             
             /// Handle survey close event by 'No' / 'Close' button
-            surveyVC.handlerSurveyClosedEvent = {
+            surveyVC.handlerSurveyClosedEvent = { [unowned surveyVC] in
                 self.surveyStatus = .none
-                surveyVC.dismiss(animated: true, completion: nil)
+                surveyVC.dismiss(animated: true)
             
                 self.scheduleActualizeLocalQuarantine()
             }
@@ -402,7 +416,10 @@ private var sharedInstance: UserReport?
      * Schedule is needed to avoid race of close event and getting quarantine API call
      */
     @objc private func scheduleActualizeLocalQuarantine() {
-        Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(self.actualizeLocalQuarantine), userInfo: nil, repeats: false)
+        Timer.scheduledTimer(timeInterval: 3,
+                             target: self,
+                             selector: #selector(self.actualizeLocalQuarantine),
+                             userInfo: nil, repeats: false)
     }
     
     /**
@@ -410,18 +427,19 @@ private var sharedInstance: UserReport?
      */
     @objc private func actualizeLocalQuarantine() -> Void {
         /// Get current local quarantine from API
-        self.network.getQuarantineInfo(userId: self.userId, mediaId: self.info.media.mediaId) { (result) in
+        self.network.getQuarantineInfo(userId: self.userId,
+                                       mediaId: self.info.media.mediaId) { [unowned self] (result) in
             
             switch (result) {
                 case .success:
                     if (result.value?.isInLocal)! {
                         let localQuarantineDate = result.value?.inLocalTill
                         let dateFormatter = DateFormatter()
-                        dateFormatter.timeZone = TimeZone.init(identifier: "UTC")
+                        dateFormatter.timeZone = TimeZone(identifier: "UTC")
                         dateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss"
-                        let date = dateFormatter.date(from: localQuarantineDate!)
+                        let date = localQuarantineDate.flatMap(dateFormatter.date)
                         
-                        self.session.updateLocalQuarantineDate(date!)
+                        date.map(self.session.updateLocalQuarantineDate)
                 }
                 
             case .failure(let error):

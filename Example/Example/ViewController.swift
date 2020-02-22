@@ -105,7 +105,7 @@ class ViewController: UserReportViewController {
     
     @IBAction func showUserReport(_ sender: Any) {
         // Display manually
-        UserReport.shared?.tryInvite()
+        UserReport.tryInvite()
     }
     
     @IBAction func changeTestMode(_ sender: Any) {
@@ -133,12 +133,12 @@ class ViewController: UserReportViewController {
     }
     
     @IBAction func trackScreen(_ sender: Any) {
-        UserReport.shared?.trackScreenView()
+        UserReport.trackScreenView()
         self.updateSessionInfo()
     }
 
     @IBAction func trackSessionScreen(_ sender: Any) {
-         UserReport.shared?.trackSectionScreenView("b556da9f-9443-44ab-aa48-63d579318b69")
+         UserReport.trackSectionScreenView("b556da9f-9443-44ab-aa48-63d579318b69")
          self.updateSessionInfo()
      }
 }
