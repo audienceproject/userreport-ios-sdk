@@ -8,6 +8,6 @@
       location = "group:Example/Example.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:UserReport/UserReport.xcodeproj">
+      location = "group:/Users/atu/Projects/UR-fork/UserReport/UserReportSDK.xcodeproj">
    </FileRef>
 </Workspace>
