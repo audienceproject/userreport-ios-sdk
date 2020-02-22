@@ -3,7 +3,7 @@
 //
 
 #import "AppDelegate.h"
-#import <UserReport/UserReport-Swift.h>
+#import <UserReportSDK/UserReportSDK-Swift.h>
 
 @interface AppDelegate ()
 

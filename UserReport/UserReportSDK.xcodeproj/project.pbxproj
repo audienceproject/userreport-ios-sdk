@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		110746CA1F44921900150955 /* UserReport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 110746C01F44921900150955 /* UserReport.framework */; };
+		110746CA1F44921900150955 /* UserReportSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 110746C01F44921900150955 /* UserReportSDK.framework */; };
 		110746D11F44921900150955 /* UserReport.h in Headers */ = {isa = PBXBuildFile; fileRef = 110746C31F44921900150955 /* UserReport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		110747281F44953000150955 /* UserReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110747271F44953000150955 /* UserReport.swift */; };
 		1107473A1F46FA6800150955 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110747361F46FA6800150955 /* Network.swift */; };
@@ -46,7 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		110746C01F44921900150955 /* UserReport.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UserReport.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		110746C01F44921900150955 /* UserReportSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UserReportSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		110746C31F44921900150955 /* UserReport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserReport.h; sourceTree = "<group>"; };
 		110746C41F44921900150955 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		110746C91F44921900150955 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -94,7 +94,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				116BD1661F5814A800D2386B /* XCTest.framework in Frameworks */,
-				110746CA1F44921900150955 /* UserReport.framework in Frameworks */,
+				110746CA1F44921900150955 /* UserReportSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,7 +114,7 @@
 		110746C11F44921900150955 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				110746C01F44921900150955 /* UserReport.framework */,
+				110746C01F44921900150955 /* UserReportSDK.framework */,
 				110746C91F44921900150955 /* Tests.xctest */,
 			);
 			name = Products;
@@ -231,9 +231,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		110746BF1F44921900150955 /* UserReport */ = {
+		110746BF1F44921900150955 /* UserReportSDK */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 110746D41F44921900150955 /* Build configuration list for PBXNativeTarget "UserReport" */;
+			buildConfigurationList = 110746D41F44921900150955 /* Build configuration list for PBXNativeTarget "UserReportSDK" */;
 			buildPhases = (
 				110746BB1F44921900150955 /* Sources */,
 				110746BC1F44921900150955 /* Frameworks */,
@@ -244,9 +244,9 @@
 			);
 			dependencies = (
 			);
-			name = UserReport;
+			name = UserReportSDK;
 			productName = UserReport;
-			productReference = 110746C01F44921900150955 /* UserReport.framework */;
+			productReference = 110746C01F44921900150955 /* UserReportSDK.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		110746C81F44921900150955 /* Tests */ = {
@@ -288,7 +288,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 110746BA1F44921900150955 /* Build configuration list for PBXProject "UserReport" */;
+			buildConfigurationList = 110746BA1F44921900150955 /* Build configuration list for PBXProject "UserReportSDK" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -301,7 +301,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				110746BF1F44921900150955 /* UserReport */,
+				110746BF1F44921900150955 /* UserReportSDK */,
 				110746C81F44921900150955 /* Tests */,
 			);
 		};
@@ -364,7 +364,7 @@
 /* Begin PBXTargetDependency section */
 		110746CC1F44921900150955 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 110746BF1F44921900150955 /* UserReport */;
+			target = 110746BF1F44921900150955 /* UserReportSDK */;
 			targetProxy = 110746CB1F44921900150955 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -557,7 +557,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		110746BA1F44921900150955 /* Build configuration list for PBXProject "UserReport" */ = {
+		110746BA1F44921900150955 /* Build configuration list for PBXProject "UserReportSDK" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				110746D21F44921900150955 /* Debug */,
@@ -566,7 +566,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		110746D41F44921900150955 /* Build configuration list for PBXNativeTarget "UserReport" */ = {
+		110746D41F44921900150955 /* Build configuration list for PBXNativeTarget "UserReportSDK" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				110746D51F44921900150955 /* Debug */,

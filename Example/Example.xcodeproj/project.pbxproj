@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1107472C1F44986500150955 /* UserReport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1107472B1F44986500150955 /* UserReport.framework */; };
 		1115E4FA1F72866D00ED6F6B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1115E4F81F72862F00ED6F6B /* Main.storyboard */; };
 		11297A161F68080E0033E3E8 /* TimeInterval+stringTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11297A151F68080E0033E3E8 /* TimeInterval+stringTime.swift */; };
 		1141EF421F62CE170011D10F /* ShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1141EF411F62CE170011D10F /* ShadowView.swift */; };
@@ -17,6 +16,7 @@
 		116BD15A1F58130A00D2386B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116BD14F1F58130A00D2386B /* ViewController.swift */; };
 		116BD15B1F58130A00D2386B /* VerticalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116BD1511F58130A00D2386B /* VerticalButton.swift */; };
 		116BD1681F5814C500D2386B /* UserReport_ExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116BD1541F58130A00D2386B /* UserReport_ExampleTests.swift */; };
+		325E737B240165B20015F9C6 /* UserReportSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 325E737A240165B20015F9C6 /* UserReportSDK.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +45,7 @@
 		116BD1511F58130A00D2386B /* VerticalButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerticalButton.swift; sourceTree = "<group>"; };
 		116BD1531F58130A00D2386B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		116BD1541F58130A00D2386B /* UserReport_ExampleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserReport_ExampleTests.swift; sourceTree = "<group>"; };
+		325E737A240165B20015F9C6 /* UserReportSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = UserReportSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,7 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1107472C1F44986500150955 /* UserReport.framework in Frameworks */,
+				325E737B240165B20015F9C6 /* UserReportSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,6 +89,7 @@
 		1107472A1F44986500150955 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				325E737A240165B20015F9C6 /* UserReportSDK.framework */,
 				1115E5011F728B6D00ED6F6B /* MobileCoreServices.framework */,
 				1107472B1F44986500150955 /* UserReport.framework */,
 			);

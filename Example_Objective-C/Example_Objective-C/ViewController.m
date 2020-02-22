@@ -3,7 +3,7 @@
 //
 
 #import "ViewController.h"
-#import <UserReport/UserReport-Swift.h>
+#import <UserReportSDK/UserReportSDK-Swift.h>
 
 @interface ViewController ()
 @property (nullable ,strong, nonatomic) NSTimer *timer;

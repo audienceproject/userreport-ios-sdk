@@ -3,7 +3,7 @@
 //
 
 import UIKit
-import UserReport
+import UserReportSDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
