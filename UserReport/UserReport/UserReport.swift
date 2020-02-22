@@ -3,6 +3,7 @@
 //
 
 import Foundation
+import UIKit
 
 /// Display style of the survey view on the screen
 @objc public enum DisplayMode: Int {

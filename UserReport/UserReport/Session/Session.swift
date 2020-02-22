@@ -3,6 +3,7 @@
 //
 
 import Foundation
+import UIKit
 
 /**
  *   Class stores the data on the count of screens viewed and the time the application is used
