@@ -90,7 +90,7 @@
 
 - (IBAction)showUserReport:(id)sender {
     // Display manually
-    [[UserReport shared] tryInvite];
+    [UserReport tryInvite];
 }
 
 - (IBAction)changeTestMode:(id)sender {
@@ -119,7 +119,7 @@
 }
 
 - (IBAction)trackScreen:(id)sender {
-    [[UserReport shared] trackScreenView];
+    [UserReport trackScreenView];
     [self updateSessionInfo];
 }
 

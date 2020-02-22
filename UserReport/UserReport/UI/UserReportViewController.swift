@@ -20,7 +20,7 @@ open class UserReportViewController: UIViewController {
         super.viewDidAppear(animated)
         
         // Tracking screen view
-        UserReport.shared?.trackScreenView()
+        UserReport.trackScreenView()
     }
 
 }
