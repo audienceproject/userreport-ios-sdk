@@ -123,6 +123,11 @@
     [self updateSessionInfo];
 }
 
+- (IBAction)trackSessionScreen:(id)sender {
+    [[UserReport shared] trackSectionScreenView:@"b556da9f-9443-44ab-aa48-63d579318b69"];
+    [self updateSessionInfo];
+}
+
 // MARK: Helpers
 
 - (NSString *)stringFromTimeInterval:(NSTimeInterval)interval {

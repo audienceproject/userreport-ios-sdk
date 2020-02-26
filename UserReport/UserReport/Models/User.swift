@@ -23,7 +23,11 @@ public class User: NSObject {
     /// https://forums.developer.apple.com/thread/124604
     public override init() {
         #if targetEnvironment(simulator)
-        self.idfa = UUID().uuidString
+        if #available(iOS 13.0, *) {
+            self.idfa = UUID().uuidString
+        } else {
+            self.idfa = ASIdentifierManager.shared().advertisingIdentifier.uuidString
+        }
         #else
         self.idfa = ASIdentifierManager.shared().advertisingIdentifier.uuidString
         #endif
