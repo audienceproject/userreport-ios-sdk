@@ -195,7 +195,7 @@ private var sharedInstance: UserReport?
         self.info = Info(media: media, user: user)
         
         // Create logger
-        self.logger = Logger(info: self.info, network: self.network)
+        self.logger = Logger(info: self.info)
         self.logger.log("Initialize SDK version: \(UserReport.sdkVersion) (sakID:\(sakId) mediaID:\(mediaId))", level: .info)
         
         self.session = Session(rulesPassed: { [unowned self] in

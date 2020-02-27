@@ -19,7 +19,6 @@ internal class Network {
     struct Server {
         var api: String
         var sak: String
-        var log: String
         var audiences: String
     }
     
@@ -32,7 +31,6 @@ internal class Network {
         let env = ProcessInfo.processInfo.environment
         return Server(api: env["USERREPORT_SERVER_URL_API"] ?? "https://api.userreport.com/collect/v1",
                       sak: env["USERREPORT_SERVER_URL_SAK"] ?? "https://sak.userreport.com",
-                      log: env["USERREPORT_SERVER_URL_LOG"] ?? "https://qa-relay.userreport.com/f/qa1-android-sdk-log/json",
                       audiences: env["USERREPORT_SERVER_URL_AUDIENCES"] ??  "https://visitanalytics.userreport.com")
     }()
     
@@ -92,13 +90,6 @@ internal class Network {
             let headers = ["User-Agent": userAgent]
             self.sendRequest(httpMethod: HTTPMethod.GET, url: url, headers: headers, body: nil, emptyReponse: true, completion: completion)
         }
-    }
-    
-    func logMessage(info: Info, message: String, completion: @escaping ((Result<Empty>) -> Void)) {
-        let url = URL(string: self.server.log)
-        var data = info.dictObject()
-        data["message"] = message
-        self.sendRequest(httpMethod: HTTPMethod.POST, url: url, body: data, emptyReponse: true, completion: completion)
     }
     
     // MARK: Network methods

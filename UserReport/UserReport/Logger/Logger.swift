@@ -26,9 +26,6 @@ internal class Logger {
     /// DI `info` instance for set details to request
     internal var info: Info
     
-    /// DI `network` instance for sending error messages to server
-    internal var network: Network?
-    
     // MARK: Init
     
     /**
@@ -39,9 +36,8 @@ internal class Logger {
      *
      * - returns: The new `Logger` instance.
      */
-    init(info: Info, network: Network) {
+    init(info: Info) {
         self.info = info
-        self.network = network
     }
     
     // MARK: Log function
@@ -58,23 +54,5 @@ internal class Logger {
         if self.level.rawValue <= level.rawValue {
             print("[UserReport] \(message)")
         }
-        
-        // Send error to server
-        switch level {
-        case .error, .fatal:
-            self.systemLog(message)
-        default:
-            break
-        }
     }
-    
-    /**
-     * Sending messages to the server
-     *
-     * - parameter message: Message text
-     */
-    internal func systemLog(_ message: String) {
-        self.network?.logMessage(info: self.info, message: message) { (result) in }
-    }
-    
 }
