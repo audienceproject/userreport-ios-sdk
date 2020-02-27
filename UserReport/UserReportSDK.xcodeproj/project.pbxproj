@@ -33,6 +33,7 @@
 		11C71E9A1F6966040081D9B4 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C71E991F6966040081D9B4 /* Session.swift */; };
 		8A4CF05A23D5D2860081C2D8 /* QuarantineRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4CF05923D5D2860081C2D8 /* QuarantineRequest.swift */; };
 		8A4CF05C23D5D2960081C2D8 /* QuarantineResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4CF05B23D5D2960081C2D8 /* QuarantineResponse.swift */; };
+		8AE372B32408057700ED3AE0 /* HashingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE372B22408057700ED3AE0 /* HashingHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,7 @@
 		11C71E991F6966040081D9B4 /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		8A4CF05923D5D2860081C2D8 /* QuarantineRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuarantineRequest.swift; sourceTree = "<group>"; };
 		8A4CF05B23D5D2960081C2D8 /* QuarantineResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuarantineResponse.swift; sourceTree = "<group>"; };
+		8AE372B22408057700ED3AE0 /* HashingHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashingHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +125,7 @@
 		110746C21F44921900150955 /* UserReport */ = {
 			isa = PBXGroup;
 			children = (
+				8AE372B424080FD500ED3AE0 /* Helpers */,
 				1107473F1F46FD1100150955 /* Logger */,
 				110747441F4AF96A00150955 /* Models */,
 				110747351F46FA6800150955 /* Network */,
@@ -215,6 +218,14 @@
 				11666F321F6C0739007729A7 /* Store.swift */,
 			);
 			path = Session;
+			sourceTree = "<group>";
+		};
+		8AE372B424080FD500ED3AE0 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				8AE372B22408057700ED3AE0 /* HashingHelper.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -329,6 +340,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8AE372B32408057700ED3AE0 /* HashingHelper.swift in Sources */,
 				1107473B1F46FA6800150955 /* Result.swift in Sources */,
 				110747411F46FD1900150955 /* Logger.swift in Sources */,
 				110747541F4C766E00150955 /* Invitation.swift in Sources */,
