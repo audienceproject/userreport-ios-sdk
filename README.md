@@ -70,23 +70,32 @@ UserReport.configure(sakId: "YOUR_SAK_ID", mediaId: "YOU_MEDIA_ID", user: user, 
 
 ```
 ### Screen tracking
-#### Manual
-To manually measure the screen view, use the method `UserReport.shared?.trackScreenView()`.
-Or `UserReport.shared?.trackSectionScreenView(sectionId)` for measuring section screen view.
+There are two types of tracking *ScreenView* and *SectionScreenView*. One should be used in favor of another depending on the media.   
 
+
+#### Screen View
+If a media (website) has one topic it can be tracked by using `UserReport.trackScreenView`.
+
+#### Section Screen View
+If a website has different sections, for instance, media has *Health*, *World news*, *Local news* and it should be tracked differenlty `UserReport.trackSectionScreenView(sectionId)` method should be used instead.  
+
+#### Manual invocation
+If `UserReport.trackSectionScreenView` or `UserReport.trackScreenView()` methods invoked by your code, automatic tracking should not be used. 
+
+#### Example
 ```swift
 class ViewController: UIViewController {
     override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         // Tracking screen view
-        UserReport.shared?.trackScreen()
+        UserReport.trackScreenView()
     }
 }
 ```
 
-#### Automatic
-If you want to automatically measure views as screens using the `UserReportViewController` class.
+#### Automatic tracking
+If you want to automatically measure screen views. Application's ViewControllers should be inherited from the `UserReportViewController` class.
 
 ```swift
 class ViewController: UserReportViewController {
@@ -103,7 +112,7 @@ The survey can appear in two ways:
 To change the display mode, please specify following:
 
 ```swift
-UserReport.shared?.displayMode = .fullscreen
+UserReport.setDisplayMode(.fullscreen)
 ```
 
 ### Change settings
@@ -114,26 +123,26 @@ let settings = Settings()
 settings.sessionScreensView = 5
 settings.inviteAfterNSecondsInApp = 20
 
-UserReport.shared?.updateSettings(settings)
+UserReport.updateSettings(settings)
 ```
 
 ### Mute
-In order for the survey not to appear on important screens, you can use a variable `mute`.
+For the survey not to appear on important screens, you can use a variable `mute`.
 
 ```swift
-UserReport.shared?.mute = true
+UserReport.mute = true
 ```
-> Don't forget to return back to `false`.
+> Do not forget to restore value back to `false`.
 
 
 ### Update user info
-When changing user data, you should also send the updated data to the UserRecord iOS SDK.
+When changing user data, you should also send the updated data to the UserReport iOS SDK.
 
 ```swift
 let user = User()
 user.email = "new_example@email.com"
 
-UserReport.shared?.updateUser(user)
+UserReport.updateUser(user)
 ```
 
 ### Session info
@@ -144,12 +153,12 @@ UserReport SDK stores the data on the count of screens viewed and the time the a
 - `sessionSeconds` - number of seconds spent in the application for current session
 - `totalSecondsInApp` - number of seconds spent in the application for all time
 - `localQuarantineDate` - date until the survey will not appear again
-- `settings` - current settings for appearing the survey
+- `settings` - current settings for the survey appearance
 
 
 ```swift
 // Session information about the running time of the application and screen views
-let session = UserReport.shared?.session
+let session = UserReport.session
 
 // Get current settings for appear survey
 let currentSetting = session?.settings
@@ -159,8 +168,12 @@ let currentSetting = session?.settings
 If you decide to show the survey yourself, then you can use the following method:
 
 ```swift
-UserReport.shared?.tryInvite()
+UserReport.tryInvite()
 ```
+
+### IDFA
+SDK relies on IDFA. So make sure marking appropriate checkboxes when publishing your app.  
+
 ## License
 
 UserReport iOS SDK is released under the Apache License 2.0. [See LICENSE](https://github.com/AudienceProject/userreport-ios-sdk/blob/master/LICENSE) for details.
