@@ -39,8 +39,8 @@ class ViewController: UserReportViewController {
         self.setupNavigationBar()
         
         // Setup base state for testMode switch
-        UserReport.shared?.testMode = true
-        self.testModeSwitch.isOn = (UserReport.shared?.testMode)!
+        UserReport.testMode = true
+        self.testModeSwitch.isOn = UserReport.testMode
         
         
         // Setup base state for Display mode buttons
@@ -85,7 +85,7 @@ class ViewController: UserReportViewController {
     @objc private func updateSessionInfo() {
         
         // Session information about the running time of the application and screen views
-        guard let session = UserReport.shared?.session else { return }
+        guard let session = UserReport.session else { return }
         self.totalScreensLabel.text = "\(session.totalScreenView) screens"
         self.sessionScreensLabel.text = "\(session.screenView) screens"
         self.totalTimeLabel.text = session.totalSecondsInApp.stringTime()
@@ -109,13 +109,13 @@ class ViewController: UserReportViewController {
     }
     
     @IBAction func changeTestMode(_ sender: Any) {
-        UserReport.shared?.testMode = self.testModeSwitch.isOn
+        UserReport.testMode = self.testModeSwitch.isOn
     }
     
     @IBAction func selectAlertDisplayMode(_ sender: Any) {
         
         // Change display mode survey in UserReport SDK
-        UserReport.shared?.displayMode = .alert
+        UserReport.setDisplayMode(.alert)
         
         // Update buttons
         self.alertDisplayModeButton.isSelected = true
@@ -125,7 +125,7 @@ class ViewController: UserReportViewController {
     @IBAction func selectFullscreenDisplayMode(_ sender: Any) {
         
         // Change display mode survey in UserReport SDK
-        UserReport.shared?.displayMode = .fullscreen
+        UserReport.setDisplayMode(.fullscreen)
         
         // Update buttons
         self.alertDisplayModeButton.isSelected = false

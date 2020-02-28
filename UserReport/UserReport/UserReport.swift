@@ -50,12 +50,15 @@ private var sharedInstance: UserReport?
     public static let sdkVersion = Bundle(for: UserReport.self).infoDictionary?["CFBundleShortVersionString"] as! String
     
     /// Survey view display style. Default `.alert`
-    @objc public var displayMode: DisplayMode = .alert
+    @objc public class func setDisplayMode(_ displayMode : DisplayMode) {
+        UserReport.shared?.displayMode = displayMode
+    }
+    @objc public private(set) var displayMode: DisplayMode = .alert
     
     /// Level of messages printing to the console. Default `.debug`
-    public var logLevel: LogLevel {
-        set { self.logger.level = newValue }
-        get { return self.logger.level }
+    public class var logLevel: LogLevel {
+        set { UserReport.shared?.logger.level = newValue }
+        get { return UserReport.shared?.logger.level ?? .debug }
     }
     
     /**
@@ -63,12 +66,14 @@ private var sharedInstance: UserReport?
      * The server will return data about the survey each time, otherwise they will set up the default settings.
      * Default `false`
      */
-   @objc public var testMode: Bool = false {
-        didSet {
-            self.network.testMode = self.testMode
-            self.logger.log("Test mode: \(self.testMode ? "On" : "Off")", level: .debug)
+    @objc public class var testMode: Bool {
+        set {
+            UserReport.shared?.network.testMode = newValue
+            UserReport.shared?.logger.log("Test mode: \(self.testMode ? "On" : "Off")", level: .debug)
         }
-    }
+        get { return UserReport.shared?.testMode ?? false }
+     }
+   @objc private var testMode: Bool = false
     
     /**
      * Mute display of the survey.
@@ -77,15 +82,23 @@ private var sharedInstance: UserReport?
      *
      * - Note: Don't forget to return back to `false`
      */
-    @objc public var mute: Bool = false
+    @objc public class var mute: Bool {
+        set { UserReport.shared?.mute = newValue }
+        get { return UserReport.shared?.mute ?? false }
+     }
+    @objc private var mute: Bool = false
     
     /// Returns whether the survey is displayed on the screen
-    @objc public var isSurveyShown: Bool {
-        get { return self.surveyStatus == .surveyShown }
+    @objc public class var isSurveyShown: Bool {
+        get { return UserReport.shared?.surveyStatus == .surveyShown }
     }
     
     /// Session data about count of screens viewed and the time the application is used
-    @objc public var session: Session!
+    @objc public class var session: Session? {
+        set { UserReport.shared?.session = newValue }
+        get { return UserReport.shared?.session }
+     }
+    @objc private var session: Session!
     
     // MARK: private
     private var logger: Logger!
@@ -159,7 +172,10 @@ private var sharedInstance: UserReport?
      *
      * - parameter user: User with new data
      */
-    @objc public func updateUser(_ user: User) {
+    @objc public class func updateUser(_ user: User) {
+        UserReport.shared?.updateUser(user)
+    }
+    @objc private func updateUser(_ user: User) {
         self.info.user = user
     }
     
@@ -168,7 +184,10 @@ private var sharedInstance: UserReport?
      *
      * - parameter settings: New settings
      */
-    @objc public func updateSettings(_ settings: Settings) {
+    @objc public class func updateSettings(_ settings: Settings) {
+        UserReport.shared?.session.updateSettings(settings)
+    }
+    @objc private func updateSettings(_ settings: Settings) {
         self.session.updateSettings(settings)
     }
     
