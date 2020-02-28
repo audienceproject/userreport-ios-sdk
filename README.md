@@ -76,7 +76,7 @@ Or `UserReport.shared?.trackSectionScreenView(sectionId)` for measuring section 
 
 ```swift
 class ViewController: UIViewController {
-	override open func viewDidAppear(_ animated: Bool) {
+    override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         // Tracking screen view
@@ -90,15 +90,15 @@ If you want to automatically measure views as screens using the `UserReportViewC
 
 ```swift
 class ViewController: UserReportViewController {
-	...
+    ...
 }
 ```
 
 ### Display mode
-The survey can be appear in two ways:
+The survey can appear in two ways:
 
 - `.alert` - show survey like an alert view (Default)
-- `.fullScreen` - show survey in full screen mode, like the modal view controller
+- `.fullScreen` - show survey in full-screen mode, like the modal view controller
 
 To change the display mode, please specify following:
 
@@ -118,7 +118,7 @@ UserReport.shared?.updateSettings(settings)
 ```
 
 ### Mute
-In order for the survey not to be appear on important screens, you can use a variable `mute`.
+In order for the survey not to appear on important screens, you can use a variable `mute`.
 
 ```swift
 UserReport.shared?.mute = true
@@ -139,12 +139,12 @@ UserReport.shared?.updateUser(user)
 ### Session info
 UserReport SDK stores the data on the count of screens viewed and the time the application is used. If necessary, you can get this data from a variable `session`. The session contains the following values:
 
-- `screenView` - number of screen viewed in current session
-- `totalScreenView` - number of screen viewed in all session
+- `screenView` - number of screens viewed in the current session
+- `totalScreenView` - number of screens viewed in all session
 - `sessionSeconds` - number of seconds spent in the application for current session
 - `totalSecondsInApp` - number of seconds spent in the application for all time
 - `localQuarantineDate` - date until the survey will not appear again
-- `settings` - current settings for appear the survey
+- `settings` - current settings for appearing the survey
 
 
 ```swift
