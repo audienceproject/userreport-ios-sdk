@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "UserReport"
-  s.version      = "0.0.9"
+  s.version      = "1.0.0"
   s.summary      = "UserReport SDK for iOS."
 
   # This description is used to generate tags and improve search results.
@@ -61,7 +61,7 @@ Pod::Spec.new do |s|
   #  the deployment target. You can optionally include the target after the platform.
   #
 
-  s.platform     = :ios, "10.0"
+  s.platform     = :ios, "9.0"
 
 
   # ――― Source Location ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #

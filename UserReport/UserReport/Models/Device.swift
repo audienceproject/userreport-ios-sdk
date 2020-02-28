@@ -3,6 +3,7 @@
 //
 
 import Foundation
+import UIKit
 
 /**
  * Information about the current device

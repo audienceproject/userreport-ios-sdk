@@ -14,8 +14,8 @@
 		116C895C2305A85D003E17E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 116C895B2305A85D003E17E5 /* Assets.xcassets */; };
 		116C895F2305A85D003E17E5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 116C895D2305A85D003E17E5 /* LaunchScreen.storyboard */; };
 		116C89622305A85D003E17E5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 116C89612305A85D003E17E5 /* main.m */; };
-		116C896C2305AA23003E17E5 /* UserReport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 116C896B2305AA23003E17E5 /* UserReport.framework */; };
 		116C89752305BBF7003E17E5 /* VerticalButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 116C89742305BBF7003E17E5 /* VerticalButton.m */; };
+		325E737F240165F90015F9C6 /* UserReportSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 325E737E240165F90015F9C6 /* UserReportSDK.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +34,7 @@
 		116C896B2305AA23003E17E5 /* UserReport.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = UserReport.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		116C89732305BBF7003E17E5 /* VerticalButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VerticalButton.h; sourceTree = "<group>"; };
 		116C89742305BBF7003E17E5 /* VerticalButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VerticalButton.m; sourceTree = "<group>"; };
+		325E737E240165F90015F9C6 /* UserReportSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = UserReportSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,7 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				116C896C2305AA23003E17E5 /* UserReport.framework in Frameworks */,
+				325E737F240165F90015F9C6 /* UserReportSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,6 +95,7 @@
 		116C896A2305AA23003E17E5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				325E737E240165F90015F9C6 /* UserReportSDK.framework */,
 				116C896B2305AA23003E17E5 /* UserReport.framework */,
 			);
 			name = Frameworks;

@@ -3,7 +3,7 @@
 //
 
 #import "ViewController.h"
-#import <UserReport/UserReport-Swift.h>
+#import <UserReportSDK/UserReportSDK-Swift.h>
 
 @interface ViewController ()
 @property (nullable ,strong, nonatomic) NSTimer *timer;
@@ -20,8 +20,8 @@
     [self setupNavigationBar];
     
     // Setup base state for testMode switch
-    UserReport.shared.testMode = YES;
-    self.testModeSwitch.on = UserReport.shared.testMode;
+    UserReport.testMode = YES;
+    self.testModeSwitch.on = UserReport.testMode;
     
     
     // Setup base state for Display mode buttons
@@ -66,7 +66,7 @@
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     
     // Session information about the running time of the application and screen views
-    Session *session = [[UserReport shared] session];
+    Session *session = [UserReport session];
     if (session) {
         self.totalScreensLabel.text = [NSString stringWithFormat:@"%li screens", session.totalScreenView];
         self.sessionScreensLabel.text = [NSString stringWithFormat:@"%li screens", session.screenView];
@@ -90,18 +90,18 @@
 
 - (IBAction)showUserReport:(id)sender {
     // Display manually
-    [[UserReport shared] tryInvite];
+    [UserReport tryInvite];
 }
 
 - (IBAction)changeTestMode:(id)sender {
-    [UserReport shared].testMode = self.testModeSwitch.isOn;
+    UserReport.testMode = self.testModeSwitch.isOn;
 }
 
 - (IBAction)selectAlertDisplayMode:(id)sender {
     NSLog(@"[CLICK]");
 
     // Change display mode survey in UserReport SDK
-    UserReport.shared.displayMode = DisplayModeAlert;
+    UserReport.displayMode = DisplayModeAlert;
 
     // Update buttons
     self.alertDisplayModeButton.selected = YES;
@@ -111,7 +111,7 @@
 - (IBAction)selectFullscreenDisplayMode:(id)sender {
 
     // Change display mode survey in UserReport SDK
-    UserReport.shared.displayMode = DisplayModeFullscreen;
+    UserReport.displayMode = DisplayModeFullscreen;
 
     // Update buttons
     self.alertDisplayModeButton.selected = NO;
@@ -119,12 +119,12 @@
 }
 
 - (IBAction)trackScreen:(id)sender {
-    [[UserReport shared] trackScreenView];
+    [UserReport trackScreenView];
     [self updateSessionInfo];
 }
 
 - (IBAction)trackSessionScreen:(id)sender {
-    [[UserReport shared] trackSectionScreenView:@"b556da9f-9443-44ab-aa48-63d579318b69"];
+    [UserReport  trackSectionScreenView:@"b556da9f-9443-44ab-aa48-63d579318b69"];
     [self updateSessionInfo];
 }
 

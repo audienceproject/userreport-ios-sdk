@@ -11,7 +11,18 @@ public class User: NSObject {
     // MARK: - Property
     
     internal var idfa: String
-    @objc public var email: String?
+    private var _email : String?
+    @objc public var email: String? {
+        set {
+            _email = newValue?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+            emailMd5 = _email?.hashed(.md5)
+            emailSha1 = _email?.hashed(.sha1)
+            emailSha256 = _email?.hashed(.sha256)
+        }
+        get {
+            return _email
+        }
+    }
     @objc public var emailMd5: String?
     @objc public var emailSha1: String?
     @objc public var emailSha256: String?
@@ -42,7 +53,6 @@ public class User: NSObject {
      */
     internal func dictObject() -> [String: Any?] {
         return ["idfa": self.idfa,
-                "email": self.email,
                 "emailMd5": self.emailMd5,
                 "emailSha1": self.emailSha1,
                 "emailSha256": self.emailSha256,
