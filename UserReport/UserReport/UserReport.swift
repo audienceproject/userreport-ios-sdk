@@ -118,10 +118,10 @@ private var sharedInstance: UserReport?
      * - parameter sakId:   UserReport account SAK ID. (You can find these value on media setting page)
      * - parameter mediaId: ID of media created in UserReport account. (You can find these value on media setting page)
      * - parameter user:    User information
-     * - parameter userSettings: Settings set by user
+     * - parameter settings: Settings set by user
      */
-    @objc public class func configure(sakId: String, mediaId: String, user: User = User(), userSettings: Settings? = nil) {
-        sharedInstance = UserReport(sakId: sakId, mediaId: mediaId, user: user, userSettings: userSettings)
+    @objc public class func configure(sakId: String, mediaId: String, user: User = User(), settings: Settings? = nil) {
+        sharedInstance = UserReport(sakId: sakId, mediaId: mediaId, user: user, settings: settings)
     }
     
     /**
@@ -196,17 +196,17 @@ private var sharedInstance: UserReport?
     //==========================================================================================================
     
     /**
-     * Creates an instance with the specified `sakId`, `mediaId`, `user` and `userSettings`.
+     * Creates an instance with the specified `sakId`, `mediaId`, `user` and `settings`.
      * Download config from backend and log visit.
      *
      * - parameter sakId:        UserReport account SAK ID. (You can find these value on media setting page)
      * - parameter mediaId:      ID of media created in UserReport account. (You can find these value on media setting page)
      * - parameter user:         User information
-     * - parameter userSettings: Settings set by user
+     * - parameter settings:     Settings set by user
      *
      * - returns: The new `UserReport` instance.
      */
-    private init(sakId: String, mediaId: String, user: User, userSettings: Settings?) {
+    private init(sakId: String, mediaId: String, user: User, settings: Settings?) {
         super.init()
         
         // Create info
@@ -235,12 +235,12 @@ private var sharedInstance: UserReport?
                 self.info.media.companyId = mediaSettings.companyId
                 
                 // Set settings
-                let settings = mediaSettings.settings
-                Settings.defaultInstance = settings
-                self.session.updateSettings(settings)
+                let defaultSettings = mediaSettings.settings
+                Settings.defaultInstance = defaultSettings
+                self.session.updateSettings(defaultSettings)
 
-                if let usrSettings = userSettings {
-                    self.session.updateSettings(usrSettings)
+                if let userSettings = settings {
+                    self.session.updateSettings(userSettings)
                 }
             case .failure(let error):
                 self.logger.log("Failed get config. Error: \(error.localizedDescription)", level: .error)

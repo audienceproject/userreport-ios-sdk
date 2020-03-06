@@ -116,7 +116,7 @@ settings.sessionScreensView = 5
 settings.inviteAfterNSecondsInApp = 20
 
 // Configure
-UserReport.configure(sakId: "YOUR_SAK_ID", mediaId: "YOUR_MEDIA_ID", user: user, userSetting: settings)
+UserReport.configure(sakId: "YOUR_SAK_ID", mediaId: "YOUR_MEDIA_ID", user: user, settings: settings)
 
 ```
 
