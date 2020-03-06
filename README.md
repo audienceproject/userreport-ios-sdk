@@ -14,7 +14,7 @@
 - iOS 9.0+
 
 ## Installation
-UserReport iOS SDK can be installed in various ways.
+The UserReport iOS SDK can be installed in various ways.
 
 ### CocoaPods
 [CocoaPods](https://cocoapods.org/) is a centralized dependency manager for
@@ -42,9 +42,59 @@ In your project folder enter:
 $ git submodule add git@github.com:AudienceProject/userreport-ios-sdk.git
 ```
 
-## Usage
+## Usage for screen/section tracking
 ### Configure
-Configure UserReport iOS SDK via `SAK_ID`, `MEDIA_ID` (You can find these values on media setting page) and information about user.
+Configure the UserReport iOS SDK using your `SAK_ID` and your `MEDIA_ID`.
+
+Your `SAK_ID` and `MEDIA_ID` can be found on the Media Setting page in UserReport.
+
+```swift
+// Configure
+UserReport.configure(sakId: "YOUR_SAK_ID", mediaId: "YOUR_MEDIA_ID")
+
+```
+
+### Screen tracking
+#### Automatic tracking
+If you want to automatically measure all screen views, your application's `ViewController`s  should inherit from the `UserReportViewController` class.
+
+Example of automatic tracking:
+
+```swift
+class ViewController: UserReportViewController {
+    ...
+}
+```
+
+#### Manual tracking
+There are two types of tracking:
+  - Screen view tracking (`UserReport.trackScreenView()`)
+  - Section view tracking (`UserReport.trackSectionScreenView()`)
+
+If a media (website) has one single topic, it can be tracked using `UserReport.trackScreenView()`.
+
+If a website has different sections, for instance *Health*, *World news* and *Local news*, then it should be tracked using `UserReport.trackSectionScreenView(sectionId)`. The `sectionId` for a particular section can be found on the Media Setting page in UserReport.
+
+Example of manual tracking:
+```swift
+class ViewController: UIViewController {
+    override open func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        // Tracking screen view
+        UserReport.trackScreenView()
+    }
+}
+```
+
+#### Do not combine automatic and manual tracking
+If you use the `UserReport.trackSectionScreenView` and/or `UserReport.trackScreenView()` methods, then automatic tracking should be disabled. As you can see in the manual tracking example, the `ViewController` does *not* inherit from `UserReportViewController`.
+
+## Usage for surveying
+### Configure
+Configure the UserReport iOS SDK using your `SAK_ID`, your `MEDIA_ID` and information about the user.
+
+Your `SAK_ID` and `MEDIA_ID` can be found on the Media Setting page in UserReport.
 
 ```swift
 // Create user object (optional)
@@ -59,48 +109,15 @@ user.emailSha256 = "SHA256_EMAIL_HASH"
 // Provide additional social network information
 user.facebookId = "FACEBOOK_ID"
 
-//It is also possible to override default rules when survey will appear;
-//though, userSettings parameter is optional
+//It is possible to override the default rules for when a survey will appear.
+//However, the settings parameter is optional.
 let settings = Settings()
 settings.sessionScreensView = 5
 settings.inviteAfterNSecondsInApp = 20
 
 // Configure
-UserReport.configure(sakId: "YOUR_SAK_ID", mediaId: "YOU_MEDIA_ID", user: user, userSetting: setting)
+UserReport.configure(sakId: "YOUR_SAK_ID", mediaId: "YOUR_MEDIA_ID", user: user, userSetting: settings)
 
-```
-### Screen tracking
-There are two types of tracking *ScreenView* and *SectionScreenView*. One should be used in favor of another depending on the media.   
-
-
-#### Screen View
-If a media (website) has one topic it can be tracked by using `UserReport.trackScreenView`.
-
-#### Section Screen View
-If a website has different sections, for instance, media has *Health*, *World news*, *Local news* and it should be tracked differenlty `UserReport.trackSectionScreenView(sectionId)` method should be used instead.  
-
-#### Manual invocation
-If `UserReport.trackSectionScreenView` or `UserReport.trackScreenView()` methods invoked by your code, automatic tracking should not be used. 
-
-#### Example
-```swift
-class ViewController: UIViewController {
-    override open func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        // Tracking screen view
-        UserReport.trackScreenView()
-    }
-}
-```
-
-#### Automatic tracking
-If you want to automatically measure screen views. Application's ViewControllers should be inherited from the `UserReportViewController` class.
-
-```swift
-class ViewController: UserReportViewController {
-    ...
-}
 ```
 
 ### Display mode
@@ -172,7 +189,7 @@ UserReport.tryInvite()
 ```
 
 ### IDFA
-SDK relies on IDFA. So make sure marking appropriate checkboxes when publishing your app.  
+The SDK relies on IDFAs, so make sure to mark the appropriate checkboxes when publishing your app.  
 
 ## License
 
