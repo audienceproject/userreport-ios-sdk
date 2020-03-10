@@ -44,13 +44,13 @@ $ git submodule add git@github.com:AudienceProject/userreport-ios-sdk.git
 
 ## Usage for screen/section tracking
 ### Configure
-Configure the UserReport iOS SDK using your `SAK_ID` and your `MEDIA_ID`.
+Configure the UserReport iOS SDK using your `PUBLISHER_ID` and your `MEDIA_ID`.
 
-Your `SAK_ID` and `MEDIA_ID` can be found on the Media Setting page in UserReport.
+Your `PUBLISHER_ID` and `MEDIA_ID` can be found on the Media Setting page in UserReport.
 
 ```swift
 // Configure
-UserReport.configure(sakId: "YOUR_SAK_ID", mediaId: "YOUR_MEDIA_ID")
+UserReport.configure(sakId: "PUBLISHER_ID", mediaId: "MEDIA_ID")
 
 ```
 
