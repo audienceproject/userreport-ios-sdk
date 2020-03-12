@@ -24,8 +24,6 @@ to learn more.
 1. Add the project to your [Podfile](https://guides.cocoapods.org/using/the-podfile.html).
 
     ```ruby
-    use_frameworks!
-
     pod 'UserReport'
     ```
 2. Run `pod install` and open the `.xcworkspace` file to launch Xcode.
