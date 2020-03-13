@@ -96,7 +96,7 @@ Your `SAK_ID` and `MEDIA_ID` can be found on the Media Setting page in UserRepor
 
 ```swift
 // Create user object (optional)
-let user = User()
+let user = UserReportUser()
 user.email = "example@email.com"
 
 // You can also specify a email hash
@@ -109,7 +109,7 @@ user.facebookId = "FACEBOOK_ID"
 
 //It is possible to override the default rules for when a survey will appear.
 //However, the settings parameter is optional.
-let settings = Settings()
+let settings = UserReportSettings()
 settings.sessionScreensView = 5
 settings.inviteAfterNSecondsInApp = 20
 
@@ -132,9 +132,9 @@ UserReport.setDisplayMode(.fullscreen)
 
 ### Change settings
 To update the default rules for appear the survey use follow:
-Though, it is recommended to pass `Settings` to configure method instead, use this method only when you want to change rules for already launched app
+Though, it is recommended to pass `UserReportSettings` to configure method instead, use this method only when you want to change rules for already launched app
 ```swift
-let settings = Settings()
+let settings = UserReportSettings()
 settings.sessionScreensView = 5
 settings.inviteAfterNSecondsInApp = 20
 
@@ -154,7 +154,7 @@ UserReport.mute = true
 When changing user data, you should also send the updated data to the UserReport iOS SDK.
 
 ```swift
-let user = User()
+let user = UserReportUser()
 user.email = "new_example@email.com"
 
 UserReport.updateUser(user)

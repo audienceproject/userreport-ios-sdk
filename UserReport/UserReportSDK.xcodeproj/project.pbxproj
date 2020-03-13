@@ -16,7 +16,7 @@
 		110747411F46FD1900150955 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110747401F46FD1900150955 /* Logger.swift */; };
 		110747431F471F0F00150955 /* UserReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110747421F471F0F00150955 /* UserReportViewController.swift */; };
 		110747461F4AF99000150955 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110747451F4AF99000150955 /* Device.swift */; };
-		110747481F4AF99B00150955 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110747471F4AF99B00150955 /* User.swift */; };
+		110747481F4AF99B00150955 /* UserReportUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110747471F4AF99B00150955 /* UserReportUser.swift */; };
 		1107474A1F4AF9A700150955 /* Media.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110747491F4AF9A700150955 /* Media.swift */; };
 		1107474C1F4AF9B400150955 /* Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1107474B1F4AF9B400150955 /* Info.swift */; };
 		110747541F4C766E00150955 /* Invitation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110747531F4C766E00150955 /* Invitation.swift */; };
@@ -25,7 +25,7 @@
 		1115E4FC1F728A8900ED6F6B /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1115E4FB1F728A8900ED6F6B /* AdSupport.framework */; };
 		1115E4FE1F728AB100ED6F6B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1115E4FD1F728AB000ED6F6B /* UIKit.framework */; };
 		1115E5001F728AB900ED6F6B /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1115E4FF1F728AB900ED6F6B /* WebKit.framework */; };
-		1141EF401F6173D70011D10F /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1141EF3F1F6173D70011D10F /* Settings.swift */; };
+		1141EF401F6173D70011D10F /* UserReportSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1141EF3F1F6173D70011D10F /* UserReportSettings.swift */; };
 		11666F331F6C0739007729A7 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11666F321F6C0739007729A7 /* Store.swift */; };
 		116BD1661F5814A800D2386B /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 116BD1651F5814A800D2386B /* XCTest.framework */; };
 		116BD1671F5814BF00D2386B /* UserReportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116BD1611F58136100D2386B /* UserReportTests.swift */; };
@@ -58,7 +58,7 @@
 		110747401F46FD1900150955 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		110747421F471F0F00150955 /* UserReportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserReportViewController.swift; sourceTree = "<group>"; };
 		110747451F4AF99000150955 /* Device.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
-		110747471F4AF99B00150955 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		110747471F4AF99B00150955 /* UserReportUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserReportUser.swift; sourceTree = "<group>"; };
 		110747491F4AF9A700150955 /* Media.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Media.swift; sourceTree = "<group>"; };
 		1107474B1F4AF9B400150955 /* Info.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Info.swift; sourceTree = "<group>"; };
 		110747531F4C766E00150955 /* Invitation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Invitation.swift; sourceTree = "<group>"; };
@@ -68,7 +68,7 @@
 		1115E4FD1F728AB000ED6F6B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		1115E4FF1F728AB900ED6F6B /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		1115E5031F728B8900ED6F6B /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		1141EF3F1F6173D70011D10F /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		1141EF3F1F6173D70011D10F /* UserReportSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserReportSettings.swift; sourceTree = "<group>"; };
 		11666F321F6C0739007729A7 /* Store.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		116BD1601F58136100D2386B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		116BD1611F58136100D2386B /* UserReportTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserReportTests.swift; sourceTree = "<group>"; };
@@ -173,8 +173,8 @@
 				110747491F4AF9A700150955 /* Media.swift */,
 				110747571F4D946000150955 /* MediaSettings.swift */,
 				116BD16B1F5819D400D2386B /* Serialization.swift */,
-				1141EF3F1F6173D70011D10F /* Settings.swift */,
-				110747471F4AF99B00150955 /* User.swift */,
+				1141EF3F1F6173D70011D10F /* UserReportSettings.swift */,
+				110747471F4AF99B00150955 /* UserReportUser.swift */,
 				8A4CF05923D5D2860081C2D8 /* QuarantineRequest.swift */,
 				8A4CF05B23D5D2960081C2D8 /* QuarantineResponse.swift */,
 			);
@@ -348,11 +348,11 @@
 				11666F331F6C0739007729A7 /* Store.swift in Sources */,
 				1107473C1F46FA6800150955 /* SurveyViewController.swift in Sources */,
 				116BD16C1F5819D400D2386B /* Serialization.swift in Sources */,
-				1141EF401F6173D70011D10F /* Settings.swift in Sources */,
+				1141EF401F6173D70011D10F /* UserReportSettings.swift in Sources */,
 				1107474A1F4AF9A700150955 /* Media.swift in Sources */,
 				11C71E9A1F6966040081D9B4 /* Session.swift in Sources */,
 				110747431F471F0F00150955 /* UserReportViewController.swift in Sources */,
-				110747481F4AF99B00150955 /* User.swift in Sources */,
+				110747481F4AF99B00150955 /* UserReportUser.swift in Sources */,
 				8A4CF05C23D5D2960081C2D8 /* QuarantineResponse.swift in Sources */,
 				1107473A1F46FA6800150955 /* Network.swift in Sources */,
 				110747281F44953000150955 /* UserReport.swift in Sources */,

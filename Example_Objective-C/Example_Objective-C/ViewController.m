@@ -76,7 +76,7 @@
     }
     
     // Get current settings for appear survey
-    Settings *settings = session.settings;
+    UserReportSettings *settings = session.settings;
     if (settings) {
         self.expectedTotalScreensLabel.text = [NSString stringWithFormat:@"%li screens", settings.inviteAfterTotalScreensViewed];
         self.expectedSessionScreensLabel.text = [NSString stringWithFormat:@"%li screens", settings.sessionScreensView];

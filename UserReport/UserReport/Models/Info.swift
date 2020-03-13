@@ -18,7 +18,7 @@ internal struct Info {
     var mediaSettings: MediaSettings?
     
     /// Information about the current user
-    var user: User!
+    var user: UserReportUser!
     
     /// Information about the current device
     var device: Device
@@ -33,7 +33,7 @@ internal struct Info {
      *
      * - returns: The new `Info` instance.
      */
-    init(media: Media, user: User) {
+    init(media: Media, user: UserReportUser) {
         self.media = media
         self.user = user
         self.device = Device()

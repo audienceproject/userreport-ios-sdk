@@ -12,11 +12,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-        let settings = Settings()
+        let settings = UserReportSettings()
         settings.sessionScreensView = 14
         
         // Initialize UserReport SDK
-        let user = User()
+        let user = UserReportUser()
         user.email = "example@email.com"
         UserReport.configure(sakId: "audienceproject", mediaId: "3402b774-b7a8-448c-997a-ef6cd59efc41", user: user, settings: settings)
         

@@ -20,7 +20,7 @@ public class Session: NSObject {
     internal var rulesPassed: SessionRulesPassedHandler?
     
     /// Settings used for the current session
-    @objc public private(set) var settings: Settings?
+    @objc public private(set) var settings: UserReportSettings?
     
     /// Number of screen viewed in current session
     @objc public private(set) var screenView: Int = 0
@@ -67,7 +67,7 @@ public class Session: NSObject {
      *
      * - returns: The new `Session` instance.
      */
-    internal convenience init(settings: Settings? = nil, rulesPassed: @escaping SessionRulesPassedHandler) {
+    internal convenience init(settings: UserReportSettings? = nil, rulesPassed: @escaping SessionRulesPassedHandler) {
         self.init()
         
         // DI
@@ -110,7 +110,7 @@ public class Session: NSObject {
     /**
      * Set new settings.
      */
-    internal func updateSettings(_ settings: Settings) {
+    internal func updateSettings(_ settings: UserReportSettings) {
         self.settings = settings
         self.validate()
     }

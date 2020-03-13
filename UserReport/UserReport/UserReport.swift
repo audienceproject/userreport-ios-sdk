@@ -120,7 +120,7 @@ private var sharedInstance: UserReport?
      * - parameter user:    User information
      * - parameter settings: Settings set by user
      */
-    @objc public class func configure(sakId: String, mediaId: String, user: User = User(), settings: Settings? = nil) {
+    @objc public class func configure(sakId: String, mediaId: String, user: UserReportUser = UserReportUser(), settings: UserReportSettings? = nil) {
         sharedInstance = UserReport(sakId: sakId, mediaId: mediaId, user: user, settings: settings)
     }
     
@@ -172,10 +172,10 @@ private var sharedInstance: UserReport?
      *
      * - parameter user: User with new data
      */
-    @objc public class func updateUser(_ user: User) {
+    @objc public class func updateUser(_ user: UserReportUser) {
         UserReport.shared?.updateUser(user)
     }
-    @objc private func updateUser(_ user: User) {
+    @objc private func updateUser(_ user: UserReportUser) {
         self.info.user = user
     }
     
@@ -184,10 +184,10 @@ private var sharedInstance: UserReport?
      *
      * - parameter settings: New settings
      */
-    @objc public class func updateSettings(_ settings: Settings) {
+    @objc public class func updateSettings(_ settings: UserReportSettings) {
         UserReport.shared?.session.updateSettings(settings)
     }
-    @objc private func updateSettings(_ settings: Settings) {
+    @objc private func updateSettings(_ settings: UserReportSettings) {
         self.session.updateSettings(settings)
     }
     
@@ -206,7 +206,7 @@ private var sharedInstance: UserReport?
      *
      * - returns: The new `UserReport` instance.
      */
-    private init(sakId: String, mediaId: String, user: User, settings: Settings?) {
+    private init(sakId: String, mediaId: String, user: UserReportUser, settings: UserReportSettings?) {
         super.init()
         
         // Create info
@@ -236,7 +236,7 @@ private var sharedInstance: UserReport?
                 
                 // Set settings
                 let defaultSettings = mediaSettings.settings
-                Settings.defaultInstance = defaultSettings
+                UserReportSettings.defaultInstance = defaultSettings
                 self.session.updateSettings(defaultSettings)
 
                 if let userSettings = settings {

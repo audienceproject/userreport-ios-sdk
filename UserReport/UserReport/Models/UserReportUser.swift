@@ -6,7 +6,7 @@ import Foundation
 import AdSupport
 
 /// Model describing user
-public class User: NSObject {
+public class UserReportUser: NSObject {
     
     // MARK: - Property
     

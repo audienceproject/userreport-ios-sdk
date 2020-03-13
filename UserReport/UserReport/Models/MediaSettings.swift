@@ -16,7 +16,7 @@ internal struct MediaSettings {
     var kitTcode: String?
     
     /// Rules after which the survey will be displayed on the screen
-    var settings: Settings = Settings()
+    var settings: UserReportSettings = UserReportSettings()
     
     var sections: Dictionary<String, String>?
 }
