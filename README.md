@@ -71,7 +71,8 @@ There are two types of tracking:
 
 If a media (website) has one single topic, it can be tracked using `UserReport.trackScreenView()`.
 
-If a website has different sections, for instance *Health*, *World news* and *Local news*, then it should be tracked using `UserReport.trackSectionScreenView(sectionId)`. The `sectionId` for a particular section can be found on the Media Setting page in UserReport.
+If a website has different sections, for instance *Health*, *World news* and *Local news*, then it should be tracked using `UserReport.trackSectionScreenView(sectionId)`.  The `sectionId` for a particular section can be found on the Media Setting page in UserReport.
+Even when `UserReport.trackSectionScreenView(sectionId)` is used `UserReport.trackScreenView()` should be invoked as well.
 
 Example of manual tracking:
 ```swift
