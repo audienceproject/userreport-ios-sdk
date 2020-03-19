@@ -71,10 +71,9 @@ There are two types of tracking:
 
 If a media (website) has one single topic, it can be tracked using `UserReport.trackScreenView()`.
 
-If a website has different sections, for instance *Health*, *World news* and *Local news*, then it should be tracked using `UserReport.trackSectionScreenView(sectionId)`.  The `sectionId` for a particular section can be found on the Media Setting page in UserReport.
-Even when `UserReport.trackSectionScreenView(sectionId)` is used `UserReport.trackScreenView()` should be invoked as well.
+If a website has different sections, for instance *Health*, *World news* and *Local news*, then it should be tracked using both `UserReport.trackScreenView()` and `UserReport.trackSectionScreenView(sectionId)`.  The `sectionId` for a particular section can be found on the Media Setting page in UserReport.
 
-Example of manual tracking:
+Example of manual screen tracking:
 ```swift
 class ViewController: UIViewController {
     override open func viewDidAppear(_ animated: Bool) {
@@ -82,6 +81,19 @@ class ViewController: UIViewController {
 
         // Tracking screen view
         UserReport.trackScreenView()
+    }
+}
+```
+
+Example of manual section tracking:
+```swift
+class ViewController: UIViewController {
+    override open func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        // Tracking section view (use both functions)
+        UserReport.trackScreenView()
+        UserReport.trackSectionScreenView(sectionId)
     }
 }
 ```
