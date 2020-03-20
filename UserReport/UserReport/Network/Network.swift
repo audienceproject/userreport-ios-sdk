@@ -78,14 +78,20 @@ internal class Network {
     }
     
     func trackScreenView(info: Info, tCode: String, completion: @escaping ((Result<Empty>) -> Void)) {
-        //https://visitanalytics.userreport.com/hit.gif?t=[kitTcode]&rnd=%RANDOM%&d=IDFA&med=app_name&idfv=identifierForVendor
+        //https://visitanalytics.userreport.com/hit.gif?t=[kitTcode]&rnd=%RANDOM%&d=IDFA&med=app_name&idfv=identifierForVendor&iab_consent=hardcodedConsent
         let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
         
         let tCode = "t=\(tCode)&"
         let random = arc4random_uniform(UInt32.max)
         let idfa = info.user?.idfa ?? ""
         let idForVendor = UIDevice.current.identifierForVendor!.uuidString
-        let url = URL(string: "\(self.server.audiences)/hit.gif?\(tCode)rnd=\(random)&d=\(idfa)&med=\(appName)&idfv=\(idForVendor)")
+        var urlString = "\(self.server.audiences)/hit.gif?\(tCode)rnd=\(random)&d=\(idfa)&med=\(appName)&idfv=\(idForVendor)"
+        
+        if let consent = info.mediaSettings?.hardcodedConsent {
+            urlString.append("&iab_consent=\(consent)")
+        }
+        
+        let url = URL(string: urlString)
         self.userAgent { (userAgent) in
             let headers = ["User-Agent": userAgent]
             self.sendRequest(httpMethod: HTTPMethod.GET, url: url, headers: headers, body: nil, emptyReponse: true, completion: completion)

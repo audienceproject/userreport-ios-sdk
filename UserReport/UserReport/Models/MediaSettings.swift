@@ -19,6 +19,8 @@ internal struct MediaSettings {
     var settings: UserReportSettings = UserReportSettings()
     
     var sections: Dictionary<String, String>?
+    
+    var hardcodedConsent: String?
 }
 
 /**
@@ -60,6 +62,10 @@ extension MediaSettings: Serialization {
         
         if let sections = dict["sections"] as? Dictionary<String, String> {
             self.sections = sections
+        }
+        
+        if let hardcodedConsent = dict["hardcodedConsent"] as? String {
+            self.hardcodedConsent = hardcodedConsent
         }
     }
     
