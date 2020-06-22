@@ -113,7 +113,7 @@ private var sharedInstance: UserReport?
     //==========================================================================================================
     
     /**
-     * Create userReport shared instance. Download config from backend and log visit.
+     * Create userReport shared instance. Download config from backend and track screen view.
      *
      * - parameter sakId:   UserReport account SAK ID. (You can find these value on media setting page)
      * - parameter mediaId: ID of media created in UserReport account. (You can find these value on media setting page)
@@ -197,7 +197,7 @@ private var sharedInstance: UserReport?
     
     /**
      * Creates an instance with the specified `sakId`, `mediaId`, `user` and `settings`.
-     * Download config from backend and log visit.
+     * Download config from backend and track screen view.
      *
      * - parameter sakId:        UserReport account SAK ID. (You can find these value on media setting page)
      * - parameter mediaId:      ID of media created in UserReport account. (You can find these value on media setting page)
@@ -246,22 +246,7 @@ private var sharedInstance: UserReport?
                 self.logger.log("Failed get config. Error: \(error.localizedDescription)", level: .error)
             }
             
-            self.logVisit()
             self.trackScreenView()
-        }
-    }
-    
-    /**
-     * This method sends visit request to backend and user for sure will not be invited to take survey.
-     */
-    private func logVisit() {
-        self.network.visit(info: self.info) { [unowned self] (result) in
-            switch (result) {
-            case .success:
-                self.logger.log("Log visit", level: .info)
-            case .failure(let error):
-                self.logger.log("Log visit Failed. Error: \(error.localizedDescription)", level: .error)
-            }
         }
     }
     
