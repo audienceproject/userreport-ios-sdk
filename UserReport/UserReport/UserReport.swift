@@ -234,7 +234,7 @@ private var sharedInstance: UserReport?
         // DI logger
         self.network.logger = self.logger
         
-        self.network.getConfig(media: media) { [unowned self] (result) in
+        self.network.getConfig(media: media, anonymousTracking: self.anonymousTracking) { [unowned self] (result) in
             switch (result) {
             case .success:
                 guard let mediaSettings = result.value else {

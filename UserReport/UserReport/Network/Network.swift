@@ -18,7 +18,8 @@ internal class Network {
     
     struct Server {
         var api: String
-        var sak: String
+        var sakUrl: String
+        var dntSakUrl: String
         var trackUrl: String
         var doNotTrackUrl: String
     }
@@ -31,7 +32,8 @@ internal class Network {
     private let server: Server = {
         let env = ProcessInfo.processInfo.environment
         return Server(api: env["USERREPORT_SERVER_URL_API"] ?? "https://api.userreport.com/collect/v1",
-                      sak: env["USERREPORT_SERVER_URL_SAK"] ?? "https://sak.userreport.com",
+                      sakUrl: env["USERREPORT_SERVER_URL_SAK"] ?? "https://sak.userreport.com",
+                      dntSakUrl: env["USERREPORT_SERVER_URL_SAK_DO_NOT_TRACK"] ?? "https://sak.dnt-userreport.com",
                       trackUrl: env["USERREPORT_SERVER_URL_AUDIENCES"] ??  "https://visitanalytics.userreport.com",
                       doNotTrackUrl: env["USERREPORT_SERVER_URL_DO_NOT_TRACK"] ??  "https://visitanalytics.dnt-userreport.com")
     }()
@@ -74,8 +76,9 @@ internal class Network {
         self.sendRequest(httpMethod: HTTPMethod.POST, url: url, body: data, emptyReponse: true, completion: completion)
     }
     
-    func getConfig(media: Media, completion: @escaping ((Result<MediaSettings>) -> Void)) {
-        let url = URL(string: "\(self.server.sak)/\(media.sakId)/media/\(media.mediaId)/ios.json")
+    func getConfig(media: Media, anonymousTracking: Bool, completion: @escaping ((Result<MediaSettings>) -> Void)) {
+        let sakUrl = anonymousTracking ? self.server.dntSakUrl : self.server.sakUrl
+        let url = URL(string: "\(sakUrl)/\(media.sakId)/media/\(media.mediaId)/ios.json")
         self.sendRequest(httpMethod: HTTPMethod.GET, url: url, body: nil, completion: completion)
     }
     
