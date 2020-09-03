@@ -55,6 +55,12 @@ private var sharedInstance: UserReport?
     }
     @objc public private(set) var displayMode: DisplayMode = .alert
     
+    /// If user should be tracked anonymously
+    @objc public class func setAnonymousTracking(_ anonymousTracking: Bool) {
+        UserReport.shared?.anonymousTracking = anonymousTracking
+    }
+    @objc public private(set) var anonymousTracking: Bool = false
+    
     /// Level of messages printing to the console. Default `.debug`
     public class var logLevel: LogLevel {
         set { UserReport.shared?.logger.level = newValue }
@@ -69,7 +75,7 @@ private var sharedInstance: UserReport?
     @objc public class var testMode: Bool {
         set {
             UserReport.shared?.network.testMode = newValue
-            UserReport.shared?.logger.log("Test mode: \(self.testMode ? "On" : "Off")", level: .debug)
+            UserReport.shared?.logger.log("Test mode: \(newValue ? "On" : "Off")", level: .debug)
         }
         get { return UserReport.shared?.testMode ?? false }
      }
@@ -119,9 +125,10 @@ private var sharedInstance: UserReport?
      * - parameter mediaId: ID of media created in UserReport account. (You can find these value on media setting page)
      * - parameter user:    User information
      * - parameter settings: Settings set by user
+     * - parameter anonymousTracking: Do not send user identification if anonymous tracking is set
      */
-    @objc public class func configure(sakId: String, mediaId: String, user: UserReportUser = UserReportUser(), settings: UserReportSettings? = nil) {
-        sharedInstance = UserReport(sakId: sakId, mediaId: mediaId, user: user, settings: settings)
+    @objc public class func configure(sakId: String, mediaId: String, user: UserReportUser = UserReportUser(), settings: UserReportSettings? = nil, anonymousTracking: Bool = false) {
+        sharedInstance = UserReport(sakId: sakId, mediaId: mediaId, user: user, settings: settings, anonymousTracking: anonymousTracking)
     }
     
     /**
@@ -206,7 +213,7 @@ private var sharedInstance: UserReport?
      *
      * - returns: The new `UserReport` instance.
      */
-    private init(sakId: String, mediaId: String, user: UserReportUser, settings: UserReportSettings?) {
+    private init(sakId: String, mediaId: String, user: UserReportUser, settings: UserReportSettings?, anonymousTracking: Bool) {
         super.init()
         
         // Create info
@@ -221,10 +228,13 @@ private var sharedInstance: UserReport?
             self.tryInvite(force: false)
         })
         
+        // Ananymous tracking
+        self.anonymousTracking = anonymousTracking
+        
         // DI logger
         self.network.logger = self.logger
         
-        self.network.getConfig(media: media) { [unowned self] (result) in
+        self.network.getConfig(media: media, anonymousTracking: self.anonymousTracking) { [unowned self] (result) in
             switch (result) {
             case .success:
                 guard let mediaSettings = result.value else {
@@ -273,7 +283,7 @@ private var sharedInstance: UserReport?
             return
         }
         
-        self.network.trackScreenView(info: self.info,  tCode: tCode) { [unowned self] (result) in
+        self.network.trackScreenView(info: self.info, tCode: tCode, anonymousTracking: self.anonymousTracking) { [unowned self] (result) in
             switch (result) {
             case .success:
                 self.logger.log("Viewed screen", level: .info)
@@ -290,7 +300,7 @@ private var sharedInstance: UserReport?
             return
         }
         
-        self.network.trackScreenView(info: self.info,  tCode: tCode) { (result) in
+        self.network.trackScreenView(info: self.info, tCode: tCode, anonymousTracking: self.anonymousTracking) { (result) in
             switch (result) {
             case .success:
                 self.logger.log("Viewed section screen", level: .info)

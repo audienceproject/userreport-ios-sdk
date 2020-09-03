@@ -18,8 +18,10 @@ internal class Network {
     
     struct Server {
         var api: String
-        var sak: String
-        var audiences: String
+        var sakUrl: String
+        var dntSakUrl: String
+        var trackUrl: String
+        var doNotTrackUrl: String
     }
     
     // MARK: - Properties
@@ -30,8 +32,10 @@ internal class Network {
     private let server: Server = {
         let env = ProcessInfo.processInfo.environment
         return Server(api: env["USERREPORT_SERVER_URL_API"] ?? "https://api.userreport.com/collect/v1",
-                      sak: env["USERREPORT_SERVER_URL_SAK"] ?? "https://sak.userreport.com",
-                      audiences: env["USERREPORT_SERVER_URL_AUDIENCES"] ??  "https://visitanalytics.userreport.com")
+                      sakUrl: env["USERREPORT_SERVER_URL_SAK"] ?? "https://sak.userreport.com",
+                      dntSakUrl: env["USERREPORT_SERVER_URL_SAK_DO_NOT_TRACK"] ?? "https://sak.dnt-userreport.com",
+                      trackUrl: env["USERREPORT_SERVER_URL_AUDIENCES"] ??  "https://visitanalytics.userreport.com",
+                      doNotTrackUrl: env["USERREPORT_SERVER_URL_DO_NOT_TRACK"] ??  "https://visitanalytics.dnt-userreport.com")
     }()
     
     // MARK: - Init
@@ -72,21 +76,26 @@ internal class Network {
         self.sendRequest(httpMethod: HTTPMethod.POST, url: url, body: data, emptyReponse: true, completion: completion)
     }
     
-    func getConfig(media: Media, completion: @escaping ((Result<MediaSettings>) -> Void)) {
-        let url = URL(string: "\(self.server.sak)/\(media.sakId)/media/\(media.mediaId)/ios.json")
+    func getConfig(media: Media, anonymousTracking: Bool, completion: @escaping ((Result<MediaSettings>) -> Void)) {
+        let sakUrl = anonymousTracking ? self.server.dntSakUrl : self.server.sakUrl
+        let url = URL(string: "\(sakUrl)/\(media.sakId)/media/\(media.mediaId)/ios.json")
         self.sendRequest(httpMethod: HTTPMethod.GET, url: url, body: nil, completion: completion)
     }
     
-    func trackScreenView(info: Info, tCode: String, completion: @escaping ((Result<Empty>) -> Void)) {
+    func trackScreenView(info: Info, tCode: String, anonymousTracking: Bool, completion: @escaping ((Result<Empty>) -> Void)) {
         //https://visitanalytics.userreport.com/hit.gif?t=[kitTcode]&rnd=%RANDOM%&d=IDFA&med=app_name&idfv=identifierForVendor&iab_consent=hardcodedConsent
         let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
         
         let tCode = "t=\(tCode)&"
         let random = arc4random_uniform(UInt32.max)
-        let idfa = info.user?.idfa ?? ""
-        let idForVendor = UIDevice.current.identifierForVendor!.uuidString
-        var urlString = "\(self.server.audiences)/hit.gif?\(tCode)rnd=\(random)&d=\(idfa)&med=\(appName)&idfv=\(idForVendor)"
         
+        // Do not send idfa and identifierForVendor if anonymousTracking is set
+        let idfa = anonymousTracking ? "" : info.user?.idfa ?? ""
+        let idForVendor = anonymousTracking ? "" : UIDevice.current.identifierForVendor!.uuidString
+        
+        let trackingUrl = anonymousTracking ? self.server.doNotTrackUrl : self.server.trackUrl
+        var urlString = "\(trackingUrl)/hit.gif?\(tCode)rnd=\(random)&d=\(idfa)&med=\(appName)&idfv=\(idForVendor)"
+
         if let consent = info.mediaSettings?.hardcodedConsent {
             urlString.append("&iab_consent=\(consent)")
         }

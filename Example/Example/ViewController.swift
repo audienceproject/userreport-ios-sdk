@@ -110,6 +110,9 @@ class ViewController: UserReportViewController {
     
     @IBAction func changeTestMode(_ sender: Any) {
         UserReport.testMode = self.testModeSwitch.isOn
+        
+        // Uncomment this line to test anonymous tracking
+        // UserReport.setAnonymousTracking(self.testModeSwitch.isOn)
     }
     
     @IBAction func selectAlertDisplayMode(_ sender: Any) {
