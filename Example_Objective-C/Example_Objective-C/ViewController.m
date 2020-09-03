@@ -95,6 +95,9 @@
 
 - (IBAction)changeTestMode:(id)sender {
     UserReport.testMode = self.testModeSwitch.isOn;
+    
+    // Uncomment this line to test anonymous tracking
+    // [UserReport setAnonymousTracking:self.testModeSwitch.isOn];
 }
 
 - (IBAction)selectAlertDisplayMode:(id)sender {
