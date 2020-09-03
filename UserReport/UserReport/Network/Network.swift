@@ -100,7 +100,11 @@ internal class Network {
             urlString.append("&iab_consent=\(consent)")
         }
         
-        let url = URL(string: urlString)
+        let allowedCharacters = CharacterSet(charactersIn: " ").inverted
+        guard let urlStringEncoded = urlString.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
+            else { return }
+        
+        let url = URL(string: urlStringEncoded)
         self.userAgent { (userAgent) in
             let headers = ["User-Agent": userAgent]
             self.sendRequest(httpMethod: HTTPMethod.GET, url: url, headers: headers, body: nil, emptyReponse: true, completion: completion)
@@ -147,6 +151,7 @@ internal class Network {
         // Validate URL
         guard let url = url else {
             // Track error
+            self.logger?.log("Error: URL is nil")
             return
         }
         
