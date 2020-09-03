@@ -131,6 +131,9 @@ private var sharedInstance: UserReport?
         sharedInstance = UserReport(sakId: sakId, mediaId: mediaId, user: user, settings: settings, anonymousTracking: anonymousTracking)
     }
     
+    @objc public class func configure(sakId: String, mediaId: String, user: UserReportUser = UserReportUser(), settings: UserReportSettings? = nil) {
+        sharedInstance = UserReport(sakId: sakId, mediaId: mediaId, user: user, settings: settings, anonymousTracking: false)
+    }
     /**
      * Tracking screen view
      */
