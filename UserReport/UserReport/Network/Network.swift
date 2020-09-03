@@ -52,12 +52,6 @@ internal class Network {
     
     // MARK: API
     
-    func visit(info: Info, completion: @escaping ((Result<Empty>) -> Void)) {
-        let url = URL(string: "\(self.server.api)/visit")
-        let data = info.dictObject()
-        self.sendRequest(httpMethod: HTTPMethod.POST, url: url, body: data, emptyReponse: true, completion: completion)
-    }
-    
     func invitation(info: Info, completion: @escaping ((Result<Invitation>) -> Void)) {
         let path = self.testMode ? "visit+invitation/testinvite" : "invitation"
         let url = URL(string: "\(self.server.api)/\(path)")
