@@ -200,7 +200,7 @@ UserReport.tryInvite()
 ```
 
 ### Anonymous tracking mode
-If anonymous tracking is enabled: all requests will be fired to the do-not-track domain and AAID will never be sent.
+If anonymous tracking is enabled: all requests will be fired to the do-not-track domain and IDFA will never be sent.
 To enable anonymous mode you can use following method:
 
 ```swift
