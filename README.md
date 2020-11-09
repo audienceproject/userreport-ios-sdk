@@ -199,6 +199,14 @@ If you decide to show the survey yourself, then you can use the following method
 UserReport.tryInvite()
 ```
 
+### Anonymous tracking mode
+If anonymous tracking is enabled: all requests will be fired to the do-not-track domain and AAID will never be sent.
+To enable anonymous mode you can use following method:
+
+```swift
+UserReport.setAnonymousTracking(true)
+```
+
 ### IDFA
 The SDK relies on IDFAs, so make sure to mark the appropriate checkboxes when publishing your app.  
 
