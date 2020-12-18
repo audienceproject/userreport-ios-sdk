@@ -19,13 +19,13 @@ let package = Package(
             name: "UserReportSDK",
             dependencies: [],
             path: "UserReport/UserReport",
-            exclude: ["UserReport/UserReport/Info.plist"]
+            exclude: ["Info.plist"]
         ),
         .testTarget(
             name: "UserReportTests",
             dependencies: ["UserReportSDK"],
             path: "UserReport/Tests",
-            exclude: ["UserReport/Tests/Info.plist"]
+            exclude: ["Info.plist"]
         )
     ]
 )
