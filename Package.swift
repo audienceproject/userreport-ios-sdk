@@ -4,26 +4,26 @@
 import PackageDescription
 
 let package = Package(
-    name: "UserReport",
+    name: "UserReportSDK",
     platforms: [
         .iOS(.v9)
     ],
     products: [
         .library(
-            name: "UserReport",
-            targets: ["UserReportSDK"]
+            name: "UserReportSDK",
+            targets: ["UserReport"]
         )
     ],
     targets: [
         .target(
-            name: "UserReportSDK",
+            name: "UserReport",
             dependencies: [],
             path: "UserReport/UserReport",
             exclude: ["Info.plist"]
         ),
         .testTarget(
             name: "UserReportTests",
-            dependencies: ["UserReportSDK"],
+            dependencies: ["UserReport"],
             path: "UserReport/Tests",
             exclude: ["Info.plist"]
         )
