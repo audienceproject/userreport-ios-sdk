@@ -40,6 +40,19 @@ In your project folder enter:
 $ git submodule add git@github.com:AudienceProject/userreport-ios-sdk.git
 ```
 
+Update your `Info.plist` with message that will inform the user why app is requesting permission to use data for tracking:
+
+```xml
+<plist ...>
+    <dict ...>
+
+        <key>NSUserTrackingUsageDescription</key>
+        <string>This identifier will be used to deliver personalized ads to you.</string>
+
+    </dict>
+</plist>
+```
+
 ## Usage for screen/section tracking
 ### Configure
 Configure the UserReport iOS SDK using your `PUBLISHER_ID` and your `MEDIA_ID`.
