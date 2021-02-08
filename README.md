@@ -40,6 +40,8 @@ In your project folder enter:
 $ git submodule add git@github.com:AudienceProject/userreport-ios-sdk.git
 ```
 
+## Configure Info.plist
+
 Update your `Info.plist` with message that will inform the user why app is requesting permission to use data for tracking:
 
 ```xml
