@@ -40,6 +40,11 @@ public class UserReportUser: NSObject {
     
     @objc private func getAdvertisingId() -> String {
         var advertisingId: String = ""
+        
+        if UserReport.shared?.anonymousTracking == true {
+            return advertisingId
+        }
+        
         isTrackingEnabled(){(isTrackingAllowed: Bool) -> Void in
             if (isTrackingAllowed) {
                 /// By default iOS 13.3 simulator always returns idfa as '00000000-0000-0000-000000000000'
