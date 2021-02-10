@@ -4,13 +4,18 @@
 
 import Foundation
 import AdSupport
+import AppTrackingTransparency
 
 /// Model describing user
 public class UserReportUser: NSObject {
     
     // MARK: - Property
     
-    internal var idfa: String
+    @objc public var idfa: String {
+        get {
+            return getAdvertisingId()
+        }
+    }
     private var _email : String?
     @objc public var email: String? {
         set {
@@ -30,18 +35,50 @@ public class UserReportUser: NSObject {
     
     // MARK: - Init
     
-    /// By default iOS 13.3 simulator always returns idfa as '00000000-0000-0000-000000000000'
-    /// https://forums.developer.apple.com/thread/124604
     public override init() {
-        #if targetEnvironment(simulator)
-        if #available(iOS 13.0, *) {
-            self.idfa = UUID().uuidString
-        } else {
-            self.idfa = ASIdentifierManager.shared().advertisingIdentifier.uuidString
+    }
+    
+    @objc private func getAdvertisingId() -> String {
+        var advertisingId: String = ""
+        
+        if UserReport.shared?.anonymousTracking == true {
+            return advertisingId
         }
-        #else
-        self.idfa = ASIdentifierManager.shared().advertisingIdentifier.uuidString
-        #endif
+        
+        isTrackingEnabled(){(isTrackingAllowed: Bool) -> Void in
+            if (isTrackingAllowed) {
+                /// By default iOS 13.3 simulator always returns idfa as '00000000-0000-0000-000000000000'
+                /// https://forums.developer.apple.com/thread/124604
+                #if targetEnvironment(simulator)
+                if #available(iOS 13.0, *) {
+                    advertisingId = UUID().uuidString
+                }
+                else {
+                    advertisingId = ASIdentifierManager.shared().advertisingIdentifier.uuidString
+                }
+                #else
+                advertisingId = ASIdentifierManager.shared().advertisingIdentifier.uuidString
+                #endif
+            }
+        }
+        
+        return advertisingId
+    }
+    
+    @objc private func isTrackingEnabled( result: @escaping (_ isTrackingAllowed: Bool) -> Void){
+        if #available(iOS 14, *) {
+            ATTrackingManager.requestTrackingAuthorization { status in
+                if (status == .authorized){
+                    result(true);
+                }
+                else {
+                    result(false);
+                }
+            }
+        }
+        else {
+            result(ASIdentifierManager.shared().isAdvertisingTrackingEnabled);
+        }
     }
     
     // MARK: - JSON

@@ -33,11 +33,34 @@ to learn more.
     import UserReport
     ```
 
+### Swift Package Manager
+[Swift Package Manager](https://swift.org/package-manager/) is a tool for managing the distribution of Swift code
+
+1. Go to File > Swift Packages > Add Package Dependency...
+2. Put [UserReport SDK Github url](https://github.com/audienceproject/userreport-ios-sdk/)
+3. Click `Branch: ‘master’`
+4. Choose appropriate target
+
 ### Manually
 To install it manually drag the UserReport project into your app project in Xcode or add it as a git submodule.
 In your project folder enter:
 ```bash
 $ git submodule add git@github.com:AudienceProject/userreport-ios-sdk.git
+```
+
+## Configure Info.plist
+
+Update your `Info.plist` with message that will inform the user why app is requesting permission to use data for tracking:
+
+```xml
+<plist ...>
+    <dict ...>
+
+        <key>NSUserTrackingUsageDescription</key>
+        <string>This identifier will be used to deliver personalized ads to you.</string>
+
+    </dict>
+</plist>
 ```
 
 ## Usage for screen/section tracking
