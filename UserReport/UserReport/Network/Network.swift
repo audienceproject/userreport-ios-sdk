@@ -56,27 +56,62 @@ internal class Network {
         let path = self.testMode ? "visit+invitation/testinvite" : "invitation"
         let url = URL(string: "\(self.server.api)/\(path)")
         let data = info.dictObject()
-        self.sendRequest(httpMethod: HTTPMethod.POST, url: url, body: data, completion: completion)
+        self.sendRequest(httpMethod: HTTPMethod.POST, url: url, body: data, completion: { result in
+            DispatchQueue.main.async {
+                completion(result)
+            }
+        })
     }
     
     func getQuarantineInfo(userId: String, mediaId: String, completion: @escaping ((Result<QuarantineResponse>) -> Void)) {
         let url = URL(string: "\(self.server.api)/quarantine/\(userId)/media/\(mediaId)/info")
-        self.sendRequest(httpMethod: HTTPMethod.GET, url: url, body: nil, completion: completion)
+        self.sendRequest(httpMethod: HTTPMethod.GET, url: url, body: nil, completion: { result in
+            DispatchQueue.main.async {
+                completion(result)
+            }
+        })
     }
     
     func setQuarantine(reason: String, mediaId: String, invitationId: String, userId: String, completion: @escaping ((Result<Empty>) -> Void)) {
         let url = URL(string: "\(self.server.api)/quarantine")
         let data = ["reason": reason, "mediaId": mediaId, "invitationId": invitationId, "userId": userId]
-        self.sendRequest(httpMethod: HTTPMethod.POST, url: url, body: data, emptyReponse: true, completion: completion)
+        self.sendRequest(httpMethod: HTTPMethod.POST, url: url, body: data, emptyResponse: true, completion: { result in
+            DispatchQueue.main.async {
+                completion(result)
+            }
+        })
     }
     
     func getConfig(media: Media, anonymousTracking: Bool, completion: @escaping ((Result<MediaSettings>) -> Void)) {
         let sakUrl = anonymousTracking ? self.server.dntSakUrl : self.server.sakUrl
         let url = URL(string: "\(sakUrl)/\(media.sakId)/media/\(media.mediaId)/ios.json")
-        self.sendRequest(httpMethod: HTTPMethod.GET, url: url, body: nil, completion: completion)
+        self.sendRequest(httpMethod: HTTPMethod.GET, url: url, body: nil, completion: { result in
+            DispatchQueue.main.async {
+                completion(result)
+            }
+        })
     }
     
-    func trackScreenView(info: Info, tCode: String, anonymousTracking: Bool, completion: @escaping ((Result<Empty>) -> Void)) {
+    fileprivate func trackScreenView(_ userAgent: String,
+                                     _ urlStringEncoded: String,
+                                     _ completion: @escaping ((Result<Empty>) -> Void)) {
+        sendRequest(httpMethod: HTTPMethod.GET,
+                    url: URL(string: urlStringEncoded),
+                    headers: ["User-Agent": userAgent],
+                    body: nil,
+                    emptyResponse: true,
+                    completion: { result in
+                        DispatchQueue.main.async {
+                            completion(result)
+                        }
+                    })
+    }
+    
+    func trackScreenView(info: Info,
+                         tCode: String,
+                         anonymousTracking: Bool,
+                         completion: @escaping ((Result<Empty>) -> Void))
+    {
         //https://visitanalytics.userreport.com/hit.gif?t=[kitTcode]&rnd=%RANDOM%&d=IDFA&med=app_name&idfv=identifierForVendor&iab_consent=hardcodedConsent
         let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
         
@@ -89,19 +124,19 @@ internal class Network {
         
         let trackingUrl = anonymousTracking ? self.server.doNotTrackUrl : self.server.trackUrl
         var urlString = "\(trackingUrl)/hit.gif?\(tCode)rnd=\(random)&d=\(idfa)&med=\(appName)&idfv=\(idForVendor)"
-
+        
         if let consent = info.mediaSettings?.hardcodedConsent {
             urlString.append("&iab_consent=\(consent)")
         }
         
         let allowedCharacters = CharacterSet(charactersIn: " ").inverted
         guard let urlStringEncoded = urlString.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
-            else { return }
+        else { return }
         
-        let url = URL(string: urlStringEncoded)
-        self.userAgent { (userAgent) in
-            let headers = ["User-Agent": userAgent]
-            self.sendRequest(httpMethod: HTTPMethod.GET, url: url, headers: headers, body: nil, emptyReponse: true, completion: completion)
+        DispatchQueue.main.async {
+            self.userAgent { [weak self] userAgent in
+                self?.trackScreenView(userAgent, urlStringEncoded, completion)
+            }
         }
     }
     
@@ -109,7 +144,6 @@ internal class Network {
     
     private var webView: WKWebView? = WKWebView()        // Need for get default WebKit `User-Agent` header
     private var userAgentHeader: String?    // Default WebKit `User-Agent`
-    
     
     private func userAgent(_ completion: @escaping (String) -> Void) {
         
@@ -121,27 +155,32 @@ internal class Network {
         }
         
         // Get `User-Agent` from webView
-        DispatchQueue.main.async {
-            self.webView?.evaluateJavaScript("navigator.userAgent", completionHandler: { (result, error) in
-                guard error == nil else {
-                    self.logger?.log("Can't get User-Agent for send audiences. Error: \(error?.localizedDescription ?? "")", level: .error)
-                    return
-                }
-                guard let userAgent = result as? String else {
-                    self.logger?.log("Can't get User-Agent for send audiences. Error: invalid result", level: .error)
-                    return
-                }
-                
-                // Return `User-Agent`
-                self.userAgentHeader = userAgent
-                completion(userAgent)
-            })
-
-        }
+        self.webView?.evaluateJavaScript("navigator.userAgent", completionHandler: { [weak self] result, error in
+            guard let self = self else { return }
+            
+            guard error == nil else {
+                self.logger?.log("Can't get User-Agent for send audiences. Error: \(error?.localizedDescription ?? "")", level: .error)
+                return
+            }
+            
+            guard let userAgent = result as? String else {
+                self.logger?.log("Can't get User-Agent for send audiences. Error: invalid result", level: .error)
+                return
+            }
+            
+            // Return `User-Agent`
+            self.userAgentHeader = userAgent
+            completion(userAgent)
+        })
     }
     
-    private func sendRequest<Value: Serialization>(httpMethod: HTTPMethod, url: URL?, headers: [String: String]? = nil, body: Any?, emptyReponse: Bool = false, completion: @escaping ((Result<Value>) -> Void)) {
-        
+    private func sendRequest<Value: SerializableObject>(httpMethod: HTTPMethod,
+                                                        url: URL?,
+                                                        headers: [String: String]? = nil,
+                                                        body: Any?,
+                                                        emptyResponse: Bool = false,
+                                                        completion: @escaping ((Result<Value>) -> Void))
+    {
         // Validate URL
         guard let url = url else {
             // Track error
@@ -171,19 +210,23 @@ internal class Network {
         }
         
         // Send request
-        let task = self.session?.dataTask(with: request, completionHandler: { (data, response, errorResponse) in
-            guard errorResponse == nil else {
+        let task = self.session?.dataTask(with: request, completionHandler: { [weak self] data, response, error in
+            guard let self = self else { return }
+            
+            if let error = error {
                 // Track error
-                let result = Result<Value>.failure(errorResponse!)
+                let result = Result<Value>.failure(error)
                 completion(result)
                 return
             }
-            guard emptyReponse == false else {
+            
+            guard emptyResponse == false else {
                 let empty = try! Value(dict: [:])
                 let result = Result<Value>.success(empty)
                 completion(result)
                 return
             }
+            
             guard let data = data else {
                 // Track error
                 let error = URError.responseDataNilOrZeroLength(url: url)
@@ -191,9 +234,10 @@ internal class Network {
                 completion(result)
                 return
             }
-            if let resp = response as? HTTPURLResponse, resp.statusCode > 299 {
+            
+            if let response = response as? HTTPURLResponse, response.statusCode > 299 {
                 let logLevel : LogLevel = self.testMode ? .debug : .error
-                self.logger?.log("Incorrect response status code: \(resp.statusCode.description)", level: logLevel)
+                self.logger?.log("Incorrect response status code: \(response.statusCode.description)", level: logLevel)
                 self.logger?.log("Response: \(String(decoding: data, as: UTF8.self))", level: logLevel)
                 return
             }
@@ -211,8 +255,8 @@ internal class Network {
                 completion(result)
             }
         })
-        task?.resume()
         
+        task?.resume()
     }
     
 }

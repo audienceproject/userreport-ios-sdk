@@ -81,7 +81,7 @@ public class Session: NSObject {
         NotificationCenter.default.addObserver(self, selector: #selector(self.stopTimer), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
     
-    // MARK: Deinit
+    // MARK: de-init
     
     /// Stop timers and unsubscribe for notifications
     deinit {

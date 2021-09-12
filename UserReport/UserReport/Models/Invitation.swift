@@ -25,7 +25,7 @@ internal struct Invitation {
 /**
  * An extension to initialize an object through a dictionary
  */
-extension Invitation: Serialization {
+extension Invitation: SerializableObject {
     
     // MARK: - Init
     

@@ -59,7 +59,7 @@ internal class SurveyViewController: UIViewController, WKNavigationDelegate, WKS
         self.setupCloseButton()
         self.changeFrame(rect: self.view.bounds)
         
-        // Add views and layouting
+        // Add views and layout
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         self.view.addSubview(self.webView)
         self.view.addSubview(self.closeButton)
@@ -80,6 +80,8 @@ internal class SurveyViewController: UIViewController, WKNavigationDelegate, WKS
         self.webView.layer.cornerRadius = 5
         self.webView.clipsToBounds = true
         self.webView.navigationDelegate = self
+        self.webView.scrollView.minimumZoomScale = 1.0
+        self.webView.scrollView.maximumZoomScale = 1.0
     }
     
     /// Create and setup `closeButton`
@@ -100,13 +102,18 @@ internal class SurveyViewController: UIViewController, WKNavigationDelegate, WKS
      * - parameter rect: New rect for recalculation
      */
     private func changeFrame(rect: CGRect) {
-        switch self.displayMode as DisplayMode {
+        switch self.displayMode {
+        
         case .alert:
             self.webView.frame = rect.insetBy(dx: 20, dy: 30).offsetBy(dx: 0, dy: 10)
             self.closeButton.center = CGPoint(x: self.webView.frame.maxX, y: self.webView.frame.minY)
+            
         case .fullscreen:
             self.webView.frame = rect
             self.closeButton.center = CGPoint(x: self.webView.frame.maxX - 30, y: self.webView.frame.minY + 40)
+            
+        default:
+            break
         }
     }
     
@@ -158,17 +165,21 @@ internal class SurveyViewController: UIViewController, WKNavigationDelegate, WKS
             // Track error
             return
         }
+        
         guard let event = body["body"] else {
             // Track error
             return
         }
+        
         switch event {
             case "invitation-rendered":
                 break
+                
             case "survey-close":
                 self.invokeSurveyClosedEvent(nil)
+                
             default:
-                // Track error: unknow event
+                // Track error: unknown event
                 break
         }
     }

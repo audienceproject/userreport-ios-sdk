@@ -78,8 +78,8 @@ private var sharedInstance: UserReport?
             UserReport.shared?.logger.log("Test mode: \(newValue ? "On" : "Off")", level: .debug)
         }
         get { return UserReport.shared?.testMode ?? false }
-     }
-   @objc private var testMode: Bool = false
+    }
+    @objc private var testMode: Bool = false
     
     /**
      * Mute display of the survey.
@@ -91,7 +91,7 @@ private var sharedInstance: UserReport?
     @objc public class var mute: Bool {
         set { UserReport.shared?.mute = newValue }
         get { return UserReport.shared?.mute ?? false }
-     }
+    }
     @objc private var mute: Bool = false
     
     /// Returns whether the survey is displayed on the screen
@@ -103,7 +103,7 @@ private var sharedInstance: UserReport?
     @objc public class var session: Session? {
         set { UserReport.shared?.session = newValue }
         get { return UserReport.shared?.session }
-     }
+    }
     @objc private var session: Session!
     
     // MARK: private
@@ -113,6 +113,12 @@ private var sharedInstance: UserReport?
     private var surveyStatus: SurveyStatus = .none
     private var userId: String!
     private var invitationId: String!
+    private let dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone(identifier: "UTC")
+        dateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss"
+        return dateFormatter
+    }()
     
     //==========================================================================================================
     // MARK: - Public methods -
@@ -227,25 +233,23 @@ private var sharedInstance: UserReport?
         self.logger = Logger(info: self.info)
         self.logger.log("Initialize SDK version: \(UserReport.sdkVersion) (sakID:\(sakId) mediaID:\(mediaId))", level: .info)
         
-        self.session = Session(rulesPassed: { [unowned self] in
-            self.tryInvite(force: false)
+        self.session = Session(rulesPassed: { [weak self] in
+            self?.tryInvite(force: false)
         })
         
-        // Ananymous tracking
+        // Anonymous tracking
         self.anonymousTracking = anonymousTracking
         
         // DI logger
         self.network.logger = self.logger
         
-        self.network.getConfig(media: media, anonymousTracking: self.anonymousTracking) { [weak self] (result) in
+        self.network.getConfig(media: media, anonymousTracking: self.anonymousTracking) { [weak self] result in
             guard let self = self else { return }
             
-            switch (result) {
-            case .success:
-                guard let mediaSettings = result.value else {
-                    self.logger.log("Can't create new session. Error: config is nil.", level: .error)
-                    return
-                }
+            switch result {
+            
+            case .success(let mediaSettings):
+                
                 self.info.mediaSettings = mediaSettings
                 self.info.media.companyId = mediaSettings.companyId
                 
@@ -253,10 +257,11 @@ private var sharedInstance: UserReport?
                 let defaultSettings = mediaSettings.settings
                 UserReportSettings.defaultInstance = defaultSettings
                 self.session.updateSettings(defaultSettings)
-
+                
                 if let userSettings = settings {
                     self.session.updateSettings(userSettings)
                 }
+                
             case .failure(let error):
                 self.logger.log("Failed get config. Error: \(error.localizedDescription)", level: .error)
             }
@@ -273,13 +278,16 @@ private var sharedInstance: UserReport?
             return
         }
         
-        self.network.trackScreenView(info: self.info, tCode: tCode, anonymousTracking: self.anonymousTracking) { [unowned self] (result) in
-            switch (result) {
+        self.network.trackScreenView(info: self.info, tCode: tCode, anonymousTracking: self.anonymousTracking) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            
             case .success:
                 self.logger.log("Viewed screen", level: .info)
-                break
+                
             case .failure(let error):
-                self.logger.log("Can't track screenview. Error: \(error.localizedDescription)", level: .error)
+                self.logger.log("Can't track screenView. Error: \(error.localizedDescription)", level: .error)
             }
         }
     }
@@ -290,13 +298,16 @@ private var sharedInstance: UserReport?
             return
         }
         
-        self.network.trackScreenView(info: self.info, tCode: tCode, anonymousTracking: self.anonymousTracking) { (result) in
-            switch (result) {
+        self.network.trackScreenView(info: self.info, tCode: tCode, anonymousTracking: self.anonymousTracking) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            
             case .success:
                 self.logger.log("Viewed section screen", level: .info)
-                break
+                
             case .failure(let error):
-                self.logger.log("Can't track section screenview. Error: \(error.localizedDescription)", level: .error)
+                self.logger.log("Can't track section screenView. Error: \(error.localizedDescription)", level: .error)
             }
         }
     }
@@ -314,53 +325,65 @@ private var sharedInstance: UserReport?
             return
         }
         
-        // Validate of `surverStatus` is .none
+        // Validate of `serverStatus` is .none
         guard self.surveyStatus == .none else {
+            
             switch self.surveyStatus {
             case .none:
                 break
+                
             case .requestInvite, .loadingInvitation:
                 self.logger.log("tryInvite() already in progress", level: .warning)
-                break
+                
             case .surveyShown:
                 self.logger.log("Survey is already shown on the screen", level: .warning)
-                break
             }
             return
         }
-
+        
         self.surveyStatus = .requestInvite
         
         /// Set local quarantine for reason some internal troubles
         self.getLocalQuarantineDate().map(self.session.updateLocalQuarantineDate)
         
-        self.network.invitation(info: self.info) { [unowned self] (result) in
-            switch (result) {
-            case .success:
+        self.network.invitation(info: self.info) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            
+            case .success(let value):
                 /// Get userId and invitationId from API response
-                self.userId = result.value?.userId
-                self.invitationId = result.value?.invitationId
+                self.userId = value.userId
+                self.invitationId = value.invitationId
                 
-                guard result.value?.invite == true else {
+                guard value.invite == true else {
                     self.surveyStatus = .none
                     self.logger.log("`invitation` false")
                     self.actualizeLocalQuarantine()
                     
                     return
                 }
-                guard let invitationURL = result.value?.invitationUrl else {
+                
+                guard let invitationURL = value.invitationUrl else {
                     // Track error (invalid URL)
                     self.surveyStatus = .none
                     self.logger.log("`invitationURL` nil")
+                    
                     return
                 }
+                
                 guard let url = URL(string: invitationURL) else {
                     // Track error (invalid URL)
                     self.surveyStatus = .none
                     self.logger.log("Can't create URL in showSurver()")
+                    
                     return
                 }
-                self.tryPresentSurvey(url: url)
+                
+                DispatchQueue.main.async {
+                    self.tryPresentSurvey(url: url)
+                }
+                
             case .failure(let error):
                 self.surveyStatus = .none
                 self.logger.log("Get invitation info Failed. Error: \(error.localizedDescription)", level: .error)
@@ -369,7 +392,7 @@ private var sharedInstance: UserReport?
     }
     
     /**
-     * Adds local quarantine days from settings to currebnt date.
+     * Adds local quarantine days from settings to current date.
      */
     private func getLocalQuarantineDate() -> Date? {
         let currentDate = Date()
@@ -380,54 +403,64 @@ private var sharedInstance: UserReport?
     }
     
     /**
+     *  Send 'close' quarantine reason to API
+     */
+    fileprivate func closeQuarantine() {
+        network.setQuarantine(reason: "Close", mediaId: info.media.mediaId, invitationId: invitationId, userId: userId)
+            { _ in }
+    }
+    
+    /**
      * Downloading the page received from the server and displaying the survey in case of success.
      *
      * - parameter url: The URL of `invitationUrl`
      */
     private func tryPresentSurvey(url: URL) {
         self.surveyStatus = .loadingInvitation
-        DispatchQueue.main.async {
-            let surveyVC = SurveyViewController(url: url, mode: self.displayMode)
-            surveyVC.logger = self.logger
-            surveyVC.modalTransitionStyle = .crossDissolve
-            surveyVC.modalPresentationStyle = .overCurrentContext
-            surveyVC.load()
-            surveyVC.loadDidFinish = { [unowned surveyVC] in
-                self.surveyStatus = .surveyShown
-                UIApplication.shared.keyWindow?.rootViewController?.present(surveyVC, animated: true)
-            }
-            surveyVC.loadDidFail = { (error) in
-                self.surveyStatus = .none
-                guard error != nil else {
-                    // Track nil error
-                    self.logger.log("Load 'invitationUrl' did fail with empty error")
-                    return
-                }
+        
+        let surveyVC = SurveyViewController(url: url, mode: self.displayMode)
+        surveyVC.logger = self.logger
+        surveyVC.modalTransitionStyle = .crossDissolve
+        surveyVC.modalPresentationStyle = .overCurrentContext
+        surveyVC.load()
+        
+        surveyVC.loadDidFinish = { [weak self, weak surveyVC] in
+            guard let self = self , let surveyVC = surveyVC else { return }
+            
+            self.surveyStatus = .surveyShown
+            UIApplication.shared.keyWindow?.rootViewController?.present(surveyVC, animated: true)
+        }
+        
+        surveyVC.loadDidFail = { [weak self] error in
+            
+            self?.surveyStatus = .none
+            
+            if let error = error {
                 // Track error
-                self.logger.log("Load 'invitationUrl' did fail with error: \(error!.localizedDescription)")
+                self?.logger.log("Load 'invitationUrl' did fail with error: \(error.localizedDescription)")
+            } else {
+                // Track nil error
+                self?.logger.log("Load 'invitationUrl' did fail with empty error")
             }
-
-            /// Handle survey close native 'X' button
-            surveyVC.handlerCloseButton = { [unowned surveyVC] in
-                self.surveyStatus = .none
-                surveyVC.dismiss(animated: true)
-
-                /// Send 'close' quarantine reason to API
-                self.network.setQuarantine(reason: "Close",
-                                           mediaId: self.info.media.mediaId,
-                                           invitationId: self.invitationId,
-                                           userId: self.userId)  { (result) in }
-                
-                self.scheduleActualizeLocalQuarantine()
-            }
+        }
+        
+        /// Handle survey close native 'X' button
+        surveyVC.handlerCloseButton = { [weak self, weak surveyVC] in
             
-            /// Handle survey close event by 'No' / 'Close' button
-            surveyVC.handlerSurveyClosedEvent = { [unowned surveyVC] in
-                self.surveyStatus = .none
-                surveyVC.dismiss(animated: true)
+            self?.surveyStatus = .none
+            surveyVC?.dismiss(animated: true)
             
-                self.scheduleActualizeLocalQuarantine()
-            }
+            self?.closeQuarantine()
+            self?.scheduleActualizeLocalQuarantine()
+        }
+        
+        /// Handle survey close event by 'No' / 'Close' button
+        surveyVC.handlerSurveyClosedEvent = { [weak self, weak surveyVC] in
+            
+            self?.surveyStatus = .none
+            surveyVC?.dismiss(animated: true)
+            
+            self?.scheduleActualizeLocalQuarantine()
         }
     }
     
@@ -438,32 +471,29 @@ private var sharedInstance: UserReport?
         Timer.scheduledTimer(timeInterval: 3,
                              target: self,
                              selector: #selector(self.actualizeLocalQuarantine),
-                             userInfo: nil, repeats: false)
+                             userInfo: nil,
+                             repeats: false)
     }
     
     /**
-     * Set correct local quarantine accoding to user behevior
+     * Set correct local quarantine according to user behavior
      */
     @objc private func actualizeLocalQuarantine() -> Void {
         /// Get current local quarantine from API
-        self.network.getQuarantineInfo(userId: self.userId,
-                                       mediaId: self.info.media.mediaId) { [unowned self] (result) in
+        network.getQuarantineInfo(userId: userId, mediaId: info.media.mediaId) { [weak self] result in
+            guard let self = self else { return }
             
-            switch (result) {
-                case .success:
-                    if (result.value?.isInLocal)! {
-                        let localQuarantineDate = result.value?.inLocalTill
-                        let dateFormatter = DateFormatter()
-                        dateFormatter.timeZone = TimeZone(identifier: "UTC")
-                        dateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss"
-                        let date = localQuarantineDate.flatMap(dateFormatter.date)
-                        
-                        date.map(self.session.updateLocalQuarantineDate)
-                }
+            switch result {
+            case .success(let value):
+                
+                let date = value.inLocalTill.flatMap(self.dateFormatter.date)
+                date.map(self.session.updateLocalQuarantineDate)
                 
             case .failure(let error):
+                
                 self.surveyStatus = .none
                 self.logger.log("Get quarantine info Failed. Error: \(error.localizedDescription)", level: .error)
+                
             }
         }
     }

@@ -60,8 +60,10 @@ internal extension Data {
          // setup data variable to hold hashed value
          var digest = Data(count: Int(type.length))
 
-         _ = digest.withUnsafeMutableBytes{ digestBytes -> UInt8 in
+         _ = digest.withUnsafeMutableBytes { digestBytes -> UInt8 in
+            
              self.withUnsafeBytes { messageBytes -> UInt8 in
+                
                  if let mb = messageBytes.baseAddress, let db = digestBytes.bindMemory(to: UInt8.self).baseAddress {
                      let length = CC_LONG(self.count)
                      switch type {
@@ -70,8 +72,10 @@ internal extension Data {
                      case .sha256: CC_SHA256(mb, length, db)
                      }
                  }
+                
                  return 0
              }
+            
          }
 
          // return the value based on the specified output type.
