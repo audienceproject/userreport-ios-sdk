@@ -394,7 +394,7 @@ private var sharedInstance: UserReport?
             surveyVC.load()
             surveyVC.loadDidFinish = { [unowned surveyVC] in
                 self.surveyStatus = .surveyShown
-                UIApplication.shared.keyWindow?.rootViewController?.present(surveyVC, animated: true)
+                Device().keyWindow?.rootViewController?.present(surveyVC, animated: true)
             }
             surveyVC.loadDidFail = { (error) in
                 self.surveyStatus = .none
