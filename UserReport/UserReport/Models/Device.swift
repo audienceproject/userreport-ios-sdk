@@ -39,6 +39,12 @@ internal struct Device {
     /// Device screen width
     var screenWidth: Double
     
+    /// Device top inset width
+    var topInset: CGFloat
+    
+    /// Device top top Window
+    var keyWindow: UIWindow?
+    
     // MARK: - Init
     
     /**
@@ -56,6 +62,12 @@ internal struct Device {
         self.screenDpi = 0
         self.screenHeight = Double(UIScreen.main.bounds.size.height * UIScreen.main.scale)
         self.screenWidth = Double(UIScreen.main.bounds.size.width * UIScreen.main.scale)
+        self.keyWindow = UIApplication.shared.windows.first { $0.isKeyWindow }
+        if #available(iOS 11.0, *) {
+            self.topInset = keyWindow?.safeAreaInsets.top ?? 0
+        } else {
+            self.topInset = 0
+        }
     }
     
     // MARK: - JSON
