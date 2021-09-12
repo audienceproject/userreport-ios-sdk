@@ -57,12 +57,13 @@ internal class SurveyViewController: UIViewController, WKNavigationDelegate, WKS
         // Setup views
         self.setupWebView()
         self.setupCloseButton()
-        self.changeFrame(rect: self.view.bounds)
         
         // Add views and layout
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         self.view.addSubview(self.webView)
         self.view.addSubview(self.closeButton)
+        
+        self.changeFrame(rect: self.view.bounds)
     }
     
     // MARK: - Setup
@@ -86,7 +87,7 @@ internal class SurveyViewController: UIViewController, WKNavigationDelegate, WKS
     
     /// Create and setup `closeButton`
     private func setupCloseButton() {
-        self.closeButton = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30 ))
+        self.closeButton = UIButton(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
         self.closeButton.setTitle("X", for: .normal)
         self.closeButton.backgroundColor = UIColor.white
         self.closeButton.setTitleColor(UIColor.black, for: .normal)
@@ -102,15 +103,17 @@ internal class SurveyViewController: UIViewController, WKNavigationDelegate, WKS
      * - parameter rect: New rect for recalculation
      */
     private func changeFrame(rect: CGRect) {
-        switch self.displayMode {
-        
+      
+        switch displayMode {
         case .alert:
-            self.webView.frame = rect.insetBy(dx: 20, dy: 30).offsetBy(dx: 0, dy: 10)
-            self.closeButton.center = CGPoint(x: self.webView.frame.maxX, y: self.webView.frame.minY)
+            webView.frame = rect.insetBy(dx: 20, dy: 30).offsetBy(dx: 0, dy: 10)
+            closeButton.center = CGPoint(x: webView.frame.maxX - 30,
+                                         y: webView.frame.minY + 35)
             
         case .fullscreen:
-            self.webView.frame = rect
-            self.closeButton.center = CGPoint(x: self.webView.frame.maxX - 30, y: self.webView.frame.minY + 40)
+            webView.frame = rect
+            closeButton.center = CGPoint(x: webView.frame.maxX - 30,
+                                         y: webView.frame.minY + Device().topInset + 35)
             
         default:
             break
