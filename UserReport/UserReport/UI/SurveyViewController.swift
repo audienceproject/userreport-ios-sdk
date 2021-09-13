@@ -81,6 +81,8 @@ internal class SurveyViewController: UIViewController, WKNavigationDelegate, WKS
         self.webView.layer.cornerRadius = 5
         self.webView.clipsToBounds = true
         self.webView.navigationDelegate = self
+        self.webView.scrollView.minimumZoomScale = 1.0
+        self.webView.scrollView.maximumZoomScale = 1.0
     }
     
     /// Create and setup `closeButton`
@@ -101,7 +103,7 @@ internal class SurveyViewController: UIViewController, WKNavigationDelegate, WKS
      * - parameter rect: New rect for recalculation
      */
     private func changeFrame(rect: CGRect) {
-        
+      
         switch displayMode {
         case .alert:
             webView.frame = rect.insetBy(dx: 20, dy: 30).offsetBy(dx: 0, dy: 10)
@@ -166,17 +168,21 @@ internal class SurveyViewController: UIViewController, WKNavigationDelegate, WKS
             // Track error
             return
         }
+        
         guard let event = body["body"] else {
             // Track error
             return
         }
+        
         switch event {
             case "invitation-rendered":
                 break
+                
             case "survey-close":
                 self.invokeSurveyClosedEvent(nil)
+                
             default:
-                // Track error: unknow event
+                // Track error: unknown event
                 break
         }
     }

@@ -22,13 +22,14 @@ internal struct QuarantineResponse {
     var isInLocal: Bool!
 }
 
-extension QuarantineResponse: Serialization {
+extension QuarantineResponse: SerializableObject {
     
         init(dict: [String: Any?]) throws {
             
             guard let inGlobalTill = dict["inGlobalTill"] as? String else {
                 throw URError.responseDataNotFoundKey("inGlobalTill")
             }
+            
             self.inGlobalTill = inGlobalTill
             
             if let isInGlobal = dict["isInGlobal"] as? Bool {

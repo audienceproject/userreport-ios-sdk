@@ -75,17 +75,19 @@ internal class Store {
     
     /// Load data from file in documents
     private func load() {
-        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
-        let path = paths + "/\(Store.fileName)"
-        self.data = NSDictionary(contentsOfFile: path) as? [String: Any] ?? [:]
+        if let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
+            let path = paths + "/\(Store.fileName)"
+            self.data = NSDictionary(contentsOfFile: path) as? [String: Any] ?? [:]
+        }
     }
     
     /// Save data to file in documents
     private func save() {
-        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
-        let path = paths + "/\(Store.fileName)"
-        if let data = self.data as NSDictionary? {
-            data.write(toFile: path, atomically: true)
+        if let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
+            let path = paths + "/\(Store.fileName)"
+            if let data = self.data as NSDictionary? {
+                data.write(toFile: path, atomically: true)
+            }
         }
     }
     

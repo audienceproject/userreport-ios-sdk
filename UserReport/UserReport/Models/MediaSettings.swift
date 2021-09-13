@@ -26,7 +26,7 @@ internal struct MediaSettings {
 /**
  * An extension to initialize an object through a dictionary
  */
-extension MediaSettings: Serialization {
+extension MediaSettings: SerializableObject {
     
     // MARK: - Init
     
