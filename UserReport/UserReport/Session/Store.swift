@@ -18,38 +18,35 @@ internal class Store {
     
     // MARK: Values
     
-    static var totalScreenView: Int {
+    var totalScreenView: Int {
         get {
-            return self.shared.data?[Keys.totalScreenView] as? Int ?? 0
+            data?[Keys.totalScreenView] as? Int ?? 0
         }
         set {
-            self.shared.data?[Keys.totalScreenView] = newValue
-            self.shared.save()
+            data?[Keys.totalScreenView] = newValue
+            save()
         }
     }
     
-    static var totalSecondsInApp: TimeInterval {
+    var totalSecondsInApp: TimeInterval {
         get {
-            return self.shared.data?[Keys.totalSecondsInApp] as? TimeInterval ?? 0
+            data?[Keys.totalSecondsInApp] as? TimeInterval ?? 0
         }
         set {
-            self.shared.data?[Keys.totalSecondsInApp] = newValue
-            self.shared.save()
+            data?[Keys.totalSecondsInApp] = newValue
+            save()
         }
     }
     
-    static var localQuarantineDate: Date {
+    var localQuarantineDate: Date {
         get {
-            return self.shared.data?[Keys.localQuarantineDate] as! Date
+            data?[Keys.localQuarantineDate] as! Date
         }
         set {
-            self.shared.data?[Keys.localQuarantineDate] = newValue
-            self.shared.save()
+            data?[Keys.localQuarantineDate] = newValue
+            save()
         }
     }
-    
-    /// Singleton instance
-    private static let shared = Store()
     
     /// Name of the file stored in documents
     private static let fileName = "userreport_store.plist"
@@ -63,7 +60,7 @@ internal class Store {
     
     // MARK: Init
     
-    private init() {
+    init() {
         self.load()
         if self.data?[Keys.localQuarantineDate] == nil {
             self.data?[Keys.localQuarantineDate] = Date()

@@ -233,7 +233,7 @@ private var sharedInstance: UserReport?
         self.logger = Logger(info: self.info)
         self.logger.log("Initialize SDK version: \(UserReport.sdkVersion) (sakID:\(sakId) mediaID:\(mediaId))", level: .info)
         
-        self.session = Session(rulesPassed: { [weak self] in
+        self.session = Session(store: Store(), rulesPassed: { [weak self] in
             self?.tryInvite(force: false)
         })
         
@@ -344,7 +344,7 @@ private var sharedInstance: UserReport?
         self.surveyStatus = .requestInvite
         
         /// Set local quarantine for reason some internal troubles
-        self.getLocalQuarantineDate().map(self.session.updateLocalQuarantineDate)
+        self.getLocalQuarantineDate().flatMap { self.session.localQuarantineDate = $0 }
         
         self.network.invitation(info: self.info) { [weak self] result in
             guard let self = self else { return }
@@ -485,9 +485,7 @@ private var sharedInstance: UserReport?
             
             switch result {
             case .success(let value):
-                
-                let date = value.inLocalTill.flatMap(self.dateFormatter.date)
-                date.map(self.session.updateLocalQuarantineDate)
+                value.inLocalTill.flatMap(self.dateFormatter.date).flatMap { self.session.localQuarantineDate = $0 }
                 
             case .failure(let error):
                 
