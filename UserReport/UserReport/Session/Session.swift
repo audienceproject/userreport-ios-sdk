@@ -19,6 +19,9 @@ public class Session: NSObject {
     /// A closure executed when all rules pass
     internal var rulesPassed: SessionRulesPassedHandler?
     
+    /// Number of seconds spent in the application for current session
+    @objc public private(set) var sessionSeconds: TimeInterval = 0
+    
     /// Settings used for the current session
     @objc public private(set) var settings: UserReportSettings?
     
@@ -29,9 +32,6 @@ public class Session: NSObject {
     @objc public private(set) var totalScreenView: Int = Store.totalScreenView {
         didSet { Store.totalScreenView = self.totalScreenView }
     }
-    
-    /// Number of seconds spent in the application for current session
-    @objc public private(set) var sessionSeconds: TimeInterval = 0
     
     /// Number of seconds spent in the application for all time
     @objc public private(set) var totalSecondsInApp: TimeInterval = Store.totalSecondsInApp {

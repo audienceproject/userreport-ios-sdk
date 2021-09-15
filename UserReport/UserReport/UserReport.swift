@@ -109,7 +109,7 @@ private var sharedInstance: UserReport?
     // MARK: private
     private var logger: Logger!
     private var info: Info!
-    private var network: Network = Network()
+    private var network: Network!
     private var surveyStatus: SurveyStatus = .none
     private var userId: String!
     private var invitationId: String!
@@ -241,9 +241,9 @@ private var sharedInstance: UserReport?
         self.anonymousTracking = anonymousTracking
         
         // DI logger
-        self.network.logger = self.logger
+        self.network = .init(logger: logger, testMode: testMode)
         
-        self.network.getConfig(media: media, anonymousTracking: self.anonymousTracking) { [weak self] result in
+        self.network.getConfig(media: media, anonymousTracking: anonymousTracking) { [weak self] result in
             guard let self = self else { return }
             
             switch result {
