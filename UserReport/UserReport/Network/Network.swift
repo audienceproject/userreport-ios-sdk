@@ -181,6 +181,7 @@ internal class Network {
             let logLevel: LogLevel = self.testMode ? .debug : .error
             self.logger.log("Incorrect response status code: \(response.statusCode.description)", level: logLevel)
             self.logger.log("Response: \(String(decoding: data, as: UTF8.self))", level: logLevel)
+            return .failure(URError.responseDataNilOrZeroLength(url: response.url))
         }
         
         do {

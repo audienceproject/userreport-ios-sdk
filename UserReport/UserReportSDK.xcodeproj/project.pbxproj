@@ -171,12 +171,12 @@
 		110747441F4AF96A00150955 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				116BD16B1F5819D400D2386B /* SerializableObject.swift */,
 				110747451F4AF99000150955 /* Device.swift */,
 				1107474B1F4AF9B400150955 /* Info.swift */,
 				110747531F4C766E00150955 /* Invitation.swift */,
 				110747491F4AF9A700150955 /* Media.swift */,
 				110747571F4D946000150955 /* MediaSettings.swift */,
-				116BD16B1F5819D400D2386B /* SerializableObject.swift */,
 				1141EF3F1F6173D70011D10F /* UserReportSettings.swift */,
 				110747471F4AF99B00150955 /* UserReportUser.swift */,
 				8A4CF05923D5D2860081C2D8 /* QuarantineRequest.swift */,
