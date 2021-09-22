@@ -22,95 +22,70 @@ internal class Network {
         var dntSakUrl: String
         var trackUrl: String
         var doNotTrackUrl: String
+        
+        init() {
+            let env = ProcessInfo.processInfo.environment
+            api = env["USERREPORT_SERVER_URL_API"] ?? "https://api.userreport.com/collect/v1"
+            sakUrl = env["USERREPORT_SERVER_URL_SAK"] ?? "https://sak.userreport.com"
+            dntSakUrl = env["USERREPORT_SERVER_URL_SAK_DO_NOT_TRACK"] ?? "https://sak.dnt-userreport.com"
+            trackUrl = env["USERREPORT_SERVER_URL_AUDIENCES"] ??  "https://visitanalytics.userreport.com"
+            doNotTrackUrl = env["USERREPORT_SERVER_URL_DO_NOT_TRACK"] ??  "https://visitanalytics.dnt-userreport.com"
+        }
     }
     
     // MARK: - Properties
     
-    internal var logger: Logger?
-    internal var testMode: Bool = false
-    private var session: URLSession?
-    private let server: Server = {
-        let env = ProcessInfo.processInfo.environment
-        return Server(api: env["USERREPORT_SERVER_URL_API"] ?? "https://api.userreport.com/collect/v1",
-                      sakUrl: env["USERREPORT_SERVER_URL_SAK"] ?? "https://sak.userreport.com",
-                      dntSakUrl: env["USERREPORT_SERVER_URL_SAK_DO_NOT_TRACK"] ?? "https://sak.dnt-userreport.com",
-                      trackUrl: env["USERREPORT_SERVER_URL_AUDIENCES"] ??  "https://visitanalytics.userreport.com",
-                      doNotTrackUrl: env["USERREPORT_SERVER_URL_DO_NOT_TRACK"] ??  "https://visitanalytics.dnt-userreport.com")
-    }()
+    let logger: Logger
+    var testMode: Bool
+    
+    private let userAgent = UserAgent()
+    private let server = Server()
+    private let session: URLSession
     
     // MARK: - Init
     
-    init() {
+    init(logger: Logger, testMode: Bool) {
         
         // Setup session configuration with additional headers
         let sessionConfiguration = URLSessionConfiguration.default
         sessionConfiguration.httpAdditionalHeaders = ["Content-Type": "application/json"]
         
-        // Create session wirh configuration
+        // Create session with configuration
         self.session = URLSession(configuration: sessionConfiguration)
+        self.logger = logger
+        self.testMode = testMode
     }
     
     // MARK: API
     
-    func invitation(info: Info, completion: @escaping ((Result<Invitation>) -> Void)) {
-        let path = self.testMode ? "visit+invitation/testinvite" : "invitation"
-        let url = URL(string: "\(self.server.api)/\(path)")
+    func invitation(info: Info, completion: @escaping ((Result<Invitation, Error>) -> Void)) {
+        let path = testMode ? "visit+invitation/testinvite" : "invitation"
+        let url = server.api/path
         let data = info.dictObject()
-        self.sendRequest(httpMethod: HTTPMethod.POST, url: url, body: data, completion: { result in
-            DispatchQueue.main.async {
-                completion(result)
-            }
-        })
+        send(request: Request(.POST, url, body: data), completion)
     }
     
-    func getQuarantineInfo(userId: String, mediaId: String, completion: @escaping ((Result<QuarantineResponse>) -> Void)) {
-        let url = URL(string: "\(self.server.api)/quarantine/\(userId)/media/\(mediaId)/info")
-        self.sendRequest(httpMethod: HTTPMethod.GET, url: url, body: nil, completion: { result in
-            DispatchQueue.main.async {
-                completion(result)
-            }
-        })
+    func getQuarantineInfo(userId: String, mediaId: String, completion: @escaping ((Result<QuarantineResponse, Error>) -> Void)) {
+        let url = server.api/"quarantine"/userId/"media"/mediaId/"info"
+        send(request: Request(.GET, url), completion)
     }
     
-    func setQuarantine(reason: String, mediaId: String, invitationId: String, userId: String, completion: @escaping ((Result<Empty>) -> Void)) {
-        let url = URL(string: "\(self.server.api)/quarantine")
+    func setQuarantine(reason: String, mediaId: String, invitationId: String, userId: String, completion: @escaping ((Result<Void, Error>) -> Void)) {
+        let url = server.api/"quarantine"
         let data = ["reason": reason, "mediaId": mediaId, "invitationId": invitationId, "userId": userId]
-        self.sendRequest(httpMethod: HTTPMethod.POST, url: url, body: data, emptyResponse: true, completion: { result in
-            DispatchQueue.main.async {
-                completion(result)
-            }
-        })
+        send(request: Request(.POST, url, body: data), completion)
     }
     
-    func getConfig(media: Media, anonymousTracking: Bool, completion: @escaping ((Result<MediaSettings>) -> Void)) {
-        let sakUrl = anonymousTracking ? self.server.dntSakUrl : self.server.sakUrl
-        let url = URL(string: "\(sakUrl)/\(media.sakId)/media/\(media.mediaId)/ios.json")
-        self.sendRequest(httpMethod: HTTPMethod.GET, url: url, body: nil, completion: { result in
-            DispatchQueue.main.async {
-                completion(result)
-            }
-        })
-    }
-    
-    fileprivate func trackScreenView(_ userAgent: String,
-                                     _ urlStringEncoded: String,
-                                     _ completion: @escaping ((Result<Empty>) -> Void)) {
-        sendRequest(httpMethod: HTTPMethod.GET,
-                    url: URL(string: urlStringEncoded),
-                    headers: ["User-Agent": userAgent],
-                    body: nil,
-                    emptyResponse: true,
-                    completion: { result in
-                        DispatchQueue.main.async {
-                            completion(result)
-                        }
-                    })
+    func getConfig(media: Media, anonymousTracking: Bool, completion: @escaping ((Result<MediaSettings, Error>) -> Void)) {
+        let sakUrl = anonymousTracking ? server.dntSakUrl : server.sakUrl
+        let url = sakUrl/media.sakId/"media"/media.mediaId/"ios.json"
+        send(request: Request(.GET, url), completion)
     }
     
     func trackScreenView(info: Info,
                          tCode: String,
                          anonymousTracking: Bool,
-                         completion: @escaping ((Result<Empty>) -> Void))
+                         completion: @escaping ((Result<Void, Error>) -> Void))
     {
         //https://visitanalytics.userreport.com/hit.gif?t=[kitTcode]&rnd=%RANDOM%&d=IDFA&med=app_name&idfv=identifierForVendor&iab_consent=hardcodedConsent
         let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
@@ -130,133 +105,106 @@ internal class Network {
         }
         
         let allowedCharacters = CharacterSet(charactersIn: " ").inverted
-        guard let urlStringEncoded = urlString.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
-        else { return }
+        guard let url = urlString.addingPercentEncoding(withAllowedCharacters: allowedCharacters) else { return }
         
-        DispatchQueue.main.async {
-            self.userAgent { [weak self] userAgent in
-                self?.trackScreenView(userAgent, urlStringEncoded, completion)
+        self.userAgent.fetch { [weak self] result in
+            switch result {
+            
+            case .success(let userAgent):
+                self?.send(request: Request(.GET, url, ["User-Agent": userAgent]), completion)
+                
+            case .failure(let error):
+                self?.logger.log("Error to found User agent: \(error.localizedDescription)", level: .error)
+                completion(.failure(error))
             }
         }
     }
     
     // MARK: Network methods
     
-    private var webView: WKWebView? = WKWebView()        // Need for get default WebKit `User-Agent` header
-    private var userAgentHeader: String?    // Default WebKit `User-Agent`
-    
-    private func userAgent(_ completion: @escaping (String) -> Void) {
-        
-        // Return cached `User-Agent`
-        if let userAgentHeader = self.userAgentHeader {
-            self.webView = nil
-            completion(userAgentHeader)
-            return
-        }
-        
-        // Get `User-Agent` from webView
-        self.webView?.evaluateJavaScript("navigator.userAgent", completionHandler: { [weak self] result, error in
-            guard let self = self else { return }
-            
-            guard error == nil else {
-                self.logger?.log("Can't get User-Agent for send audiences. Error: \(error?.localizedDescription ?? "")", level: .error)
-                return
+    private func send<Value: SerializableObject>(request: Request, _ completion: @escaping ((Result<Value, Error>) -> Void)) {
+        do {
+            // Create request object
+            let urlRequest = try request.build()
+            // Create data task
+            let task = session.dataTask(with: urlRequest) { [weak self] data, response, error in
+                guard let self = self else { return }
+                DispatchQueue.main.async {
+                    completion(self.processResponse(data, response, error))
+                }
             }
-            
-            guard let userAgent = result as? String else {
-                self.logger?.log("Can't get User-Agent for send audiences. Error: invalid result", level: .error)
-                return
-            }
-            
-            // Return `User-Agent`
-            self.userAgentHeader = userAgent
-            completion(userAgent)
-        })
-    }
-    
-    private func sendRequest<Value: SerializableObject>(httpMethod: HTTPMethod,
-                                                        url: URL?,
-                                                        headers: [String: String]? = nil,
-                                                        body: Any?,
-                                                        emptyResponse: Bool = false,
-                                                        completion: @escaping ((Result<Value>) -> Void))
-    {
-        // Validate URL
-        guard let url = url else {
+            // Send request
+            task.resume()
+        } catch {
             // Track error
-            self.logger?.log("Error: URL is nil")
-            return
+            self.logger.log("Error request build: \(error.localizedDescription)", level: .error)
+            completion(.failure(error))
         }
-        
-        // Create request object
-        var request = URLRequest(url: url)
-        request.httpMethod = httpMethod.rawValue
-        
-        // Set headers if needed
-        if let headers = headers {
-            for (key, value) in headers {
-                request.addValue(value, forHTTPHeaderField: key)
-            }
-        }
-        
-        // Set body if needed
-        if let data = body {
-            do {
-                request.httpBody = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
-            } catch {
-                //Track error
-                self.logger?.log("Error JSON serialization: \(error.localizedDescription)", level: .error)
-            }
-        }
-        
-        // Send request
-        let task = self.session?.dataTask(with: request, completionHandler: { [weak self] data, response, error in
-            guard let self = self else { return }
-            
-            if let error = error {
-                // Track error
-                let result = Result<Value>.failure(error)
-                completion(result)
-                return
-            }
-            
-            guard emptyResponse == false else {
-                let empty = try! Value(dict: [:])
-                let result = Result<Value>.success(empty)
-                completion(result)
-                return
-            }
-            
-            guard let data = data else {
-                // Track error
-                let error = URError.responseDataNilOrZeroLength(url: url)
-                let result = Result<Value>.failure(error)
-                completion(result)
-                return
-            }
-            
-            if let response = response as? HTTPURLResponse, response.statusCode > 299 {
-                let logLevel : LogLevel = self.testMode ? .debug : .error
-                self.logger?.log("Incorrect response status code: \(response.statusCode.description)", level: logLevel)
-                self.logger?.log("Response: \(String(decoding: data, as: UTF8.self))", level: logLevel)
-                return
-            }
-            
-            do {
-                let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as! [String: Any?]
-                let mediaSettings = try Value(dict: json)
-                let result = Result<Value>.success(mediaSettings)
-                completion(result)
-                
-            } catch {
-                //Track error
-                self.logger?.log("Error JSON serialization: \(error.localizedDescription)", level: .error)
-                let result = Result<Value>.failure(error)
-                completion(result)
-            }
-        })
-        
-        task?.resume()
     }
     
+    private func send(request: Request, _ completion: @escaping ((Result<Void, Error>) -> Void)) {
+        do {
+            // Create request object
+            let urlRequest = try request.build()
+            // Create data task
+            let task = session.dataTask(with: urlRequest) { [weak self] data, response, error in
+                guard let self = self else { return }
+                DispatchQueue.main.async {
+                    completion(self.processResponse(data, response, error))
+                }
+            }
+            // Send request
+            task.resume()
+        } catch {
+            // Track error
+            self.logger.log("Error request build: \(error.localizedDescription)", level: .error)
+            completion(.failure(error))
+        }
+    }
+    
+    private func processResponse<Value: SerializableObject>(
+        _ data: Data?,
+        _ response: URLResponse?,
+        _ error: Error?) -> Result<Value, Error>
+    {
+        if let error = error {
+            // Track error
+            return .failure(error)
+        }
+        
+        guard let data = data else {
+            // Track error
+            return .failure(URError.responseDataNilOrZeroLength(url: response?.url))
+        }
+        
+        if let response = response as? HTTPURLResponse, response.statusCode > 299 {
+            let logLevel: LogLevel = self.testMode ? .debug : .error
+            self.logger.log("Incorrect response status code: \(response.statusCode.description)", level: logLevel)
+            self.logger.log("Response: \(String(decoding: data, as: UTF8.self))", level: logLevel)
+            return .failure(URError.responseDataNilOrZeroLength(url: response.url))
+        }
+        
+        do {
+            let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as! [String: Any?]
+            let value = try Value(dict: json)
+            return .success(value)
+        } catch {
+            //Track error
+            self.logger.log("Error JSON serialization: \(error.localizedDescription)", level: .error)
+            return .failure(error)
+        }
+    }
+    
+    private func processResponse(
+        _ data: Data?,
+        _ response: URLResponse?,
+        _ error: Error?) -> Result<Void, Error>
+    {
+        if let error = error {
+            // Track error
+            return .failure(error)
+        } else {
+            return .success(())
+        }
+    }
 }

@@ -19,6 +19,9 @@ public class Session: NSObject {
     /// A closure executed when all rules pass
     internal var rulesPassed: SessionRulesPassedHandler?
     
+    /// Number of seconds spent in the application for current session
+    @objc public private(set) var sessionSeconds: TimeInterval = 0
+    
     /// Settings used for the current session
     @objc public private(set) var settings: UserReportSettings?
     
@@ -26,22 +29,32 @@ public class Session: NSObject {
     @objc public private(set) var screenView: Int = 0
     
     /// Number of screen viewed in all session
-    @objc public private(set) var totalScreenView: Int = Store.totalScreenView {
-        didSet { Store.totalScreenView = self.totalScreenView }
+    @objc public private(set) var totalScreenView: Int {
+        get {
+            localStore.totalScreenView
+        }
+        set {
+            localStore.totalScreenView = newValue
+        }
     }
-    
-    /// Number of seconds spent in the application for current session
-    @objc public private(set) var sessionSeconds: TimeInterval = 0
-    
+
     /// Number of seconds spent in the application for all time
-    @objc public private(set) var totalSecondsInApp: TimeInterval = Store.totalSecondsInApp {
-        didSet { Store.totalSecondsInApp = self.totalSecondsInApp }
+    @objc public private(set) var totalSecondsInApp: TimeInterval {
+        get {
+            localStore.totalSecondsInApp
+        }
+        set {
+            localStore.totalSecondsInApp = newValue
+        }
     }
 
     /// Date when the survey will be appear again
-    @objc public var localQuarantineDate: Date {
+    @objc public internal(set) var localQuarantineDate: Date {
         get {
-            return Store.localQuarantineDate
+            localStore.localQuarantineDate
+        }
+        set {
+             localStore.localQuarantineDate = newValue
         }
     }
     
@@ -57,23 +70,28 @@ public class Session: NSObject {
     /// The timer with which the parameters `sessionSeconds` and `totalSecondsInApp` will be updated
     private var sessionUpdateTimer: Timer?
     
+    /// Store used for the store current session
+    private var localStore: Store!
+    
     // MARK: Init
     
     /**
      * Creates an instance with the specified object `settings` (options) and closure `rulesPassed`.
      *
      * - parameter settings:    Settings used for the current session
+     * - parameter store:    Store used for the store current session
      * - parameter rulesPassed: A closure executed when all rules pass
      *
      * - returns: The new `Session` instance.
      */
-    internal convenience init(settings: UserReportSettings? = nil, rulesPassed: @escaping SessionRulesPassedHandler) {
+    internal convenience init(settings: UserReportSettings? = nil, store: Store, rulesPassed: @escaping SessionRulesPassedHandler) {
         self.init()
         
         // DI
         self.settings = settings
         self.rulesPassed = rulesPassed
-        
+        self.localStore = store
+
         self.startTimer()
         
         // Observe UIApplication enter background/foreground
@@ -98,13 +116,6 @@ public class Session: NSObject {
         self.screenView += 1
         self.totalScreenView += 1
         self.lastViewScreenDate = Date()
-    }
-    
-    /**
-     * Update local quarantine date to current date
-     */
-    internal func updateLocalQuarantineDate(_ localQuarantine: Date) {
-        Store.localQuarantineDate = localQuarantine
     }
     
     /**
@@ -163,7 +174,7 @@ public class Session: NSObject {
         guard self.totalScreenView >= settings.inviteAfterTotalScreensViewed else { return }
         guard self.sessionSeconds >= settings.sessionNSecondsLength else { return }
         guard self.totalSecondsInApp >= settings.inviteAfterNSecondsInApp else { return }
-        guard Date() >= Store.localQuarantineDate  else { return }
+        guard Date() >= localStore.localQuarantineDate  else { return }
         
         self.rulesPassed?()
     }

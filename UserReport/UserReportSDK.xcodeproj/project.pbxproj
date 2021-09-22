@@ -11,7 +11,6 @@
 		110746D11F44921900150955 /* UserReport.h in Headers */ = {isa = PBXBuildFile; fileRef = 110746C31F44921900150955 /* UserReport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		110747281F44953000150955 /* UserReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110747271F44953000150955 /* UserReport.swift */; };
 		1107473A1F46FA6800150955 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110747361F46FA6800150955 /* Network.swift */; };
-		1107473B1F46FA6800150955 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110747371F46FA6800150955 /* Result.swift */; };
 		1107473C1F46FA6800150955 /* SurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110747391F46FA6800150955 /* SurveyViewController.swift */; };
 		110747411F46FD1900150955 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110747401F46FD1900150955 /* Logger.swift */; };
 		110747431F471F0F00150955 /* UserReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110747421F471F0F00150955 /* UserReportViewController.swift */; };
@@ -31,9 +30,12 @@
 		116BD1671F5814BF00D2386B /* UserReportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116BD1611F58136100D2386B /* UserReportTests.swift */; };
 		116BD16C1F5819D400D2386B /* SerializableObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116BD16B1F5819D400D2386B /* SerializableObject.swift */; };
 		11C71E9A1F6966040081D9B4 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C71E991F6966040081D9B4 /* Session.swift */; };
+		2CBD092B26F201D9009E3463 /* String+Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBD092A26F201D9009E3463 /* String+Request.swift */; };
+		2CBD092D26F201F6009E3463 /* UserAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBD092C26F201F6009E3463 /* UserAgent.swift */; };
+		2CBD092F26F2024C009E3463 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBD092E26F2024C009E3463 /* Request.swift */; };
 		8A4CF05A23D5D2860081C2D8 /* QuarantineRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4CF05923D5D2860081C2D8 /* QuarantineRequest.swift */; };
 		8A4CF05C23D5D2960081C2D8 /* QuarantineResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4CF05B23D5D2960081C2D8 /* QuarantineResponse.swift */; };
-		8AE372B32408057700ED3AE0 /* HashingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE372B22408057700ED3AE0 /* HashingHelper.swift */; };
+		8AE372B32408057700ED3AE0 /* Data+Hashing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE372B22408057700ED3AE0 /* Data+Hashing.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,7 +55,6 @@
 		110746C91F44921900150955 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		110747271F44953000150955 /* UserReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserReport.swift; sourceTree = "<group>"; };
 		110747361F46FA6800150955 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
-		110747371F46FA6800150955 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		110747391F46FA6800150955 /* SurveyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurveyViewController.swift; sourceTree = "<group>"; };
 		110747401F46FD1900150955 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		110747421F471F0F00150955 /* UserReportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserReportViewController.swift; sourceTree = "<group>"; };
@@ -75,9 +76,12 @@
 		116BD1651F5814A800D2386B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		116BD16B1F5819D400D2386B /* SerializableObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializableObject.swift; sourceTree = "<group>"; };
 		11C71E991F6966040081D9B4 /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		2CBD092A26F201D9009E3463 /* String+Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Request.swift"; sourceTree = "<group>"; };
+		2CBD092C26F201F6009E3463 /* UserAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAgent.swift; sourceTree = "<group>"; };
+		2CBD092E26F2024C009E3463 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		8A4CF05923D5D2860081C2D8 /* QuarantineRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuarantineRequest.swift; sourceTree = "<group>"; };
 		8A4CF05B23D5D2960081C2D8 /* QuarantineResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuarantineResponse.swift; sourceTree = "<group>"; };
-		8AE372B22408057700ED3AE0 /* HashingHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashingHelper.swift; sourceTree = "<group>"; };
+		8AE372B22408057700ED3AE0 /* Data+Hashing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Hashing.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,7 +129,7 @@
 		110746C21F44921900150955 /* UserReport */ = {
 			isa = PBXGroup;
 			children = (
-				8AE372B424080FD500ED3AE0 /* Helpers */,
+				8AE372B424080FD500ED3AE0 /* Extensiones */,
 				1107473F1F46FD1100150955 /* Logger */,
 				110747441F4AF96A00150955 /* Models */,
 				110747351F46FA6800150955 /* Network */,
@@ -142,7 +146,7 @@
 			children = (
 				110747361F46FA6800150955 /* Network.swift */,
 				110747551F4C76B200150955 /* URError.swift */,
-				110747371F46FA6800150955 /* Result.swift */,
+				2CBD092C26F201F6009E3463 /* UserAgent.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -167,16 +171,17 @@
 		110747441F4AF96A00150955 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				116BD16B1F5819D400D2386B /* SerializableObject.swift */,
 				110747451F4AF99000150955 /* Device.swift */,
 				1107474B1F4AF9B400150955 /* Info.swift */,
 				110747531F4C766E00150955 /* Invitation.swift */,
 				110747491F4AF9A700150955 /* Media.swift */,
 				110747571F4D946000150955 /* MediaSettings.swift */,
-				116BD16B1F5819D400D2386B /* SerializableObject.swift */,
 				1141EF3F1F6173D70011D10F /* UserReportSettings.swift */,
 				110747471F4AF99B00150955 /* UserReportUser.swift */,
 				8A4CF05923D5D2860081C2D8 /* QuarantineRequest.swift */,
 				8A4CF05B23D5D2960081C2D8 /* QuarantineResponse.swift */,
+				2CBD092E26F2024C009E3463 /* Request.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -220,12 +225,13 @@
 			path = Session;
 			sourceTree = "<group>";
 		};
-		8AE372B424080FD500ED3AE0 /* Helpers */ = {
+		8AE372B424080FD500ED3AE0 /* Extensiones */ = {
 			isa = PBXGroup;
 			children = (
-				8AE372B22408057700ED3AE0 /* HashingHelper.swift */,
+				8AE372B22408057700ED3AE0 /* Data+Hashing.swift */,
+				2CBD092A26F201D9009E3463 /* String+Request.swift */,
 			);
-			path = Helpers;
+			path = Extensiones;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -340,8 +346,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8AE372B32408057700ED3AE0 /* HashingHelper.swift in Sources */,
-				1107473B1F46FA6800150955 /* Result.swift in Sources */,
+				8AE372B32408057700ED3AE0 /* Data+Hashing.swift in Sources */,
+				2CBD092D26F201F6009E3463 /* UserAgent.swift in Sources */,
 				110747411F46FD1900150955 /* Logger.swift in Sources */,
 				110747541F4C766E00150955 /* Invitation.swift in Sources */,
 				8A4CF05A23D5D2860081C2D8 /* QuarantineRequest.swift in Sources */,
@@ -351,9 +357,11 @@
 				1141EF401F6173D70011D10F /* UserReportSettings.swift in Sources */,
 				1107474A1F4AF9A700150955 /* Media.swift in Sources */,
 				11C71E9A1F6966040081D9B4 /* Session.swift in Sources */,
+				2CBD092B26F201D9009E3463 /* String+Request.swift in Sources */,
 				110747431F471F0F00150955 /* UserReportViewController.swift in Sources */,
 				110747481F4AF99B00150955 /* UserReportUser.swift in Sources */,
 				8A4CF05C23D5D2960081C2D8 /* QuarantineResponse.swift in Sources */,
+				2CBD092F26F2024C009E3463 /* Request.swift in Sources */,
 				1107473A1F46FA6800150955 /* Network.swift in Sources */,
 				110747281F44953000150955 /* UserReport.swift in Sources */,
 				110747561F4C76B200150955 /* URError.swift in Sources */,
