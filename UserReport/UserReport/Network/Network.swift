@@ -87,8 +87,11 @@ internal class Network {
                          anonymousTracking: Bool,
                          completion: @escaping ((Result<Void, Error>) -> Void))
     {
-        //https://visitanalytics.userreport.com/hit.gif?t=[kitTcode]&rnd=%RANDOM%&d=IDFA&med=app_name&idfv=identifierForVendor&iab_consent=hardcodedConsent
+        //https://visitanalytics.userreport.com/hit.gif?t=[kitTcode]&rnd=%RANDOM%&d=IDFA&med=app_name&appver=app_ver+app_build&idfv=identifierForVendor&iab_consent=hardcodedConsent
         let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
+        let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
+        let appBuild = Bundle.main.infoDictionary![kCFBundleVersionKey as String] as! String
+        let appFullVersion = appVersion + "." + appBuild
         
         let tCode = "t=\(tCode)&"
         let random = arc4random_uniform(UInt32.max)
@@ -98,7 +101,7 @@ internal class Network {
         let idForVendor = anonymousTracking ? "" : UIDevice.current.identifierForVendor!.uuidString
         
         let trackingUrl = anonymousTracking ? self.server.doNotTrackUrl : self.server.trackUrl
-        var urlString = "\(trackingUrl)/hit.gif?\(tCode)rnd=\(random)&d=\(idfa)&med=\(appName)&idfv=\(idForVendor)"
+        var urlString = "\(trackingUrl)/hit.gif?\(tCode)rnd=\(random)&d=\(idfa)&med=\(appName)&appver=\(appFullVersion)&idfv=\(idForVendor)"
         
         if let consent = info.mediaSettings?.hardcodedConsent {
             urlString.append("&iab_consent=\(consent)")
