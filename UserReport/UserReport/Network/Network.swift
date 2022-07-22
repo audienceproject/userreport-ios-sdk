@@ -38,7 +38,8 @@ internal class Network {
     let logger: Logger
     var testMode: Bool
     
-    private let userAgent = UserAgent()
+    private static let userAgent = WKWebView().value(forKey: "userAgent") as? String
+    
     private let server = Server()
     private let session: URLSession
     
@@ -110,16 +111,10 @@ internal class Network {
         let allowedCharacters = CharacterSet(charactersIn: " ").inverted
         guard let url = urlString.addingPercentEncoding(withAllowedCharacters: allowedCharacters) else { return }
         
-        self.userAgent.fetch { [weak self] result in
-            switch result {
-            
-            case .success(let userAgent):
-                self?.send(request: Request(.GET, url, ["User-Agent": userAgent]), completion)
-                
-            case .failure(let error):
-                self?.logger.log("Error to found User agent: \(error.localizedDescription)", level: .error)
-                completion(.failure(error))
-            }
+        if let userAgent = Network.userAgent {
+            send(request: Request(.GET, url, ["User-Agent": userAgent]), completion)
+        } else {
+            send(request: Request(.GET, url), completion)
         }
     }
     

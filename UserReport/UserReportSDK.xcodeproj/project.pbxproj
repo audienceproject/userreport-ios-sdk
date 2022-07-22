@@ -31,7 +31,6 @@
 		116BD16C1F5819D400D2386B /* SerializableObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116BD16B1F5819D400D2386B /* SerializableObject.swift */; };
 		11C71E9A1F6966040081D9B4 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C71E991F6966040081D9B4 /* Session.swift */; };
 		2CBD092B26F201D9009E3463 /* String+Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBD092A26F201D9009E3463 /* String+Request.swift */; };
-		2CBD092D26F201F6009E3463 /* UserAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBD092C26F201F6009E3463 /* UserAgent.swift */; };
 		2CBD092F26F2024C009E3463 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBD092E26F2024C009E3463 /* Request.swift */; };
 		8A4CF05A23D5D2860081C2D8 /* QuarantineRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4CF05923D5D2860081C2D8 /* QuarantineRequest.swift */; };
 		8A4CF05C23D5D2960081C2D8 /* QuarantineResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4CF05B23D5D2960081C2D8 /* QuarantineResponse.swift */; };
@@ -77,7 +76,6 @@
 		116BD16B1F5819D400D2386B /* SerializableObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializableObject.swift; sourceTree = "<group>"; };
 		11C71E991F6966040081D9B4 /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		2CBD092A26F201D9009E3463 /* String+Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Request.swift"; sourceTree = "<group>"; };
-		2CBD092C26F201F6009E3463 /* UserAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAgent.swift; sourceTree = "<group>"; };
 		2CBD092E26F2024C009E3463 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		8A4CF05923D5D2860081C2D8 /* QuarantineRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuarantineRequest.swift; sourceTree = "<group>"; };
 		8A4CF05B23D5D2960081C2D8 /* QuarantineResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuarantineResponse.swift; sourceTree = "<group>"; };
@@ -146,7 +144,6 @@
 			children = (
 				110747361F46FA6800150955 /* Network.swift */,
 				110747551F4C76B200150955 /* URError.swift */,
-				2CBD092C26F201F6009E3463 /* UserAgent.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -347,7 +344,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8AE372B32408057700ED3AE0 /* Data+Hashing.swift in Sources */,
-				2CBD092D26F201F6009E3463 /* UserAgent.swift in Sources */,
 				110747411F46FD1900150955 /* Logger.swift in Sources */,
 				110747541F4C766E00150955 /* Invitation.swift in Sources */,
 				8A4CF05A23D5D2860081C2D8 /* QuarantineRequest.swift in Sources */,
