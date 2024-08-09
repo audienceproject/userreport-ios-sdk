@@ -41,6 +41,10 @@ public class UserReportUser: NSObject {
     @objc private func getAdvertisingId() -> String {
         var advertisingId: String = ""
         
+        if Bundle.main.object(forInfoDictionaryKey: "NSUserTrackingUsageDescription") == nil {
+            return advertisingId
+        }
+        
         if UserReport.shared?.anonymousTracking == true {
             return advertisingId
         }
